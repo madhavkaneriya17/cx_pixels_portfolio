@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Units — pixel reveal (Scroll Pinned)</title>
+    <style>
+        :root {
+            --bg-orange: #f7a91c;
+            --grid-line: rgba(20, 10, 0, 0.35);
+            --ink: #141008;
+            --red: #dc2440;
+            --purple: #a53ef1;
+            --deep-orange: #ef5506;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1b1408;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #fff;
+        }
+
+        /* Scroll Track container - provides long cinematic height for scroll-pinning */
+        .scroll-track {
+            height: 1600vh;
+            position: relative;
+        }
+
+        /* Sticky viewport stage - stays pinned at top:0 during track scroll */
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            overflow: hidden;
+            background: var(--bg-orange);
+            box-shadow: none;
+        }
+
+        canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .copy {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10%;
+            pointer-events: none;
+        }
+
+        .headline {
+            color: var(--ink);
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            margin: 0 0 18px 0;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .headline.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sub-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
+            min-height: 3.2em;
+        }
+
+        .sub {
+            position: absolute;
+            inset: 0;
+            color: rgba(20, 10, 0, 0.85);
+            font-size: clamp(14px, 1.4vw, 18px);
+            line-height: 1.55;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .sub.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Opening Text Layer (Our way / of Living) */
+        .text-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+            font-weight: 800;
+            line-height: 0.92;
+            letter-spacing: -0.04em;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .char-mask {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            vertical-align: top;
+        }
+
+        .char-inner {
+            display: inline-block;
+            will-change: transform, opacity;
+        }
+
+        /* Following Section (unpins after animation completes) */
+        .next-section {
+            min-height: 100vh;
+            background: #140e06;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .next-section h2 {
+            font-size: clamp(24px, 3.5vw, 42px);
+            font-weight: 800;
+            color: var(--bg-orange);
+            margin: 0 0 16px 0;
+        }
+
+        .next-section p {
+            font-size: clamp(14px, 1.2vw, 18px);
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 540px;
+            line-height: 1.6;
+            margin: 0 0 28px 0;
+        }
+
+        .top-btn {
+            background: var(--bg-orange);
+            color: var(--ink);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .top-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scroll-track" id="scrollTrack">
+        <div class="sticky-wrapper">
+            <div class="stage" id="stage">
+                <canvas id="grid"></canvas>
+                <canvas id="art"></canvas>
+
+                <!-- Phase 0: Opening Text Layer -->
+                <div class="text-container" id="textContainer">
+                    <div class="row row-top" id="rowTop"></div>
+                    <div class="row row-bottom" id="rowBottom"></div>
+                </div>
+
+                <div class="copy">
+                    <h1 class="headline" id="headline">A new approach to student accommodation.</h1>
+                    <div class="sub-wrap">
+                        <p class="sub" id="sub0">Designed around people and their everyday lives. With spaces that have
+                            a sense of privacy and at the same time a sense of belonging.</p>
+                        <p class="sub" id="sub1">Units is not just accommodation; it is a complete lifestyle in a
+                            sustainable, community-first environment that enhances the student experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="next-section">
+        <h2>Welcome to Units</h2>
+        <p>Experience sustainable, community-first living designed specifically for modern student life.</p>
+        <button class="top-btn" id="scrollTopBtn">↑ Back to Top</button>
+    </div>
+
+    <script>
+        (function () {
+            const scrollTrack = document.getElementById('scrollTrack');
+            const stage = document.getElementById('stage');
+            const gridCv = document.getElementById('grid');
+            const artCv = document.getElementById('art');
+            const gctx = gridCv.getContext('2d');
+            const actx = artCv.getContext('2d');
+            const headline = document.getElementById('headline');
+            const sub0 = document.getElementById('sub0');
+            const sub1 = document.getElementById('sub1');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            const textContainer = document.getElementById('textContainer');
+            const rowTop = document.getElementById('rowTop');
+            const rowBottom = document.getElementById('rowBottom');
+
+            const topText = "Our way";
+            const bottomText = "of Living";
+
+            function createMaskedChars(text, container) {
+                container.innerHTML = '';
+                text.split('').forEach(char => {
+                    const mask = document.createElement('span');
+                    mask.className = 'char-mask';
+                    const inner = document.createElement('span');
+                    inner.className = 'char-inner';
+                    inner.textContent = char === ' ' ? '\u00A0' : char;
+                    mask.appendChild(inner);
+                    container.appendChild(mask);
+                });
+            }
+
+            createMaskedChars(topText, rowTop);
+            createMaskedChars(bottomText, rowBottom);
+
+            const topChars = rowTop.querySelectorAll('.char-inner');
+            const bottomChars = rowBottom.querySelectorAll('.char-inner');
+
+            const COLS = 36;
+            let ROWS = 20;
+            let cell = 0, W = 0, H = 0, DPR = 1;
+
+            function resize() {
+                const rect = stage.getBoundingClientRect();
+                DPR = window.devicePixelRatio || 1;
+                W = rect.width; H = rect.height;
+                cell = W / COLS;
+                ROWS = Math.round(H / cell);
+                [gridCv, artCv].forEach(cv => {
+                    cv.width = W * DPR; cv.height = H * DPR;
+                    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+                });
+                gctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+                actx.setTransform(DPR, 0, 0, DPR, 0, 0);
+                render();
+            }
+
+            function drawGrid(alpha) {
+                gctx.clearRect(0, 0, W, H);
+                if (alpha <= 0) return;
+                gctx.save();
+                gctx.globalAlpha = alpha;
+                gctx.strokeStyle = 'rgba(20,10,0,0.35)';
+                gctx.lineWidth = 1;
+                for (let c = 0; c <= COLS; c++) {
+                    const x = Math.round(c * cell) + 0.5;
+                    gctx.beginPath(); gctx.moveTo(x, 0); gctx.lineTo(x, H); gctx.stroke();
+                }
+                for (let r = 0; r <= ROWS; r++) {
+                    const y = Math.round(r * cell) + 0.5;
+                    gctx.beginPath(); gctx.moveTo(0, y); gctx.lineTo(W, y); gctx.stroke();
+                }
+                gctx.restore();
+            }
+
+            const centerRow = ROWS / 2, centerCol = COLS / 2;
+            // Scaled Euclidean distance for elongated horizontal oval (left-to-right lamba gol)
+            const SCALE_X = 0.70;
+            const SCALE_Y = 1.40;
+            const BORDER = 2.2;
+
+            function maxCornerDist() {
+                const dx = centerCol;
+                const dy = centerRow;
+                // Add extra padding so the border ring expands completely off-screen beyond viewport corners
+                return Math.sqrt((dx * SCALE_X) ** 2 + (dy * SCALE_Y) ** 2) + BORDER + 6;
+            }
+
+            function hexToRgb(hex) {
+                const v = parseInt(hex.slice(1), 16);
+                return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+            }
+            const RED = hexToRgb('#dc2440');
+            const PURPLE = hexToRgb('#a53ef1');
+            const DORANGE = hexToRgb('#ef5506');
+            const BLACK = [17, 12, 6];
+
+            function lerp(a, b, t) { return a + (b - a) * t; }
+            function mix(c1, c2, t) { return [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)]; }
+            function rgb(c) { return `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`; }
+
+            // =============================================================
+            // 1. NEW OPENING ANIMATION: Grid-Snapped Eye Build -> Hold -> Destroy
+            // =============================================================
+            // Relative grid offsets [dr, dc] around (centerRow, centerCol)
+            const EYE_STAGES = [
+                // Stage 0: Initial center square (1 single grid cell)
+                [[0, 0]],
+
+                // Stage 1: Center 2x2 grid square block (edges perfectly on grid lines)
+                [[0, 0], [0, -1], [-1, 0], [-1, -1]],
+
+                // Stage 2: Center square + cardinal micro-sprouts
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-2, 0], [1, 0], [0, -3], [0, 2]],
+
+                // Stage 3: Sprouting diagonal arms outward
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-2, -2], [-2, 1], [1, -2], [1, 1], [0, -4], [0, 3]],
+
+                // Stage 4: Arms extending outward towards perimeter
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-3, -1], [-3, 0], [2, -1], [2, 0], [0, -6], [0, 5], [-2, -3], [-2, 2], [1, -3], [1, 2]],
+
+                // Stage 5: Top and bottom bar seeds + lateral anchors
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -1], [-4, 0], [4, -1], [4, 0], [0, -8], [0, 7], [-2, -5], [-2, 4], [1, -5], [1, 4]],
+
+                // Stage 6: Top and bottom bars expand to 4 blocks + outer tips
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [4, -2], [4, -1], [4, 0], [4, 1], [0, -10], [0, 9]],
+
+                // Stage 7: Full 6-block horizontal bars at top & bottom
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9]],
+
+                // Stage 8: Horizontal bars + outer tips & corner steps
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8]],
+
+                // Stage 9: Upper stepped diagonal blocks appear
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8], [-3, -5], [-3, -4], [-3, 3], [-3, 4]],
+
+                // Stage 10: Lower stepped diagonal blocks appear
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8], [-3, -5], [-3, -4], [-3, 3], [-3, 4], [3, -5], [3, -4], [3, 3], [3, 4]],
+
+                // Stage 11: Mid-tier steps connect to the diagonal arcs
+                [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8], [-3, -5], [-3, -4], [-3, 3], [-3, 4], [3, -5], [3, -4], [3, 3], [3, 4], [-2, -8], [-2, -7], [-2, 6], [-2, 7], [2, -8], [2, -7], [2, 6], [2, 7]],
+
+                // Stage 12: Complete 42-pixel reference structure fully snapped to the grid!
+                [
+                    [0, 0], [0, -1], [-1, 0], [-1, -1], // Simple square center (snapped on grid lines)
+                    [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], // Top bar
+                    [-3, -6], [-3, -5], [-3, -4], [-3, 3], [-3, 4], [-3, 5], // Upper steps
+                    [-2, -8], [-2, -7], [-2, 6], [-2, 7], // Upper mid steps
+                    [-1, -9], [-1, 8], // Upper outer steps
+                    [0, -10], [0, 9], // Corner tips
+                    [1, -9], [1, 8], // Lower outer steps
+                    [2, -8], [2, -7], [2, 6], [2, 7], // Lower mid steps
+                    [3, -6], [3, -5], [3, -4], [3, 3], [3, 4], [3, 5], // Lower steps
+                    [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2]  // Bottom bar
+                ]
+            ];
+
+            function getOpeningPixels(pGen) {
+                // Hide all pixels on initial page load / before scrolling starts
+                if (pGen <= 0.002) return [];
+                if (pGen >= 0.98) return EYE_STAGES[EYE_STAGES.length - 1];
+
+                const t = Math.min(1, Math.max(0, (pGen - 0.002) / 0.978));
+                const stagePos = t * (EYE_STAGES.length - 1);
+                const sIdx = Math.floor(stagePos);
+                const frac = stagePos - sIdx;
+
+                const currentStage = EYE_STAGES[sIdx];
+                if (sIdx >= EYE_STAGES.length - 1) return currentStage;
+
+                const nextStage = EYE_STAGES[sIdx + 1];
+                const currSet = new Set(currentStage.map(([dr, dc]) => `${dr},${dc}`));
+                const newPixels = nextStage.filter(([dr, dc]) => !currSet.has(`${dr},${dc}`));
+
+                const newCount = Math.floor(frac * (newPixels.length + 1));
+                const active = currentStage.slice();
+                for (let i = 0; i < Math.min(newCount, newPixels.length); i++) {
+                    active.push(newPixels[i]);
+                }
+                return active;
+            }
+
+            function drawOpeningPixelsOnly(pGen) {
+                const activePixels = getOpeningPixels(pGen);
+                if (activePixels.length > 0) {
+                    actx.fillStyle = '#000000';
+                    const cRow = Math.round(ROWS / 2);
+                    const cCol = Math.round(COLS / 2);
+                    for (let i = 0; i < activePixels.length; i++) {
+                        const [dr, dc] = activePixels[i];
+                        const r = cRow + dr;
+                        const c = cCol + dc;
+                        if (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+                            const x = Math.floor(c * cell) - 0.5;
+                            const y = Math.floor(r * cell) - 0.5;
+                            const w = Math.ceil(cell) + 1;
+                            const h = Math.ceil(cell) + 1;
+                            actx.fillRect(x, y, w, h);
+                        }
+                    }
+                }
+            }
+
+            function drawNewOpeningScene(pGen) {
+                stage.style.background = 'var(--bg-orange)';
+                drawGrid(1.0);
+                actx.clearRect(0, 0, W, H);
+                drawOpeningPixelsOnly(pGen);
+                headline.classList.remove('show');
+                sub0.classList.remove('show');
+                sub1.classList.remove('show');
+            }
+
+            // =============================================================
+            // 2. EXISTING ANIMATION: Untouched 55-Pixel Smiley Animation
+            // =============================================================
+            // Procedural Generative Pixel Growth Stages (Originating from ONE single square in center)
+            const GENERATIVE_STAGES = [
+                // Stage 0: The initial single seed pixel in exact center
+                [[6, 7]],
+
+                // Stage 1: Seed sprouts 4 cardinal neighboring pixels (cross/kernel)
+                [[6, 7], [5, 7], [7, 7], [6, 6], [6, 8]],
+
+                // Stage 2: Micro diamond blossom & horizontal pulse
+                [[5, 7], [7, 7], [6, 5], [6, 6], [6, 8], [6, 9], [5, 6], [5, 8], [7, 6], [7, 8]],
+
+                // Stage 3: Expanding geometric cross & diagonal sprouts towards quadrants
+                [[4, 7], [8, 7], [6, 4], [6, 10], [5, 6], [5, 8], [7, 6], [7, 8], [4, 5], [4, 9], [8, 5], [8, 9]],
+
+                // Stage 4: Eye pods and mouth bridge sprout from the radiating branches
+                [[3, 5], [4, 5], [3, 9], [4, 9], [8, 6], [8, 7], [8, 8], [9, 6], [9, 7], [9, 8], [5, 3], [5, 11], [3, 7], [9, 7]],
+
+                // Stage 5: Outer tendrils shoot out to left/right bounds and top/bottom edges
+                [[3, 5], [4, 5], [3, 9], [4, 9], [8, 5], [8, 9], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [4, 1], [4, 2], [4, 12], [4, 13], [1, 6], [1, 7], [1, 8], [11, 6], [11, 7], [11, 8], [6, 0], [6, 14]],
+
+                // Stage 6: Perimeter arcs begin wrapping around; mouth corners sprout upwards
+                [[3, 5], [4, 5], [3, 9], [4, 9], [6, 3], [7, 3], [8, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [8, 10], [6, 11], [7, 11], [0, 6], [0, 7], [0, 8], [12, 6], [12, 7], [12, 8], [1, 3], [1, 11], [11, 3], [11, 11], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [4, 14], [5, 14], [6, 14], [7, 14], [8, 14]],
+
+                // Stage 7: Connecting the outer arcs into circular contour (almost complete)
+                [[0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [1, 2], [1, 3], [1, 11], [1, 12], [2, 1], [2, 13], [3, 1], [3, 13], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 1], [10, 1], [11, 2], [11, 3], [12, 5], [12, 6], [12, 7], [12, 8], [12, 9], [11, 11], [11, 12], [10, 13], [9, 13], [4, 14], [5, 14], [6, 14], [7, 14], [8, 14], [3, 5], [4, 5], [3, 9], [4, 9], [6, 3], [7, 3], [8, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [8, 10], [6, 11], [7, 11]],
+
+                // Stage 8: Perfect 55-pixel completed smiley!
+                [
+                    [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [0, 10],
+                    [1, 2], [1, 3], [1, 11], [1, 12],
+                    [2, 1], [2, 13],
+                    [3, 1], [3, 5], [3, 9], [3, 13],
+                    [4, 0], [4, 5], [4, 9], [4, 14],
+                    [5, 0], [5, 14],
+                    [6, 0], [6, 3], [6, 11], [6, 14],
+                    [7, 0], [7, 3], [7, 11], [7, 14],
+                    [8, 0], [8, 4], [8, 10], [8, 14],
+                    [9, 1], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [9, 13],
+                    [10, 1], [10, 13],
+                    [11, 2], [11, 3], [11, 11], [11, 12],
+                    [12, 4], [12, 5], [12, 6], [12, 7], [12, 8], [12, 9], [12, 10]
+                ]
+            ];
+
+            function getGenerativePixels(p) {
+                if (p < 0.50) return [];
+                if (p >= 0.82) {
+                    let pixels = GENERATIVE_STAGES[GENERATIVE_STAGES.length - 1];
+                    // Left Eye animation: small during 0.84 - 0.88, normal/large after
+                    if (p >= 0.84 && p < 0.88) {
+                        pixels = pixels.filter(([r, c]) => !(r === 3 && c === 5));
+                    }
+                    // Right Eye animation: small during 0.89 - 0.93, normal/large after
+                    if (p >= 0.89 && p < 0.93) {
+                        pixels = pixels.filter(([r, c]) => !(r === 3 && c === 9));
+                    }
+                    return pixels;
+                }
+
+                // Procedural continuous progression through generative stages
+                const t = (p - 0.50) / 0.32; // 0 to 1
+                const stagePos = t * (GENERATIVE_STAGES.length - 1);
+                const sIdx = Math.floor(stagePos);
+                const frac = stagePos - sIdx;
+
+                const currentStage = GENERATIVE_STAGES[sIdx];
+                if (sIdx >= GENERATIVE_STAGES.length - 1) return currentStage;
+
+                const nextStage = GENERATIVE_STAGES[sIdx + 1];
+
+                // Find newly generated pixels in the next evolution stage
+                const currSet = new Set(currentStage.map(([r, c]) => `${r},${c}`));
+                const newPixels = nextStage.filter(([r, c]) => !currSet.has(`${r},${c}`));
+
+                // Progressively include new pixels based on fractional progress
+                const newCount = Math.floor(frac * (newPixels.length + 1));
+                const active = currentStage.slice();
+                for (let i = 0; i < Math.min(newCount, newPixels.length); i++) {
+                    active.push(newPixels[i]);
+                }
+                return active;
+            }
+
+            function drawExistingScene(pOrig) {
+                stage.style.background = 'var(--bg-orange)';
+
+                // 1. Grid fade out (0.0 to 0.14)
+                const gridAlpha = 1 - Math.min(1, Math.max(0, pOrig / 0.14));
+                drawGrid(gridAlpha);
+
+                // 2. Oval growth (0.0 to 0.26) - expands completely beyond screen corners
+                const maxR = maxCornerDist();
+                const growT = Math.min(1, Math.max(0, pOrig / 0.26));
+                const R = growT * maxR;
+
+                // 3. Border recolor mix (0.14 to 0.28)
+                const recolorT = Math.min(1, Math.max(0, (pOrig - 0.14) / 0.14));
+
+                actx.clearRect(0, 0, W, H);
+                if (R > 0) {
+                    const rows = ROWS, cols = COLS;
+                    if (R >= maxR) {
+                        actx.fillStyle = rgb(RED);
+                        actx.fillRect(0, 0, W, H);
+                    } else {
+                        for (let i = 0; i < rows; i++) {
+                            for (let j = 0; j < cols; j++) {
+                                const dy = Math.abs((i + 0.5) - centerRow);
+                                const dx = Math.abs((j + 0.5) - centerCol);
+                                const d = Math.sqrt((dx * SCALE_X) ** 2 + (dy * SCALE_Y) ** 2);
+                                if (d > R) continue;
+                                let col;
+                                if (d <= R - BORDER) {
+                                    col = RED;
+                                } else {
+                                    const target = ((i + j) % 2 === 0) ? PURPLE : DORANGE;
+                                    col = mix(BLACK, target, recolorT);
+                                }
+                                actx.fillStyle = rgb(col);
+                                actx.fillRect(Math.floor(j * cell) - 0.5, Math.floor(i * cell) - 0.5, Math.ceil(cell) + 1, Math.ceil(cell) + 1);
+                            }
+                        }
+                    }
+                }
+
+                // 4. Headline animation trigger (0.18 to 0.48, fades out by 0.50)
+                if (pOrig >= 0.18 && pOrig < 0.48) {
+                    headline.classList.add('show');
+                } else {
+                    headline.classList.remove('show');
+                }
+
+                // 5. Subtitles phasing
+                // Phase 1: Subtitle 0 (0.24 to 0.36)
+                // Phase 2: Subtitle 1 (0.36 to 0.48)
+                if (pOrig >= 0.24 && pOrig < 0.36) {
+                    sub0.classList.add('show');
+                    sub1.classList.remove('show');
+                } else if (pOrig >= 0.36 && pOrig < 0.48) {
+                    sub0.classList.remove('show');
+                    sub1.classList.add('show');
+                } else {
+                    sub0.classList.remove('show');
+                    sub1.classList.remove('show');
+                }
+
+                // 6. Procedural generative pixel evolution from 1 center square & eye animation (0.50 to 1.00)
+                const activeSmileyPixels = getGenerativePixels(pOrig);
+                if (activeSmileyPixels && activeSmileyPixels.length > 0) {
+                    const smileyCols = 15;
+                    const smileyRows = 13;
+                    const blockSize = Math.min(W / 23, H / 17);
+                    const startX = (W - smileyCols * blockSize) / 2;
+                    const startY = (H - smileyRows * blockSize) / 2;
+
+                    actx.fillStyle = rgb(PURPLE);
+                    for (let i = 0; i < activeSmileyPixels.length; i++) {
+                        const [r, c] = activeSmileyPixels[i];
+                        const x = Math.floor(startX + c * blockSize);
+                        const y = Math.floor(startY + r * blockSize);
+                        const bw = Math.ceil(blockSize) + 0.5;
+                        const bh = Math.ceil(blockSize) + 0.5;
+                        actx.fillRect(x, y, bw, bh);
+                    }
+                }
+            }
+
+            let targetProgress = 0;
+            let currentProgress = 0;
+            let rafId = null;
+
+            function calculateProgress() {
+                const rect = scrollTrack.getBoundingClientRect();
+                const trackHeight = scrollTrack.offsetHeight - window.innerHeight;
+                if (trackHeight <= 0) return 0;
+                const scrolled = -rect.top;
+                return Math.max(0, Math.min(1, scrolled / trackHeight));
+            }
+
+            function render() {
+                // Lerp progress for smooth animation feel
+                currentProgress += (targetProgress - currentProgress) * 0.15;
+                if (Math.abs(targetProgress - currentProgress) < 0.0005) {
+                    currentProgress = targetProgress;
+                }
+                const p = currentProgress;
+
+                // Timeline Partition:
+                // [0.00 to 0.08]: Phase 1 - Opening Text Slide Out (Our way / of Living)
+                // [0.08 to 0.26]: Phase 2 - NEW Generative Pixel Build
+                // [0.26 to 0.32]: Phase 3 - Complete Structure Hold
+                // [0.32 to 0.44]: Phase 4 - Reverse Destruction & Seamless Reveal
+                // [0.44 to 1.00]: Phase 5 - Existing Animation Full Continuous Playthrough (100% untouched)
+                if (p < 0.08) {
+                    const textT = p / 0.08;
+                    const xPercentTop = -125 * textT;
+                    const xPercentBottom = 125 * textT;
+                    const alpha = 1 - Math.min(1, Math.max(0, (textT - 0.5) / 0.5));
+
+                    textContainer.style.display = 'flex';
+                    textContainer.style.opacity = alpha;
+                    for (let i = 0; i < topChars.length; i++) {
+                        topChars[i].style.transform = `translateX(${xPercentTop}%)`;
+                    }
+                    for (let i = 0; i < bottomChars.length; i++) {
+                        bottomChars[i].style.transform = `translateX(${xPercentBottom}%)`;
+                    }
+
+                    stage.style.background = 'var(--bg-orange)';
+                    drawGrid(1.0);
+                    actx.clearRect(0, 0, W, H);
+                    headline.classList.remove('show');
+                    sub0.classList.remove('show');
+                    sub1.classList.remove('show');
+                } else {
+                    textContainer.style.display = 'none';
+
+                    if (p < 0.26) {
+                        const pGen = (p - 0.08) / 0.18;
+                        drawNewOpeningScene(pGen);
+                    } else if (p < 0.32) {
+                        drawNewOpeningScene(1.0);
+                    } else if (p < 0.44) {
+                        const transT = (p - 0.32) / 0.12; // 0.0 to 1.0
+                        const pGen = 1.0 - transT; // Retracting opening pixels
+                        const pOrig = transT * 0.12; // Existing animation ramping up underneath
+
+                        // 1. Draw existing animation underneath
+                        drawExistingScene(pOrig);
+
+                        // 2. Draw retracting opening pixels on top as seamless cover
+                        drawOpeningPixelsOnly(pGen);
+                    } else {
+                        const pOrig = 0.12 + ((p - 0.44) / 0.56) * 0.88;
+                        drawExistingScene(pOrig);
+                    }
+                }
+
+                if (Math.abs(targetProgress - currentProgress) >= 0.0005) {
+                    rafId = requestAnimationFrame(render);
+                } else {
+                    rafId = null;
+                }
+            }
+
+            function onScroll() {
+                targetProgress = calculateProgress();
+                if (!rafId) {
+                    rafId = requestAnimationFrame(render);
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', resize);
+
+            const resetToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (scrollTopBtn) scrollTopBtn.addEventListener('click', resetToTop);
+
+            resize();
+            onScroll();
+        })();
+    </script>
+</body>
+
+</html>
