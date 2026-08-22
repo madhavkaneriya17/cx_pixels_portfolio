@@ -132,8 +132,8 @@
         .row {
             display: flex;
             justify-content: center;
-            font-size: clamp(3.2rem, 9.5vw, 8.5rem);
-            font-weight: 800;
+            font-size: clamp(3.2rem, 11vw, 8.5rem);
+            font-weight: 900;
             line-height: 0.92;
             letter-spacing: -0.04em;
             color: #000;
@@ -150,6 +150,111 @@
         .char-inner {
             display: inline-block;
             will-change: transform, opacity;
+        }
+
+        /* Synchronized Moving Banner during Smiley Construction */
+        .smiley-banner {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            white-space: nowrap;
+            font-size: clamp(36px, 5.5vw, 84px);
+            font-weight: 900;
+            color: #000;
+            letter-spacing: -0.035em;
+            z-index: 6;
+            pointer-events: none;
+            user-select: none;
+            display: none;
+            will-change: transform;
+            line-height: 1;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .headline {
+                font-size: clamp(22px, 3.6vw, 38px);
+            }
+
+            .sub-wrap {
+                max-width: 600px;
+            }
+
+            .smiley-banner {
+                font-size: clamp(30px, 5.2vw, 56px);
+                letter-spacing: -0.025em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .copy {
+                padding: 0 6%;
+            }
+
+            .headline {
+                font-size: clamp(20px, 4vw, 32px);
+                margin: 0 0 14px 0;
+            }
+
+            .sub {
+                font-size: clamp(13px, 2vw, 16px);
+                line-height: 1.5;
+            }
+
+            .sub-wrap {
+                max-width: 90%;
+                min-height: 4.2em;
+            }
+
+            .row {
+                font-size: clamp(2.8rem, 11.5vw, 5.5rem);
+            }
+
+            .smiley-banner {
+                font-size: clamp(26px, 5.5vw, 44px);
+                letter-spacing: -0.02em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .copy {
+                padding: 0 5%;
+            }
+
+            .headline {
+                font-size: clamp(17px, 4.8vw, 24px);
+                margin: 0 0 10px 0;
+            }
+
+            .sub {
+                font-size: 13px;
+                line-height: 1.45;
+            }
+
+            .sub-wrap {
+                max-width: 100%;
+                min-height: 5em;
+            }
+
+            .row {
+                font-size: clamp(2.3rem, 11vw, 3.8rem);
+                letter-spacing: -0.035em;
+            }
+
+            .smiley-banner {
+                font-size: clamp(20px, 5.8vw, 32px);
+                letter-spacing: -0.02em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .row {
+                font-size: clamp(2.0rem, 10.5vw, 2.7rem);
+            }
+
+            .smiley-banner {
+                font-size: clamp(17px, 5.5vw, 24px);
+            }
         }
 
         /* Following Section (unpins after animation completes) */
@@ -212,6 +317,9 @@
                     <div class="row row-bottom" id="rowBottom"></div>
                 </div>
 
+                <!-- Phase 5: Synchronized Text Banner passing through during smiley construction -->
+                <div class="smiley-banner" id="smileyBanner">Hello, this is MD. Welcome to my site</div>
+
                 <div class="copy">
                     <h1 class="headline" id="headline">A new approach to student accommodation.</h1>
                     <div class="sub-wrap">
@@ -246,6 +354,7 @@
             const textContainer = document.getElementById('textContainer');
             const rowTop = document.getElementById('rowTop');
             const rowBottom = document.getElementById('rowBottom');
+            const smileyBanner = document.getElementById('smileyBanner');
 
             const topText = "Our way";
             const bottomText = "of Living";
@@ -269,19 +378,44 @@
             const topChars = rowTop.querySelectorAll('.char-inner');
             const bottomChars = rowBottom.querySelectorAll('.char-inner');
 
-            const COLS = 36;
+            let COLS = 36;
             let ROWS = 20;
             let cell = 0, W = 0, H = 0, DPR = 1;
+            let centerRow = 10, centerCol = 18;
+
+            function updateGridDimensions(width) {
+                // Adaptive grid density: clean proportions on mobile/tablet, full dense grid on desktop
+                // COLS >= 24 ensures 20-column eye structure renders with native 1-to-1 symmetry without distortion
+                if (width >= 1440) {
+                    COLS = 36;
+                } else if (width >= 1200) {
+                    COLS = 32;
+                } else if (width >= 1024) {
+                    COLS = 28;
+                } else if (width >= 768) {
+                    COLS = 26;
+                } else {
+                    COLS = 24;
+                }
+            }
 
             function resize() {
                 const rect = stage.getBoundingClientRect();
                 DPR = window.devicePixelRatio || 1;
-                W = rect.width; H = rect.height;
+                W = rect.width;
+                H = rect.height;
+
+                updateGridDimensions(W);
                 cell = W / COLS;
                 ROWS = Math.round(H / cell);
+                centerCol = Math.round(COLS / 2);
+                centerRow = Math.round(ROWS / 2);
+
                 [gridCv, artCv].forEach(cv => {
-                    cv.width = W * DPR; cv.height = H * DPR;
-                    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+                    cv.width = W * DPR;
+                    cv.height = H * DPR;
+                    cv.style.width = W + 'px';
+                    cv.style.height = H + 'px';
                 });
                 gctx.setTransform(DPR, 0, 0, DPR, 0, 0);
                 actx.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -306,7 +440,6 @@
                 gctx.restore();
             }
 
-            const centerRow = ROWS / 2, centerCol = COLS / 2;
             // Scaled Euclidean distance for elongated horizontal oval (left-to-right lamba gol)
             const SCALE_X = 0.70;
             const SCALE_Y = 1.40;
@@ -333,10 +466,10 @@
             function rgb(c) { return `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`; }
 
             // =============================================================
-            // 1. NEW OPENING ANIMATION: Grid-Snapped Eye Build -> Hold -> Destroy
+            // 1. NEW OPENING ANIMATION: Grid-Snapped Eye Build -> Eye Blink -> Hold -> Destroy
             // =============================================================
-            // Relative grid offsets [dr, dc] around (centerRow, centerCol)
-            const EYE_STAGES = [
+            // Procedural Eye Construction Base Stages (Relative grid offsets [dr, dc] around center)
+            const EYE_BUILD_STAGES = [
                 // Stage 0: Initial center square (1 single grid cell)
                 [[0, 0]],
 
@@ -370,7 +503,7 @@
                 // Stage 10: Lower stepped diagonal blocks appear
                 [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8], [-3, -5], [-3, -4], [-3, 3], [-3, 4], [3, -5], [3, -4], [3, 3], [3, 4]],
 
-                // Stage 11: Mid-tier steps connect to the diagonal arcs
+                // Stage 11: Mid-tier steps connect to the diagonal arcs (Eye shape formed)
                 [[0, 0], [0, -1], [-1, 0], [-1, -1], [-4, -3], [-4, -2], [-4, -1], [-4, 0], [-4, 1], [-4, 2], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2], [0, -10], [0, 9], [-1, -9], [-1, 8], [1, -9], [1, 8], [-3, -5], [-3, -4], [-3, 3], [-3, 4], [3, -5], [3, -4], [3, 3], [3, 4], [-2, -8], [-2, -7], [-2, 6], [-2, 7], [2, -8], [2, -7], [2, 6], [2, 7]],
 
                 // Stage 12: Complete 42-pixel reference structure fully snapped to the grid!
@@ -388,27 +521,112 @@
                 ]
             ];
 
+            // Helper: Subtly morphs eye pixels vertically on the exact grid units for natural blink
+            function getMorphedEyePixels(baseStage, closeAmount) {
+                if (closeAmount <= 0.01) return baseStage;
+
+                const pixelMap = new Map();
+                for (let i = 0; i < baseStage.length; i++) {
+                    const [dr, dc] = baseStage[i];
+                    let newDr;
+
+                    if (dr === 0) {
+                        newDr = 0;
+                    } else if (dr < 0) {
+                        // Upper eyelid gently steps down toward row 0
+                        // Top bar (-4) -> -2 -> -1; upper steps (-3) -> -2 -> -1
+                        const contracted = dr * (1 - closeAmount * 0.78);
+                        newDr = Math.round(contracted);
+                        if (newDr > 0) newDr = 0;
+                    } else {
+                        // Lower eyelid gently steps up toward row 0
+                        // Bottom bar (4) -> 2 -> 1; lower steps (3) -> 2 -> 1
+                        const contracted = dr * (1 - closeAmount * 0.78);
+                        newDr = Math.round(contracted);
+                        if (newDr < 0) newDr = 0;
+                    }
+
+                    const key = `${newDr},${dc}`;
+                    if (!pixelMap.has(key)) {
+                        pixelMap.set(key, [newDr, dc]);
+                    }
+                }
+                return Array.from(pixelMap.values());
+            }
+
             function getOpeningPixels(pGen) {
                 // Hide all pixels on initial page load / before scrolling starts
                 if (pGen <= 0.002) return [];
-                if (pGen >= 0.98) return EYE_STAGES[EYE_STAGES.length - 1];
+                if (pGen >= 0.99) return EYE_BUILD_STAGES[EYE_BUILD_STAGES.length - 1];
 
-                const t = Math.min(1, Math.max(0, (pGen - 0.002) / 0.978));
-                const stagePos = t * (EYE_STAGES.length - 1);
-                const sIdx = Math.floor(stagePos);
-                const frac = stagePos - sIdx;
+                const eyeStage11 = EYE_BUILD_STAGES[11];
+                const finalStage12 = EYE_BUILD_STAGES[12];
 
-                const currentStage = EYE_STAGES[sIdx];
-                if (sIdx >= EYE_STAGES.length - 1) return currentStage;
+                // Timeline partitions within pGen [0.0 to 1.0]:
+                // 1. [0.00 to 0.58]: Progressive generative pixel build from seed up to Stage 11 (Eye Formed)
+                // 2. [0.58 to 0.64]: OPEN EYE -> tiny natural pause
+                // 3. [0.64 to 0.72]: Subtle pixel contraction (eyelids gently move toward each other)
+                // 4. [0.72 to 0.76]: CLOSED -> tiny pause
+                // 5. [0.76 to 0.84]: Pixel expansion (pixels smoothly separate back to open shape)
+                // 6. [0.84 to 0.88]: OPEN EYE -> brief lock
+                // 7. [0.88 to 1.00]: Continue remaining construction immediately to Stage 12 (Complete Structure)
 
-                const nextStage = EYE_STAGES[sIdx + 1];
-                const currSet = new Set(currentStage.map(([dr, dc]) => `${dr},${dc}`));
-                const newPixels = nextStage.filter(([dr, dc]) => !currSet.has(`${dr},${dc}`));
+                if (pGen < 0.58) {
+                    const t = (pGen - 0.002) / (0.58 - 0.002);
+                    const stagePos = t * 11;
+                    const sIdx = Math.min(10, Math.floor(stagePos));
+                    const frac = stagePos - sIdx;
 
-                const newCount = Math.floor(frac * (newPixels.length + 1));
-                const active = currentStage.slice();
-                for (let i = 0; i < Math.min(newCount, newPixels.length); i++) {
-                    active.push(newPixels[i]);
+                    const currStage = EYE_BUILD_STAGES[sIdx];
+                    const nextStage = EYE_BUILD_STAGES[sIdx + 1];
+
+                    const currSet = new Set(currStage.map(([dr, dc]) => `${dr},${dc}`));
+                    const newPixels = nextStage.filter(([dr, dc]) => !currSet.has(`${dr},${dc}`));
+                    const newCount = Math.floor(frac * (newPixels.length + 1));
+
+                    const active = currStage.slice();
+                    for (let i = 0; i < Math.min(newCount, newPixels.length); i++) {
+                        active.push(newPixels[i]);
+                    }
+                    return active;
+                }
+
+                if (pGen < 0.64) {
+                    // OPEN EYE: tiny pause
+                    return eyeStage11;
+                }
+
+                if (pGen < 0.72) {
+                    // Subtle pixel contraction
+                    const t = (pGen - 0.64) / 0.08;
+                    return getMorphedEyePixels(eyeStage11, t);
+                }
+
+                if (pGen < 0.76) {
+                    // CLOSED: tiny pause
+                    return getMorphedEyePixels(eyeStage11, 1.0);
+                }
+
+                if (pGen < 0.84) {
+                    // Pixel expansion
+                    const t = 1.0 - (pGen - 0.76) / 0.08;
+                    return getMorphedEyePixels(eyeStage11, t);
+                }
+
+                if (pGen < 0.88) {
+                    // OPEN: brief lock
+                    return eyeStage11;
+                }
+
+                // [0.88 to 1.00]: Continue remaining pixel construction immediately to Stage 12
+                const t = (pGen - 0.88) / 0.12;
+                const currSet = new Set(eyeStage11.map(([dr, dc]) => `${dr},${dc}`));
+                const finalNewPixels = finalStage12.filter(([dr, dc]) => !currSet.has(`${dr},${dc}`));
+                const newCount = Math.floor(t * (finalNewPixels.length + 1));
+
+                const active = eyeStage11.slice();
+                for (let i = 0; i < Math.min(newCount, finalNewPixels.length); i++) {
+                    active.push(finalNewPixels[i]);
                 }
                 return active;
             }
@@ -442,6 +660,7 @@
                 headline.classList.remove('show');
                 sub0.classList.remove('show');
                 sub1.classList.remove('show');
+                smileyBanner.style.display = 'none';
             }
 
             // =============================================================
@@ -612,6 +831,18 @@
                         actx.fillRect(x, y, bw, bh);
                     }
                 }
+
+                // 7. Synchronized moving text during final smiley construction (0.50 to 0.82)
+                // Scrolling down: Right side enters (0.50) -> moves continuously to Left -> exits completely (0.82)
+                if (pOrig >= 0.50 && pOrig <= 0.82) {
+                    smileyBanner.style.display = 'block';
+                    const sT = (pOrig - 0.50) / 0.32; // 0.0 (starts at right) -> 1.0 (exits at left)
+                    const xPercent = -100 * sT;
+                    const xVw = (1 - sT) * 100;
+                    smileyBanner.style.transform = `translate3d(calc(${xPercent}% + ${xVw}vw), -50%, 0)`;
+                } else {
+                    smileyBanner.style.display = 'none';
+                }
             }
 
             let targetProgress = 0;
@@ -661,6 +892,7 @@
                     headline.classList.remove('show');
                     sub0.classList.remove('show');
                     sub1.classList.remove('show');
+                    smileyBanner.style.display = 'none';
                 } else {
                     textContainer.style.display = 'none';
 
