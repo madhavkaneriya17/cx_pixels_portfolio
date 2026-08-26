@@ -393,7 +393,7 @@ var {
 }
 
 .header-orange {
-    background: #ff5c38;
+    background: #ff5c38 !important;
 }
 
 .header-orange {
@@ -1658,6 +1658,7 @@ svg.shape-overlays {
     font-weight: 800;
     line-height: 100%;
     font-family: var(--font-bunch);
+    text-align: center;
 }
 
 .footer-input-wrapper {
@@ -3168,7 +3169,7 @@ svg.shape-overlays {
     flex-direction: column;
     grid-column: 2/-1;
     grid-row: 1/-1;
-    padding: 2.083vw;
+    padding: 30px 25px;
     background: #f4e9e1;
 }
 
@@ -3515,6 +3516,190 @@ svg.shape-overlays {
 }
 
 /* our-way-of-leving services page end */
+
+/* <=== Why It's Different Stacked Cards Section start ===> */
+.why-diff-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding: 15px 0 25px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.why-diff-section .header-arrow {
+    flex-shrink: 0;
+    margin-bottom: 15px;
+}
+
+.diff-cards-pin-wrapper {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.diff-cards-stack-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.diff-stack-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: clamp(30px, 2.604vw, 2.604vw);
+    padding: clamp(36px, 5vw, 75px) clamp(30px, 4.5vw, 65px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+    will-change: transform;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.diff-stack-card.diff-card-green {
+    background-color: #00a843;
+    color: #000000;
+}
+
+.diff-stack-card.diff-card-red {
+    background-color: #e6313a;
+    color: #000000;
+}
+
+.diff-stack-card.diff-card-blue {
+    background-color: #0072e3;
+    color: #000000;
+}
+
+.diff-stack-card.diff-card-purple {
+    background-color: #ad55ff;
+    color: #000000;
+}
+
+.diff-card-content {
+    max-width: 1100px;
+    width: 100%;
+    z-index: 2;
+}
+
+.diff-card-title {
+    font-family: var(--font-aeonik), var(--font-alfabet), sans-serif;
+    font-size: clamp(38px, 5.2vw, 84px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #000000;
+    margin: 0;
+    word-break: break-word;
+}
+
+.diff-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.diff-char {
+    display: inline-block;
+    opacity: 0.22;
+    will-change: opacity;
+}
+
+/* Badge progress indicator */
+.diff-progress-badge {
+    position: absolute;
+    bottom: clamp(24px, 3.5vw, 40px);
+    right: clamp(24px, 3.5vw, 40px);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    user-select: none;
+    pointer-events: none;
+}
+
+.diff-progress-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.diff-progress-bg {
+    stroke: rgba(0, 0, 0, 0.15);
+}
+
+.diff-progress-bar {
+    stroke: #000000;
+    stroke-dasharray: 119.38;
+    stroke-dashoffset: 119.38;
+}
+
+.diff-progress-text {
+    font-family: var(--font-aeonik), sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    position: relative;
+    z-index: 2;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .why-diff-section {
+        height: 85vh;
+        min-height: 520px;
+        padding: 10px 0 20px 0;
+    }
+
+    .diff-cards-stack-container,
+    .diff-stack-card {
+        border-radius: 20px;
+    }
+
+    .diff-stack-card {
+        padding: 30px 20px;
+    }
+
+    .diff-card-title {
+        font-size: clamp(26px, 7.5vw, 40px);
+        line-height: 1.15;
+    }
+
+    .diff-progress-badge {
+        bottom: 18px;
+        right: 18px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .diff-progress-text {
+        font-size: 12px;
+    }
+}
+
+/* <=== Why It's Different Stacked Cards Section end ===> */
+
 /* <=== responsive header start ===> */
 .mobile-header-top-bar {
     display: none;
@@ -3579,11 +3764,11 @@ svg.shape-overlays {
         font-family: var(--font-aeonik, sans-serif);
         font-weight: 700;
         font-size: 13px;
-        padding: 9px 18px;
-        border-radius: 30px;
         text-decoration: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         white-space: nowrap;
+        border-radius: 100px;
+        margin: 0 0 0 auto;
+        padding: 15px;
     }
 
     /* Hamburger & Close Button */
@@ -3819,3 +4004,368 @@ svg.shape-overlays {
 }
 
 /* <=== responsive header end ===> */
+
+
+/* <=== custome side bar start ===> */
+.custom-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 9999999;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.custom-sidebar.open {
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+}
+
+.custom-sidebar-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.35s ease;
+}
+
+.custom-sidebar.open .custom-sidebar-backdrop {
+    opacity: 1;
+}
+
+.custom-sidebar-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 740px;
+    max-width: calc(100vw - 80px);
+    height: 100%;
+    height: 100dvh;
+    background: #ab54f7;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    box-shadow: -30px 0 70px rgba(0, 0, 0, 0.6);
+    overflow: visible !important;
+    z-index: 2;
+    padding: 16px 16px 0 16px;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-sidebar.open .custom-sidebar-panel {
+    transform: translateX(0%);
+}
+
+.custom-sidebar-close-tab {
+    position: absolute;
+    top: 16px;
+    left: -70px;
+    width: 70px;
+    height: 70px;
+    background: #ab54f7;
+    border: none;
+    border-radius: 5px 0px 0px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 9999;
+}
+
+.custom-sidebar-panel .header-arrow span {
+    font-family: var(--font-alfabet);
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 850;
+    line-height: 100%;
+    text-align: center;
+}
+
+.custom-sidebar-white-card {
+    background: #ffffff;
+    border-radius: 36px 36px 0 0;
+    padding: clamp(25px, 4.688vw, 90px) clamp(25px, 3.906vw, 75px) clamp(35px, 2.344vw, 45px);
+    flex: 1;
+    overflow-y: auto;
+    box-sizing: border-box;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+
+.custom-sidebar-panel::-webkit-scrollbar,
+.custom-sidebar-white-card::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.custom-sidebar-panel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.sidebar-booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+}
+
+.sidebar-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.sidebar-section-title {
+    font-family: var(--font-alfabet);
+    font-size: 26px;
+    font-weight: 800;
+    color: #000000;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.01em;
+}
+
+.sidebar-underline-field {
+    position: relative;
+    width: 100%;
+}
+
+.sidebar-underline-input,
+.sidebar-underline-select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid #111111;
+    padding: 12px 0;
+    font-family: var(--font-aeonik);
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+.sidebar-underline-input::placeholder {
+    color: #000000;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.sidebar-underline-input:focus,
+.sidebar-underline-select:focus {
+    outline: none;
+    border-bottom: 1.5px solid #111111;
+}
+
+.sidebar-underline-select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 30px;
+}
+
+.select-dropdown-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-sub-label {
+    font-family: var(--font-aeonik);
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 4px 0;
+}
+
+.sidebar-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar-radio-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-radio-circle {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid #222222;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.custom-radio-circle::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #000000;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-radio-input:checked+.custom-radio-circle {
+    border-color: #000000;
+}
+
+.sidebar-radio-input:checked+.custom-radio-circle::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.radio-text {
+    font-family: var(--font-aeonik);
+    font-size: 15.5px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.sidebar-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-checkbox-box {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid #222222;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.custom-checkbox-box::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #000000;
+    border-radius: 3.5px;
+    transform: scale(0);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-checkbox-input:checked+.custom-checkbox-box {
+    border-color: #000000;
+}
+
+.sidebar-checkbox-input:checked+.custom-checkbox-box::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.checkbox-text {
+    font-family: var(--font-aeonik);
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #000000;
+}
+
+.sidebar-btn-container {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.sidebar-pill-submit-btn {
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 16px 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-family: var(--font-aeonik);
+    font-size: 16px;
+    font-weight: 700;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sidebar-pill-submit-btn:hover {
+    background: #222222;
+    transform: scale(1.03);
+}
+
+.sidebar-pill-submit-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.sidebar-pill-submit-btn:hover svg {
+    transform: translate(2px, -2px);
+}
+
+@media screen and (max-width: 820px) {
+    .custom-sidebar-panel {
+        width: 100%;
+        padding: 12px 12px 0 12px;
+    }
+
+    .custom-sidebar-close-tab {
+        left: -40px;
+        top: 20px;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* <=== custome side bar end ===> */

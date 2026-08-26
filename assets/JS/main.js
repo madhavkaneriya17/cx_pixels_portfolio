@@ -524,23 +524,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.querySelector(".leving-grid-structure-main");
 
     if (triggerElement && container) {
-        // Calculate total horizontal scroll width (overflow width)
-        const getScrollAmount = () => {
-            let containerWidth = container.scrollWidth;
-            let visibleWidth = triggerElement.offsetWidth;
-            return -(containerWidth - visibleWidth + 20);
-        };
+        ScrollTrigger.matchMedia({
+            "(min-width: 1024px)": function () {
+                // Calculate total horizontal scroll width (overflow width)
+                const getScrollAmount = () => {
+                    let containerWidth = container.scrollWidth;
+                    let visibleWidth = triggerElement.offsetWidth;
+                    return -(containerWidth - visibleWidth + 20);
+                };
 
-        gsap.to(container, {
-            x: () => getScrollAmount(),
-            ease: "none",
-            scrollTrigger: {
-                trigger: triggerElement,
-                pin: true,
-                scrub: 1,
-                start: "top top",
-                end: () => `+=${container.scrollWidth - triggerElement.offsetWidth + 20}`,
-                invalidateOnRefresh: true,
+                const tween = gsap.to(container, {
+                    x: () => getScrollAmount(),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: triggerElement,
+                        pin: true,
+                        scrub: 1,
+                        start: "top top",
+                        end: () => `+=${container.scrollWidth - triggerElement.offsetWidth + 20}`,
+                        invalidateOnRefresh: true,
+                    }
+                });
+
+                return () => {
+                    tween.kill();
+                };
             }
         });
     }
@@ -1502,3 +1510,227 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 /* <=== Responsive Mobile Header Navigation Handler end ===> */
+
+/* <=== Why It's Different Stacked Cards ScrollTrigger start ===> */
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const whyDiffSection = document.querySelector('#whyDiffSection');
+    if (!whyDiffSection) return;
+
+    const cards = whyDiffSection.querySelectorAll('.diff-stack-card');
+    if (cards.length === 0) return;
+
+    const progressNumber = whyDiffSection.querySelector('.diff-progress-text');
+    const progressBar = whyDiffSection.querySelector('.diff-progress-bar');
+    const circumference = 2 * Math.PI * 19; // ~119.38
+    const totalCards = cards.length;
+    const stackStep = window.innerWidth < 768 ? 16 : 28;
+
+    // Dynamically split card titles into characters for opacity reveal
+    const allCardChars = Array.from(cards).map(card => {
+        const titleEl = card.querySelector('.js-diff-split-text');
+        if (!titleEl) return [];
+
+        const words = titleEl.textContent.trim().split(/\s+/);
+        titleEl.innerHTML = words.map(w => 
+            `<span class="diff-word">${[...w].map(c => `<span class="diff-char" style="opacity: 0.22;">${c}</span>`).join('')}</span>`
+        ).join(' ');
+
+        return titleEl.querySelectorAll('.diff-char');
+    });
+
+    // Initialize card positions & z-index
+    cards.forEach((card, i) => {
+        gsap.set(card, { zIndex: i + 1, yPercent: i === 0 ? 0 : 100 });
+    });
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: whyDiffSection,
+            start: "top top",
+            end: () => `+=${window.innerHeight * totalCards * 1.2}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+                const p = self.progress;
+                const activeIndex = p >= 0.999 ? totalCards : Math.min(Math.floor(p * totalCards) + 1, totalCards);
+
+                if (progressNumber) {
+                    progressNumber.textContent = String(activeIndex).padStart(2, '0');
+                }
+                if (progressBar) {
+                    progressBar.style.strokeDashoffset = circumference * (1 - p);
+                }
+            }
+        }
+    });
+
+    // Dynamic loop for all cards (scalable for 3, 4, 5, or more cards)
+    cards.forEach((card, i) => {
+        const startTime = i;
+
+        // Slide in card from below to stepped stack position
+        if (i > 0) {
+            tl.to(card, {
+                yPercent: 0,
+                y: stackStep * i,
+                duration: 1,
+                ease: "power1.inOut"
+            }, startTime);
+        }
+
+        // Stagger character opacity reveal (0.22 -> 1)
+        if (allCardChars[i] && allCardChars[i].length > 0) {
+            tl.to(allCardChars[i], {
+                opacity: 1,
+                stagger: 0.02,
+                duration: 0.7,
+                ease: "power1.out"
+            }, startTime + (i === 0 ? 0.1 : 0.3));
+        }
+    });
+});
+/* <=== Why It's Different Stacked Cards ScrollTrigger end ===> */
+
+/* <=== Mobile Living Section Swiper start ===> */
+document.addEventListener("DOMContentLoaded", () => {
+    const swiperEl = document.querySelector(".levingMobileSwiper");
+    if (swiperEl) {
+        new Swiper(".levingMobileSwiper", {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            loop: false,
+            speed: 500,
+            navigation: {
+                nextEl: ".levingMobileSwiper .leving-swiper-next",
+                prevEl: ".levingMobileSwiper .leving-swiper-prev"
+            }
+        });
+    }
+});
+/* <=== Mobile Living Section Swiper end ===> */
+
+/* <=== Custom Sidebar (Book your Unit) start ===> */
+function openCustomSidebar(e) {
+    if (e && typeof e.preventDefault === "function") {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const sidebar = document.getElementById("customSidebar");
+    const backdrop = document.getElementById("customSidebarBackdrop");
+    const panel = document.getElementById("customSidebarPanel");
+
+    if (!sidebar || !panel) return;
+
+    sidebar.classList.add("open");
+    sidebar.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+
+    if (typeof gsap !== "undefined") {
+        gsap.killTweensOf([backdrop, panel]);
+        gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" });
+        gsap.fromTo(panel, { x: "100%" }, { x: "0%", duration: 0.5, ease: "power3.out" });
+
+        const formElements = panel.querySelectorAll(".custom-sidebar-top-banner, .sidebar-form-section, .sidebar-btn-container");
+        if (formElements.length > 0) {
+            gsap.fromTo(formElements, { y: 18, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.4, delay: 0.15, ease: "power2.out" });
+        }
+    }
+}
+
+function closeCustomSidebar(e) {
+    if (e && typeof e.preventDefault === "function") {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const sidebar = document.getElementById("customSidebar");
+    const backdrop = document.getElementById("customSidebarBackdrop");
+    const panel = document.getElementById("customSidebarPanel");
+
+    if (!sidebar || !panel) return;
+
+    if (typeof gsap !== "undefined") {
+        gsap.killTweensOf([backdrop, panel]);
+        gsap.to(panel, {
+            x: "100%",
+            duration: 0.4,
+            ease: "power3.in"
+        });
+        gsap.to(backdrop, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.in",
+            onComplete: () => {
+                sidebar.classList.remove("open");
+                sidebar.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+            }
+        });
+    } else {
+        sidebar.classList.remove("open");
+        sidebar.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
+}
+
+// Expose to window immediately
+window.openCustomSidebar = openCustomSidebar;
+window.closeCustomSidebar = closeCustomSidebar;
+
+function initSidebarEvents() {
+    const directTriggers = document.querySelectorAll(".card-book, #headerBookBtn, .card-purple.card-book, [data-open-sidebar]");
+    directTriggers.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            openCustomSidebar(e);
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        const trigger = e.target.closest("a, button, .card-book");
+        if (trigger) {
+            if (trigger.closest("#customSidebarPanel")) return;
+            const text = (trigger.textContent || "").trim().toLowerCase();
+            if (
+                text.includes("book your unit") ||
+                text.includes("book your pixal") ||
+                trigger.classList.contains("card-book") ||
+                trigger.id === "headerBookBtn" ||
+                trigger.hasAttribute("data-open-sidebar")
+            ) {
+                openCustomSidebar(e);
+            }
+        }
+    }, true);
+
+    const closeBtn = document.getElementById("customSidebarClose");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", (e) => {
+            closeCustomSidebar(e);
+        });
+    }
+
+    const backdrop = document.getElementById("customSidebarBackdrop");
+    if (backdrop) {
+        backdrop.addEventListener("click", (e) => {
+            closeCustomSidebar(e);
+        });
+    }
+
+    document.addEventListener("keydown", (e) => {
+        const sidebar = document.getElementById("customSidebar");
+        if (e.key === "Escape" && sidebar && sidebar.classList.contains("open")) {
+            closeCustomSidebar(e);
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSidebarEvents);
+} else {
+    initSidebarEvents();
+}
+/* <=== Custom Sidebar (Book your Unit) end ===> */
