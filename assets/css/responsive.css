@@ -298,10 +298,6 @@
 }
 
 
-
-
-
-
 /* === leving section mobile swiper start === */
 @media screen and (min-width: 1024px) {
     .mobile-only-structure {
@@ -515,3 +511,108 @@
 }
 
 /* === leving section mobile swiper end === */
+
+/* community spaces section start */
+
+@media (max-width: 900px) {
+    .spaces-slider-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: clamp(20px, 4vw, 32px);
+        gap: 24px;
+    }
+
+    .spaces-info-section {
+        flex: none;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .spaces-info-section h2 {
+        font-size: clamp(24px, 5vw, 34px);
+    }
+
+    .spaces-info-section p {
+        font-size: clamp(14px, 2.2vw, 16px);
+        line-height: 1.45;
+        max-width: 100%;
+    }
+
+    .spaces-slides-container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .spaces-slide {
+        height: clamp(260px, 52vw, 400px);
+        border-radius: 20px;
+    }
+
+    .spaces-eye-cursor {
+        display: none !important;
+    }
+
+    .spaces-nav-controls {
+        position: static;
+        transform: none;
+        flex-direction: row-reverse;
+        width: auto;
+        align-self: center;
+        border-radius: 30px;
+        padding: 6px 14px;
+        gap: 12px;
+        margin-top: 10px;
+        background: rgba(0, 0, 0, 0.25);
+    }
+
+    .spaces-nav-divider {
+        width: 1px;
+        height: 16px;
+        margin: 0;
+    }
+
+    .spaces-nav-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* community spaces section end */
+ 
+/* booking slider section start */
+
+@media (max-width: 900px) {
+    .slider-card {
+        flex-direction: column;
+    }
+
+    .js-slides-container,
+    .slides-container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .nav-controls {
+        position: static;
+        transform: none;
+        flex-direction: row-reverse;
+        width: auto;
+        align-self: center;
+        border-radius: 30px;
+        padding: 6px 14px;
+        gap: 12px;
+    }
+
+    .nav-divider {
+        width: 1px;
+        height: 16px;
+        margin: 0;
+    }
+
+    .nav-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* booking slider section end */

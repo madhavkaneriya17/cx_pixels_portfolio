@@ -915,6 +915,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const swiperInstance = new Swiper(swiperContainer, {
                 slidesPerView: 1.5,
                 spaceBetween: 20,
+                observer: true,
+                observeParents: true,
                 navigation: {
                     nextEl: nextBtn,
                     prevEl: prevBtn,

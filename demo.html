@@ -189,6 +189,7 @@
             position: relative;
             width: 100%;
             z-index: 1;
+            align-items: flex-start;
         }
 
         .manifesto-content-col {
@@ -207,7 +208,7 @@
         }
 
         .manifesto-segment {
-            display: inline;
+            display: inline-block;
             margin-right: 0.35em;
             color: #000000;
         }
@@ -385,54 +386,6 @@
                 font-size: clamp(17px, 5.5vw, 24px);
             }
         }
-
-        /* Following Section */
-        .next-section {
-            min-height: 100vh;
-            background: #140e06;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 10;
-        }
-
-        .next-section h2 {
-            font-size: clamp(28px, 4vw, 52px);
-            font-weight: 900;
-            color: var(--bg-orange);
-            margin: 0 0 16px 0;
-            letter-spacing: -0.02em;
-        }
-
-        .next-section p {
-            font-size: clamp(15px, 1.3vw, 19px);
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 580px;
-            line-height: 1.6;
-            margin: 0 0 32px 0;
-        }
-
-        .top-btn {
-            background: var(--bg-orange);
-            color: var(--ink);
-            border: none;
-            padding: 14px 32px;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .top-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 
@@ -471,9 +424,9 @@
                             <span class="manifesto-segment active" id="seg0">We believe student living should feel
                                 natural, not temporary.</span>
                             <span class="manifesto-segment" id="seg1">Functional, but also personal.</span>
-                            <span class="manifesto-segment" id="seg2">Social, yet never forced.</span>
-                            <span class="manifesto-segment" id="seg3">That’s why we design spaces that support everyday
-                                life, create room for connection, and take the hassle out of it. Because living
+                            <span class="manifesto-segment" id="seg2">Social, yet never forced. That’s why we design spaces that support everyday
+                                life, create room for connection, and take the hassle out of it.</span>
+                            <span class="manifesto-segment" id="seg3">Because living
                                 shouldn’t feel like a compromise. It should feel just right.</span>
                         </div>
                     </div>
@@ -500,13 +453,6 @@
         </div>
     </div>
 
-    <!-- Following Section -->
-    <div class="next-section">
-        <h2>Welcome to Units</h2>
-        <p>Experience sustainable, community-first living designed specifically for modern student life.</p>
-        <button class="top-btn" id="scrollTopBtn">↑ Back to Top</button>
-    </div>
-
     <script>
         (function () {
             const scrollTrack = document.getElementById('scrollTrack');
@@ -518,7 +464,6 @@
             const headline = document.getElementById('headline');
             const sub0 = document.getElementById('sub0');
             const sub1 = document.getElementById('sub1');
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
             const textContainer = document.getElementById('textContainer');
             const rowTop = document.getElementById('rowTop');
             const rowBottom = document.getElementById('rowBottom');
@@ -1251,9 +1196,6 @@
 
             window.addEventListener('scroll', onScroll, { passive: true });
             window.addEventListener('resize', resize);
-
-            const resetToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (scrollTopBtn) scrollTopBtn.addEventListener('click', resetToTop);
 
             resize();
             onScroll();
