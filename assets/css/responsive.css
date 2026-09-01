@@ -5,13 +5,12 @@
         grid-template-columns: 1fr;
         grid-template-rows: none;
         height: auto;
-        margin-top: 70px;
         margin-left: 0px !important;
         margin-right: 10px !important;
         width: calc(100% - 0px);
     }
 
-    div#map {
+    section.contact-map-section div#map {
         order: 1;
     }
 
@@ -43,6 +42,7 @@
         overflow: hidden;
         padding: 0 10px !important;
         width: 100dvw !important;
+        margin-top: 90px;
     }
 
     .contact-form-input form {
@@ -82,17 +82,55 @@
         flex: 1;
     }
 
-    button.cta-button {
+    /* button.cta-button {
         border-radius: 10px;
         padding: 25px;
-    }
+    } */
 
     .cta-btn-radius .arrow-icon {
         width: 20px;
         height: 20px;
     }
 
-    /* === footer end === */
+    /* === location section start === */
+    .location-section {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 16px;
+    }
+
+    .location-section-left {
+        border-radius: clamp(20px, 4vw, 30px);
+        padding: clamp(24px, 4vw, 32px);
+        min-height: auto;
+    }
+
+    .location-section-left-mid {
+        margin-top: 30px;
+    }
+
+    .location-left-lable-wraper {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .location-section-right {
+        border-radius: clamp(20px, 4vw, 30px);
+        height: 420px;
+        min-height: 380px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .location-section-right #map {
+        height: 100%;
+        min-height: 100%;
+        width: 100%;
+        border-radius: inherit;
+    }
+
+    /* === location section end === */
 
     /* === leving section mobile swiper start === */
     .desktop-only-structure {
@@ -295,6 +333,372 @@
     }
 
     /* === leving section mobile swiper end === */
+
+    /* === nea-politeia start === */
+    .nea_politeia_banner {
+        gap: 20px;
+        grid-template-columns: 1fr;
+        height: calc(100vh - 90px);
+    }
+
+    .nea_politeia_banner-left {
+        height: auto;
+        order: 2;
+    }
+
+    .nea_politeia_banner-right {
+        order: 1;
+    }
+
+    .nea_politeia_banner-left-top-wrapper {
+        display: flex;
+    }
+
+    .nea_politeia_banner-left-bottom-wrapper {
+        margin-top: 40px;
+    }
+
+    .nea_politeia_banner-left-bottom-content {
+        margin-top: 20px;
+    }
+
+    .nea_politeia_banner-left-wrapper {
+        padding: 30px 25px;
+        height: auto;
+    }
+
+    /* === nea-politeia end === */
+
+    /* FAQs start */
+    .faq-main {
+        gap: 5px;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        margin-bottom: 10px;
+    }
+
+    .faq-dropdown .faq-icon-wrap {
+        width: 25px;
+        height: 25px;
+    }
+
+    .faq-dropdown .faq-button,
+    .faq-dropdown .faq-content {
+        padding: 15px;
+    }
+
+    /* FAQs end */
+
+    /* nea booking start */
+
+    .nea_booking {
+        border: 1px solid #000;
+        border-radius: 30px;
+        margin-top: 10px;
+        padding: 20px 15px;
+    }
+
+    .nea_booking-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+
+    .nea_booking-wrapper-button {
+        position: static;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nea_booking-filter-button {
+        width: 100%;
+        border-radius: 100px;
+        padding: 14px 20px;
+        box-sizing: border-box;
+        background: transparent;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .nea_booking-filter-button.active {
+        background: #000;
+        color: #fff;
+    }
+
+    .nea_booking-filter-button-right svg {
+        transition: transform 0.3s ease;
+        transform: rotate(0deg);
+    }
+
+    .nea_booking-filter-button.active .nea_booking-filter-button-right svg {
+        transform: rotate(90deg);
+    }
+
+    .nea_booking-tab-content {
+        width: 100%;
+        margin: 10px 0 15px 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .nea_booking_filter-main {
+        margin: 0;
+        padding: 0;
+    }
+
+    .nea_booking-pane-wrap .nea_booking-info-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .nea_booking-pane-wrap .nea_booking-check-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .nea_booking-pane-wrap .nea_booking-check-icon {
+        right: -5px;
+        top: -10px;
+    }
+
+    /* nea booking end */
+
+    /* index page location section start */
+
+    .location-section {
+        gap: 20px;
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .location-section-right {
+        height: 336px;
+    }
+
+    .location-section-left-top {
+        display: flex;
+    }
+
+    .location-section-left-mid {
+        margin-top: 30px;
+    }
+
+    .threed-interactive-left-bottom-p {
+        margin-top: 20px
+    }
+
+    /* index page location section end */
+
+
+    /* threed-interactive section start */
+    .threed-interactive {
+        gap: 20px;
+        grid-template-columns: 1fr;
+        height: auto;
+        margin: 20px 0;
+        min-height: auto;
+        width: 100%;
+    }
+
+    .threed-interactive-left {
+        width: 100%;
+        padding: 30px 25px;
+    }
+
+    .threed-interactive-right {
+        width: 100%;
+        height: 680px;
+        min-height: 380px;
+    }
+
+    .threed-interactive-left-top {
+        display: flex;
+    }
+
+    .threed-interactive-left-bottom {
+        margin-top: 30px;
+    }
+
+    .threed-interactive-left-bottom-list {
+        gap: 5px;
+    }
+
+    /* threed-interactive section end */
+
+    /* community-living start */
+    .community-living {
+        gap: 20px;
+        grid-template-columns: 1fr;
+    }
+
+    .community-living-card {
+        height: 300px;
+    }
+
+    .community-living-card-info {
+        padding: 30px 25px;
+    }
+
+    /* community-living end */
+
+    /* our services start */
+    .our-services {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .our-services-card {
+        width: 100%;
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 30px 25px;
+        border-radius: clamp(20px, 4vw, 30px);
+    }
+
+    /* our services end */
+
+    /* socialmedia section start */
+    .socialmedia_section-container {
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 16px;
+    }
+
+    .socialmedia_section-left-static-card {
+        height: auto;
+        min-height: 200px;
+        width: 100%;
+        padding: 30px 25px;
+        border-radius: clamp(20px, 4vw, 30px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .socialmedia_section-left-static-card-top {
+        display: flex;
+    }
+
+    .socialmedia_section-left-static-card-botto {
+        margin-top: 20px;
+    }
+
+    .socialmedia_section-right-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .unitsSwiper {
+        width: 100%;
+        height: auto;
+    }
+
+    .unitsSwiper .swiper-slide {
+        height: 380px !important;
+        border-radius: clamp(20px, 4vw, 30px);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .unitsSwiper .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* socialmedia section end */
+
+    /* members page start */
+    .members-union.members-union-custom {
+        gap: 10px;
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    /* members page end */
+
+    /* contact page start */
+    .contact-form-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 25px;
+        margin-top: 10px;
+    }
+
+    /* contact page end */
+
+    /* features-section start */
+    .features-section {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .features-col {
+        width: 100%;
+    }
+
+    .features-image-box {
+        min-height: 250px;
+    }
+
+    /* features-section end */
+
+
+    .single-unit section.location-unit {
+        gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        height: auto;
+    }
+
+    /* nea politeia pafe map section start */
+    .nea_politeia_location {
+        gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        height: auto;
+    }
+
+    .nea-location-right-map {
+        min-height: 250px;
+        order: -1;
+    }
+
+    .nea_politeia_location-left {
+        grid-row: initial;
+    }
+
+
+    .nea-location-list {
+        gap: 5px 7px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 20px;
+        max-width: none;
+    }
+
+    .nea-location-item {
+        flex-direction: column;
+        gap: 0;
+        padding: 10px;
+    }
+
+    .nea_politeia_location-left-top-right {
+        display: flex;
+        gap: 15px;
+        margin: 30px 0 0;
+    }
+
+    .nea_politeia_location-left-top {
+        flex-direction: column;
+    }
+
+    /* nea politeia pafe map section end */
+
+
 }
 
 
@@ -514,7 +918,7 @@
 
 /* community spaces section start */
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
     .spaces-slider-card {
         flex-direction: column;
         align-items: stretch;
@@ -578,10 +982,10 @@
 }
 
 /* community spaces section end */
- 
+
 /* booking slider section start */
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
     .slider-card {
         flex-direction: column;
     }

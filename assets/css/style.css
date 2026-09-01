@@ -544,6 +544,42 @@ ul.header-main-menu>li a {
     color: #000;
 }
 
+/* Active Navigation Card Styles (Desktop & Mobile) */
+ul.header-main-menu > li a.active,
+ul.header-main-menu > li.active > a {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: 1px solid #000 !important;
+    border-radius: 12px;
+    color: #000000 !important;
+}
+
+ul.header-main-menu > li a.active .header-num-arrow span,
+ul.header-main-menu > li a.active .header-content,
+ul.header-main-menu > li.active > a .header-num-arrow span,
+ul.header-main-menu > li.active > a .header-content {
+    color: #000000 !important;
+}
+
+ul.header-main-menu > li a.active .header-num-arrow svg,
+ul.header-main-menu > li.active > a .header-num-arrow svg {
+    color: #000000 !important;
+    fill: #000000 !important;
+}
+
+ul.header-main-menu > li a.active .header-num-arrow svg path,
+ul.header-main-menu > li.active > a .header-num-arrow svg path {
+    fill: #000000 !important;
+}
+
+/* Active Submenu Card */
+header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active {
+    background: transparent !important;
+    border: 1px solid #000 !important;
+    border-radius: 12px;
+    color: #000000 !important;
+}
+
 .card-book {
     justify-content: center !important;
     align-items: center;
@@ -1603,7 +1639,7 @@ svg.shape-overlays {
 }
 
 .unitsSwiper .swiper-slide {
-    height: 100%;
+    height: 22.917vw;
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     overflow: hidden;
     position: relative;
@@ -2085,6 +2121,7 @@ svg.shape-overlays {
 .nea-location-right-img img {
     width: 100%;
     object-fit: cover;
+    height: 100%;
 }
 
 /* === nea politeia location section end === */
@@ -2816,6 +2853,7 @@ svg.shape-overlays {
     opacity: 0.3;
     cursor: not-allowed;
 }
+
 /* === community spaces section end === */
 
 /* === features section start === */
@@ -2957,21 +2995,6 @@ svg.shape-overlays {
     height: 100%;
     object-fit: cover;
     display: block;
-}
-
-@media (max-width: 900px) {
-    .features-section {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .features-col {
-        width: 100%;
-    }
-
-    .features-image-box {
-        min-height: 250px;
-    }
 }
 
 /* === features section end === */
@@ -3333,14 +3356,6 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
-}
-
-@media (max-width: 768px) {
-    .contact-form-bottom {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 25px;
-    }
 }
 
 /* contact page map section end */
@@ -3853,20 +3868,103 @@ svg.shape-overlays {
 
     /* Card 02 - Yellow / Amber */
     .card-yellow {
-        background-color: #ffaa00 !important;
-        color: #ffffff !important;
+        background-color: #ffb400 !important;
+        color: #000000 !important;
     }
 
-    /* Card 03 - Grey / Light Beige (as in reference screenshot) */
+    /* Card 03 - Orange */
     .card-orange {
-        background-color: #e8dfd7 !important;
+        background-color: #ff5f00 !important;
         color: #000000 !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
     }
 
     /* Card 04 - Green */
     .card-green {
         background-color: #00a843 !important;
+        color: #000000 !important;
+    }
+
+    /* Active state on mobile */
+    ul.header-main-menu > li a.active,
+    ul.header-main-menu > li.active > a {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: 1px solid #000 !important;
+        border-radius: 16px;
+        color: #000000 !important;
+    }
+
+    /* Mobile Submenu Drawer */
+    header .header-main-menu > li ul.sub-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 70px);
+        background-color: #f4e9e1;
+        padding: 20px 16px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        z-index: 2800;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(100%);
+        transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.3s ease;
+    }
+
+    header .header-main-menu > li ul.sub-menu.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(0);
+    }
+
+    header .header-main-menu > li ul.sub-menu::after {
+        display: none !important;
+    }
+
+    header .header-main-menu .submenu-back-item {
+        display: flex !important;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    header .header-main-menu .submenu-back-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: transparent;
+        border: none;
+        font-family: var(--font-aeonik, sans-serif);
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 6px 0;
+        color: #000000;
+    }
+
+    header .header-main-menu > li ul.sub-menu li.submenu-card-item {
+        width: 100%;
+    }
+
+    header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card {
+        width: 100%;
+        min-height: 80px;
+        border-radius: 16px;
+        padding: 14px 18px;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active {
+        background: transparent !important;
+        border: 1px solid #FF0000 !important;
+        border-radius: 16px;
         color: #000000 !important;
     }
 
@@ -4008,7 +4106,7 @@ svg.shape-overlays {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,.8);
+    background: rgba(0, 0, 0, .8);
     backdrop-filter: blur(1px);
     opacity: 0;
     cursor: pointer;
@@ -4076,8 +4174,8 @@ svg.shape-overlays {
     flex: 1;
     overflow-y: auto;
     box-sizing: border-box;
-    -ms-overflow-style: none; 
-    scrollbar-width: none;  
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .custom-sidebar-panel::-webkit-scrollbar,
@@ -4343,3 +4441,70 @@ svg.shape-overlays {
 }
 
 /* <=== custome side bar end ===> */
+
+/* privacypolicy start */
+.privacypolicy-main {
+    border: 1px solid #000;
+    border-radius: clamp(30px, 2.604vw, 2.604vw);
+    margin: 0 0 30px;
+    padding: 2.083vw;
+}
+
+.privacypolicy-main article {
+    max-width: 900px;
+    display: block;
+}
+
+.privacypolicy-main h1 {
+    margin-bottom: 40px;
+    font-family: var(--font-bunch);
+    font-size: clamp(28px, 2.813vw, 2.813vw);
+    font-style: normal;
+    font-weight: 850;
+    line-height: 110%;
+}
+
+.privacypolicy-main h2 {
+    margin-top: 20px;
+    font-family: var(--font-alfabet);
+    font-size: clamp(22px, 1.771vw, 1.771vw);
+    font-style: normal;
+    font-weight: 850;
+    line-height: 100%;
+}
+
+.privacypolicy-main p {
+    margin: 10px 0;
+}
+
+.privacypolicy-dot {
+    margin: 10px 0;
+}
+
+.privacypolicy-dot > li {
+    list-style-type: disc;
+    padding: 6px 0;
+    margin-left: 20px;
+}
+
+.privacypolicy-dot ul {
+    margin: 6px 0 4px;
+}
+
+.privacypolicy-dot ul > li {
+    list-style-type: circle;
+    padding: 4px 0;
+    margin-left: 24px;
+}
+
+.privacypolicy-main a {
+    text-decoration: underline;
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.privacypolicy-main a:hover {
+    opacity: 0.7;
+}
+
+/* privacypolicy end */

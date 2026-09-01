@@ -61,12 +61,10 @@ const canvas = document.getElementById('tunnel-canvas');
 const customCursor = document.getElementById('customCursor');
 
 if (container && canvas) {
-    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
     const bgColor = 0xf1e9e0;
     scene.background = new THREE.Color(bgColor);
 
-    // Soft, smooth vanishing point fog
     scene.fog = new THREE.Fog(bgColor, 14, 34);
 
     const rect = container.getBoundingClientRect();
@@ -77,14 +75,12 @@ if (container && canvas) {
     renderer.setSize(rect.width, rect.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 2. Constants Setup
     const tunnelWidth = 8;
     const gridCols = 4;
     const cellSize = tunnelWidth / gridCols;
     const ringDepth = 2;
     const numRings = 25;
 
-    // Soft/Light Minimalist Colors
     const colors = [
         0xFFC857,
         0xFF6F61,
@@ -106,7 +102,6 @@ if (container && canvas) {
     const gridGroup = new THREE.Group();
     scene.add(gridGroup);
 
-    // Light & Clean Grid Wireframe
     const lineMat = new THREE.LineBasicMaterial({ color: 0x222222, opacity: 0.5, transparent: true, linewidth: 1 });
     const cellGeo = new THREE.PlaneGeometry(cellSize, ringDepth);
 
@@ -140,20 +135,16 @@ if (container && canvas) {
                 wireframe.rotation.set(...wall.rotate);
                 ringGroup.add(wireframe);
 
-                // LIGHT / MINIMAL POPULATION:
-                // Sirf 12% probability rakhi hai taaki congested na lage (88% khali rahega)
                 const rand = Math.random();
                 if (rand > 0.60) {
                     let tileMat;
                     if (Math.random() > 0.40) {
-                        // Light Solid Color Tile
                         const col = colors[Math.floor(Math.random() * colors.length)];
                         tileMat = new THREE.MeshBasicMaterial({
                             color: col,
                             side: THREE.DoubleSide
                         });
                     } else {
-                        // Subtle Image Tile
                         const tex = textures[Math.floor(Math.random() * textures.length)];
                         tileMat = new THREE.MeshBasicMaterial({
                             map: tex,
@@ -182,7 +173,6 @@ if (container && canvas) {
         rings.push(ring);
     }
 
-    // 3. Speed & Controls
     let baseSpeed = 0.05;
     let currentSpeed = baseSpeed;
     let targetSpeed = baseSpeed;
@@ -217,21 +207,26 @@ if (container && canvas) {
     window.addEventListener('touchend', stopAccelerating);
     window.addEventListener('touchcancel', stopAccelerating);
 
-    window.addEventListener('resize', () => {
+    const resizeHandler = () => {
         const r = container.getBoundingClientRect();
-        camera.aspect = r.width / r.height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(r.width, r.height);
-    });
+        if (r.width > 0 && r.height > 0) {
+            camera.aspect = r.width / r.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(r.width, r.height);
+        }
+    };
 
-    // 4. Animation Loop
+    window.addEventListener('resize', resizeHandler);
+    if (window.ResizeObserver) {
+        new ResizeObserver(resizeHandler).observe(container);
+    }
+
     function animate() {
         requestAnimationFrame(animate);
 
         currentSpeed += (targetSpeed - currentSpeed) * 0.08;
         camera.position.z -= currentSpeed;
 
-        // Dynamic Fog Distance
         scene.fog.near = Math.abs(camera.position.z) + 12;
         scene.fog.far = Math.abs(camera.position.z) + 32;
 
@@ -248,11 +243,9 @@ if (container && canvas) {
 }
 /* <=== three js section end ===> */
 
-
 /* <=== What define us section start ===> */
 function createDropAnimation(targetClass, delayTime) {
     gsap.timeline({ repeat: -1, delay: delayTime })
-        // 1. Tezi se niche jao (Exit) aur halka sa stretch ho jao
         .to(targetClass, {
             y: 45,
             scaleY: 1.2,
@@ -260,12 +253,10 @@ function createDropAnimation(targetClass, delayTime) {
             ease: "power2.in",
             force3D: true
         })
-        // 2. Gayab hone ke baad turant upar top par set ho jao (Bina animation ke)
         .set(targetClass, {
             y: -45,
             force3D: true
         })
-        // 3. Upar se wapas original position par aao (Enter)
         .to(targetClass, {
             y: 0,
             scaleY: 1,
@@ -273,22 +264,15 @@ function createDropAnimation(targetClass, delayTime) {
             ease: "power2.out",
             force3D: true
         })
-        // 4. Agle loop se pehle thodi der pause (taki ajeeb na lage)
         .to(targetClass, {
             duration: 1.5
         });
 }
 createDropAnimation(".arrow-group._1", 0);
 createDropAnimation(".arrow-group._2", 0.15);
-
 /* <=== What define us section end ===> */
 
 /* <=== common button start ===> */
-/**
- * Shape Overlays Button Hover Animation
- * Reference: ykob / Codrops "Dynamic Shape Overlays with SVG"
- */
-
 class ShapeOverlays {
     constructor(container, options = {}) {
         this.container = container;
@@ -355,7 +339,6 @@ class ShapeOverlays {
         }
 
         this.tl.progress(0).clear();
-
 
         for (let a = 0; a < this.numPoints; a++) {
             this.pointsDelay[a] = Math.random() * this.delayPointsMax;
@@ -426,12 +409,9 @@ document.addEventListener("DOMContentLoaded", () => {
         new ShapeOverlays(btn);
     });
 });
-
 /* <=== common button end ===> */
 
-
 /* <=== location section map start ===> */
-
 const mapElement = document.getElementById('map');
 if (mapElement) {
     const initialZoom = window.innerWidth < 768 ? 13.5 : 14.5;
@@ -486,8 +466,7 @@ if (mapElement) {
         map.invalidateSize();
     }, 200);
 }
-
-
+/* <=== location section map end ===> */
 
 /* <=== marqe start ===> */
 document.addEventListener("DOMContentLoaded", () => {
@@ -514,10 +493,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 /* <=== marqe end ===> */
 
-
 /* <=== horizontal scroll start ===> */
 document.addEventListener("DOMContentLoaded", () => {
-    // Register ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
     const triggerElement = document.querySelector(".parellex-animation-section");
@@ -526,7 +503,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (triggerElement && container) {
         ScrollTrigger.matchMedia({
             "(min-width: 1024px)": function () {
-                // Calculate total horizontal scroll width (overflow width)
                 const getScrollAmount = () => {
                     let containerWidth = container.scrollWidth;
                     let visibleWidth = triggerElement.offsetWidth;
@@ -555,7 +531,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 /* <=== horizontal scroll end ===> */
 
-
 /* <=== plant wind sway start ===> */
 document.addEventListener("DOMContentLoaded", () => {
     const mainStem = document.querySelector(".wind-sway-main-stem");
@@ -573,34 +548,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!mainStem) return;
 
     function animatePlant(time) {
-        // Main stem sway (very gentle, base rotation)
-        const angleMain = Math.sin(time * 0.001) * 0.02; // ~1.1 degrees max
+        const angleMain = Math.sin(time * 0.001) * 0.02;
         const cosM = Math.cos(angleMain);
         const sinM = Math.sin(angleMain);
         mainStem.setAttribute("transform", `matrix(${4 * cosM}, ${4 * sinM}, ${-4 * sinM}, ${4 * cosM}, 376.229, 394.321)`);
 
-        // Branch 1 (top-left) - inherits stem sway + has its own phase
         const swayB1 = angleMain + Math.sin(time * 0.0014 + 0.5) * 0.035;
         const cos1 = Math.cos(swayB1); const sin1 = Math.sin(swayB1);
         branch1.setAttribute("transform", `matrix(${4 * cos1}, ${4 * sin1}, ${-4 * sin1}, ${4 * cos1}, 231.503, 214.985)`);
 
-        // Branch 2 (mid-right)
         const swayB2 = angleMain + Math.sin(time * 0.0012 + 1.2) * -0.03;
         const cos2 = Math.cos(swayB2); const sin2 = Math.sin(swayB2);
         branch2.setAttribute("transform", `matrix(${4 * cos2}, ${4 * sin2}, ${-4 * sin2}, ${4 * cos2}, 367.911, 446.595)`);
 
-        // Branch 3 (bottom-left)
         const swayB3 = angleMain + Math.sin(time * 0.0015 + 0.8) * 0.04;
         const cos3 = Math.cos(swayB3); const sin3 = Math.sin(swayB3);
         branch3.setAttribute("transform", `matrix(${4 * cos3}, ${4 * sin3}, ${-4 * sin3}, ${4 * cos3}, 229.048, 587.028)`);
 
-        // Branch 4 (bottom-right)
         const swayB4 = angleMain + Math.sin(time * 0.0011 + 2.0) * -0.032;
         const cos4 = Math.cos(swayB4); const sin4 = Math.sin(swayB4);
         branch4.setAttribute("transform", `matrix(${4 * cos4}, ${4 * sin4}, ${-4 * sin4}, ${4 * cos4}, 333.841, 557.984)`);
 
-        // Leaves (they inherit the branch sway they are attached to, plus flutter faster)
-        // Leaf 1 (on Branch 1) - Original: a=3.6926, b=-1.5377, c=1.5377, d=3.6926
         if (leaf1) {
             const l1 = swayB1 + Math.sin(time * 0.0028 + 0.2) * 0.08;
             const cL1 = Math.cos(l1); const sL1 = Math.sin(l1);
@@ -611,14 +579,12 @@ document.addEventListener("DOMContentLoaded", () => {
             leaf1.setAttribute("transform", `matrix(${a1}, ${b1}, ${c1}, ${d1}, 181.510, 257.075)`);
         }
 
-        // Leaf 2 (on Branch 2) - Original: a=4, b=0, c=0, d=4
         if (leaf2) {
             const l2 = swayB2 + Math.sin(time * 0.0024 + 1.0) * -0.06;
             const cL2 = Math.cos(l2); const sL2 = Math.sin(l2);
             leaf2.setAttribute("transform", `matrix(${4 * cL2}, ${4 * sL2}, ${-4 * sL2}, ${4 * cL2}, 458.525, 466.737)`);
         }
 
-        // Leaf 3 (on Branch 3) - Original: a=3.9890, b=-0.2962, c=0.2962, d=3.9890
         if (leaf3) {
             const l3 = swayB3 + Math.sin(time * 0.003 + 1.6) * 0.09;
             const cL3 = Math.cos(l3); const sL3 = Math.sin(l3);
@@ -629,14 +595,12 @@ document.addEventListener("DOMContentLoaded", () => {
             leaf3.setAttribute("transform", `matrix(${a3}, ${b3}, ${c3}, ${d3}, 179.624, 477.951)`);
         }
 
-        // Leaf 4 (on Branch 4) - Original: a=4, b=0, c=0, d=4
         if (leaf4) {
             const l4 = swayB4 + Math.sin(time * 0.0022 + 2.4) * -0.07;
             const cL4 = Math.cos(l4); const sL4 = Math.sin(l4);
             leaf4.setAttribute("transform", `matrix(${4 * cL4}, ${4 * sL4}, ${-4 * sL4}, ${4 * cL4}, 359.245, 655.233)`);
         }
 
-        // Leaf 5 (on Branch 1) - Original: a=3.99999, b=0.0076, c=-0.0076, d=3.99999
         if (leaf5) {
             const l5 = swayB1 + Math.sin(time * 0.0026 + 0.8) * 0.08;
             const cL5 = Math.cos(l5); const sL5 = Math.sin(l5);
@@ -654,32 +618,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 /* <=== plant wind sway end ===> */
 
-
 /* <=== social media swiper start ===> */
-
 document.addEventListener("DOMContentLoaded", () => {
     const swiperElement = document.querySelector(".unitsSwiper");
     if (swiperElement) {
-        const swiper = new Swiper(".unitsSwiper", {
+        new Swiper(".unitsSwiper", {
             slidesPerView: 2,
             spaceBetween: 15,
             grabCursor: true,
             loop: true,
-
+            observer: true,
+            observeParents: true,
             autoplay: {
                 delay: 2500,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
             },
-
             speed: 600,
-
             breakpoints: {
                 320: {
-                    slidesPerView: 1,
+                    slidesPerView: 1.2,
                 },
                 768: {
-                    slidesPerView: 2,
+                    slidesPerView: 2.5,
                 },
                 1024: {
                     slidesPerView: 3.5,
@@ -688,7 +649,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
 /* <=== social media swiper end ===> */
 
 /* <=== grid footer & side bar start ===> */
@@ -811,7 +771,6 @@ document.addEventListener("DOMContentLoaded", () => {
         new FooterGrid(footer);
     }
 
-    // Sidebar Submenu Logic
     const mainMenu = document.querySelector(".header-main-menu");
     if (mainMenu) {
         const parentLi = mainMenu.querySelector(".menu-item-has-children");
@@ -826,12 +785,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 subMenu.classList.add("open");
                 triggerLink.setAttribute("aria-current", "page");
 
-                // Stop lenis scroll if lenis exists
                 if (window.lenis) {
                     window.lenis.stop();
                 }
 
-                // GSAP stagger items fade in
                 const cards = subMenu.querySelectorAll("li:not(.submenu-back-item)");
                 gsap.fromTo(cards,
                     { opacity: 0, y: 30 },
@@ -844,7 +801,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 subMenu.classList.remove("open");
                 triggerLink.removeAttribute("aria-current");
 
-                // Resume lenis scroll
                 if (window.lenis) {
                     window.lenis.start();
                 }
@@ -868,16 +824,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
-/* <=== grid footer & side bar start ===> */
-
+/* <=== grid footer & side bar end ===> */
 
 /* <=== nea banner swiper start ===> */
-
 document.addEventListener("DOMContentLoaded", () => {
     const neaBannerEl = document.querySelector(".neaBannerSwiper");
 
     if (neaBannerEl) {
-        const neaBannerSwiper = new Swiper(".neaBannerSwiper", {
+        new Swiper(".neaBannerSwiper", {
             effect: "fade",
             fadeEffect: {
                 crossFade: true,
@@ -892,99 +846,137 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
 /* <=== nea banner swiper end ===> */
 
 /* <=== community living spaces swiper start ===> */
-
 document.addEventListener("DOMContentLoaded", () => {
-    const tabContents = document.querySelectorAll(".nea_booking-tab-content");
-    const buttons = document.querySelectorAll(".nea_booking-filter-button");
+    const bookingWrappers = document.querySelectorAll(".nea_booking-wrapper");
+    if (bookingWrappers.length === 0) return;
 
-    if (tabContents.length === 0) return;
+    bookingWrappers.forEach((wrapper) => {
+        const btnContainer = wrapper.querySelector(".nea_booking-wrapper-button");
+        const filterMain = wrapper.querySelector(".nea_booking_filter-main");
+        const buttons = wrapper.querySelectorAll(".nea_booking-filter-button");
+        const tabContents = wrapper.querySelectorAll(".nea_booking-tab-content");
 
-    const swipers = [];
+        if (!btnContainer || !filterMain || buttons.length === 0 || tabContents.length === 0) return;
 
-    // Initialize Swiper on each tab content container individually
-    tabContents.forEach((tab) => {
-        const swiperContainer = tab.querySelector('.js-slides-container');
-        const nextBtn = tab.querySelector('.js-nextBtn');
-        const prevBtn = tab.querySelector('.js-prevBtn');
+        const swipers = [];
 
-        if (swiperContainer) {
-            const swiperInstance = new Swiper(swiperContainer, {
-                slidesPerView: 1.5,
-                spaceBetween: 20,
-                observer: true,
-                observeParents: true,
-                navigation: {
-                    nextEl: nextBtn,
-                    prevEl: prevBtn,
-                },
-                breakpoints: {
-                    0: {
-                        slidesPerView: 1,
-                        spaceBetween: 10,
+        tabContents.forEach((tab) => {
+            const swiperContainer = tab.querySelector('.js-slides-container');
+            const nextBtn = tab.querySelector('.js-nextBtn');
+            const prevBtn = tab.querySelector('.js-prevBtn');
+
+            if (swiperContainer) {
+                const swiperInstance = new Swiper(swiperContainer, {
+                    slidesPerView: 1.5,
+                    spaceBetween: 20,
+                    observer: true,
+                    observeParents: true,
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn,
                     },
-                    901: {
-                        slidesPerView: 1.5,
-                        spaceBetween: 20,
+                    breakpoints: {
+                        0: {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                        },
+                        901: {
+                            slidesPerView: 1.5,
+                            spaceBetween: 20,
+                        }
                     }
+                });
+                swipers.push(swiperInstance);
+            } else {
+                swipers.push(null);
+            }
+        });
+
+        function switchTab(index, allowToggle = true) {
+            const isCurrentlyActive = buttons[index] && buttons[index].classList.contains("active");
+
+            if (allowToggle && isCurrentlyActive) {
+                buttons[index].classList.remove("active");
+                tabContents[index].classList.remove("active");
+                tabContents[index].style.display = "none";
+                return;
+            }
+
+            buttons.forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
                 }
             });
-            swipers.push(swiperInstance);
-        } else {
-            swipers.push(null);
-        }
-    });
 
-    // Function to handle tab changes
-    function switchTab(index) {
-        // Toggle active button state
-        buttons.forEach((btn, idx) => {
-            if (idx === index) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
+            tabContents.forEach((tab, idx) => {
+                if (idx === index) {
+                    tab.classList.add("active");
+                    tab.style.display = "block";
+                    if (swipers[idx]) {
+                        swipers[idx].update();
+                    }
+                } else {
+                    tab.classList.remove("active");
+                    tab.style.display = "none";
+                }
+            });
+        }
+
+        buttons.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                switchTab(index, true);
+            });
         });
 
-        // Toggle active tab content visibility
-        tabContents.forEach((tab, idx) => {
-            if (idx === index) {
-                tab.classList.add("active");
-                tab.style.display = "block";
-                // Update swiper calculations on tab switch
-                if (swipers[idx]) {
+        let isMobilePlaced = false;
+
+        function checkLayoutPlacement() {
+            const isMobile = window.innerWidth <= 1023;
+
+            if (isMobile && !isMobilePlaced) {
+                buttons.forEach((btn, idx) => {
+                    const tab = tabContents[idx];
+                    if (btn && tab) {
+                        btn.after(tab);
+                    }
+                });
+                isMobilePlaced = true;
+            } else if (!isMobile && isMobilePlaced) {
+                tabContents.forEach((tab) => {
+                    filterMain.appendChild(tab);
+                });
+                isMobilePlaced = false;
+            }
+
+            tabContents.forEach((tab, idx) => {
+                if (tab.classList.contains("active") && swipers[idx]) {
                     swipers[idx].update();
                 }
-            } else {
-                tab.classList.remove("active");
-                tab.style.display = "none";
-            }
-        });
-    }
-
-    // Attach click listeners to filter buttons
-    buttons.forEach((btn, index) => {
-        btn.addEventListener("click", () => {
-            switchTab(index);
-        });
-    });
-
-    // Handle smooth upgrades via upgrade buttons inside description text
-    document.addEventListener("click", (e) => {
-        if (e.target && e.target.classList.contains("js-nexttab-button")) {
-            const targetId = parseInt(e.target.getAttribute("data-id"), 10);
-            if (!isNaN(targetId) && targetId >= 0 && targetId < buttons.length) {
-                switchTab(targetId);
-                // Scroll layout smoothly to section if triggered from tab upgrade button
-                document.querySelector(".nea_booking").scrollIntoView({ behavior: "smooth" });
-            }
+            });
         }
+
+        checkLayoutPlacement();
+        window.addEventListener("resize", checkLayoutPlacement);
+
+        wrapper.addEventListener("click", (e) => {
+            const upgradeBtn = e.target.closest(".js-nexttab-button");
+            if (upgradeBtn) {
+                const targetId = parseInt(upgradeBtn.getAttribute("data-id"), 10);
+                if (!isNaN(targetId) && targetId >= 0 && targetId < buttons.length) {
+                    switchTab(targetId, false);
+                    if (buttons[targetId]) {
+                        buttons[targetId].scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                }
+            }
+        });
     });
 });
-
 /* <=== community living spaces swiper end ===> */
 
 /* <=== FAQs section dropdown start ===> */
@@ -1086,7 +1078,6 @@ try {
             });
         }
 
-        // Initialize Swiper.js Slider
         if (typeof Swiper !== 'undefined') {
             new Swiper('#spacesSlidesContainer', {
                 slidesPerView: 2,
@@ -1216,10 +1207,8 @@ if (document.readyState === 'loading') {
 }
 /* <=== Features Section end ===> */
 
-
 /* <=== SVG Movement Animation start ===> */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. FLOATING BOBA / BALLS CONFIG
     const balls = [
         { id: '#anim-ball-1', duration: 2.4, y: -6, x: 2, rot: 15, delay: 0.1 },
         { id: '#anim-ball-2', duration: 2.8, y: -8, x: -3, rot: -20, delay: 0.4 },
@@ -1235,7 +1224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     balls.forEach(b => {
         if (!document.querySelector(b.id)) return;
 
-        // Vertical bobbing
         gsap.to(b.id, {
             y: b.y,
             duration: b.duration,
@@ -1245,7 +1233,6 @@ document.addEventListener('DOMContentLoaded', () => {
             delay: b.delay
         });
 
-        // Horizontal drift
         gsap.to(b.id, {
             x: b.x,
             duration: b.duration * 1.3,
@@ -1255,7 +1242,6 @@ document.addEventListener('DOMContentLoaded', () => {
             delay: b.delay * 0.5
         });
 
-        // Micro rotation
         gsap.to(b.id, {
             rotation: b.rot,
             transformOrigin: "50% 50%",
@@ -1266,7 +1252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. STRAW NATURAL WOBBLE (Glass ke andar pivot hoke hilegi)
     if (document.querySelector('#anim-straw')) {
         gsap.set('#anim-straw', { transformOrigin: '50% 90%' });
 
@@ -1287,7 +1272,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. TEA BAG TAG & STRING SWAY (Pendulum Effect)
     if (document.querySelector('#anim-string')) {
         gsap.set('#anim-string', { transformOrigin: 'top center' });
         gsap.to('#anim-string', {
@@ -1307,11 +1291,10 @@ document.addEventListener('DOMContentLoaded', () => {
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: 0.15 // Natural physics lag
+            delay: 0.15
         });
     }
 
-    // 4. YELLOW LEMON / TAG ON GLASS RIM
     if (document.querySelector('#anim-yellow-tag')) {
         gsap.set('#anim-yellow-tag', { transformOrigin: 'bottom center' });
         gsap.to('#anim-yellow-tag', {
@@ -1323,7 +1306,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. CUP & LIQUID GENTLE BOBBING
     if (document.querySelector('#anim-cup')) {
         gsap.to('#anim-cup', {
             y: -2,
@@ -1351,7 +1333,6 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const addressCard = document.querySelector('.contact-info-address');
     if (addressCard) {
-        // Start from completely outside the parent container on the right (100% of its own width)
         gsap.from(addressCard, {
             xPercent: 100,
             duration: 1.5,
@@ -1369,17 +1350,14 @@ document.addEventListener('DOMContentLoaded', () => {
     inputs.forEach(input => {
         const wrapper = input.parentElement;
 
-        // Add active class if input is already filled (e.g. browser autofill)
         if (input.value.trim() !== "") {
             wrapper.classList.add('active');
         }
 
-        // Add active class on input focus
         input.addEventListener('focus', () => {
             wrapper.classList.add('active');
         });
 
-        // Remove active class on input blur if it's empty
         input.addEventListener('blur', () => {
             if (input.value.trim() === "") {
                 wrapper.classList.remove('active');
@@ -1433,7 +1411,6 @@ document.addEventListener("DOMContentLoaded", function () {
             tl.to(boxes0, { opacity: 0, y: -25, duration: 0.4, stagger: 0.1, ease: "power1.inOut" }, 0.7)
                 .set(cardGroups[0], { pointerEvents: 'none' }, 1.1)
 
-
                 .to(imgSlides[0], { opacity: 0, scale: 1.03, duration: 0.8, ease: "power1.inOut" }, 0.9)
                 .to(imgSlides[1], { opacity: 1, scale: 1, duration: 0.8, ease: "power1.inOut" }, 0.9)
 
@@ -1466,7 +1443,6 @@ document.addEventListener("DOMContentLoaded", function () {
         topBar = document.createElement("div");
         topBar.className = "mobile-header-top-bar";
 
-        // Clone logo from original .header-logo so logo is 100% visible on top left
         const originalLogo = header.querySelector(".header-logo");
         if (originalLogo) {
             const logoClone = originalLogo.cloneNode(true);
@@ -1474,14 +1450,18 @@ document.addEventListener("DOMContentLoaded", function () {
             topBar.appendChild(logoClone);
         }
 
-        // Add mobile right actions (Book button + Hamburger toggle button)
         const rightActions = document.createElement("div");
         rightActions.className = "mobile-header-right-actions";
 
         const bookBtn = document.createElement("a");
-        bookBtn.href = "#";
+        bookBtn.href = "javascript:void(0)";
         bookBtn.className = "mobile-top-book-btn";
         bookBtn.textContent = "Book your Unit";
+        bookBtn.addEventListener("click", function (e) {
+            if (window.openCustomSidebar) {
+                window.openCustomSidebar(e);
+            }
+        });
         rightActions.appendChild(bookBtn);
 
         const toggleBtn = document.createElement("button");
@@ -1492,7 +1472,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         topBar.appendChild(rightActions);
 
-        // Prepend topBar to header
         header.insertBefore(topBar, header.firstChild);
     }
 
@@ -1506,9 +1485,35 @@ document.addEventListener("DOMContentLoaded", function () {
         const menuLinks = header.querySelectorAll(".header-main-menu a, .header-footer-actions a");
         menuLinks.forEach(link => {
             link.addEventListener("click", function () {
+                if (link.closest(".menu-item-has-children") && (link.classList.contains("card-blue") || link.getAttribute("href") === "#")) {
+                    return;
+                }
                 header.classList.remove("menu-open");
             });
         });
+    }
+
+    try {
+        const rawPath = window.location.pathname.split("/").pop().toLowerCase();
+        const currentPath = (!rawPath || rawPath === "" || rawPath === "index.html") ? "index.html" : rawPath;
+
+        const navLinks = header.querySelectorAll(".header-main-menu a");
+        navLinks.forEach(link => {
+            const href = link.getAttribute("href");
+            if (!href || href === "#" || href.startsWith("javascript")) return;
+            const target = href.split("/").pop().toLowerCase();
+
+            if (target === currentPath) {
+                link.classList.add("active");
+                const parentLi = link.closest(".menu-item-has-children");
+                if (parentLi) {
+                    const topTrigger = parentLi.querySelector("a.card-blue");
+                    if (topTrigger) topTrigger.classList.add("active");
+                }
+            }
+        });
+    } catch (err) {
+        console.error("Active menu check error:", err);
     }
 });
 /* <=== Responsive Mobile Header Navigation Handler end ===> */
@@ -1526,24 +1531,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const progressNumber = whyDiffSection.querySelector('.diff-progress-text');
     const progressBar = whyDiffSection.querySelector('.diff-progress-bar');
-    const circumference = 2 * Math.PI * 19; // ~119.38
+    const circumference = 2 * Math.PI * 19;
     const totalCards = cards.length;
     const stackStep = window.innerWidth < 768 ? 16 : 28;
 
-    // Dynamically split card titles into characters for opacity reveal
     const allCardChars = Array.from(cards).map(card => {
         const titleEl = card.querySelector('.js-diff-split-text');
         if (!titleEl) return [];
 
         const words = titleEl.textContent.trim().split(/\s+/);
-        titleEl.innerHTML = words.map(w => 
+        titleEl.innerHTML = words.map(w =>
             `<span class="diff-word">${[...w].map(c => `<span class="diff-char" style="opacity: 0.22;">${c}</span>`).join('')}</span>`
         ).join(' ');
 
         return titleEl.querySelectorAll('.diff-char');
     });
 
-    // Initialize card positions & z-index
     cards.forEach((card, i) => {
         gsap.set(card, { zIndex: i + 1, yPercent: i === 0 ? 0 : 100 });
     });
@@ -1571,11 +1574,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Dynamic loop for all cards (scalable for 3, 4, 5, or more cards)
     cards.forEach((card, i) => {
         const startTime = i;
 
-        // Slide in card from below to stepped stack position
         if (i > 0) {
             tl.to(card, {
                 yPercent: 0,
@@ -1585,7 +1586,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }, startTime);
         }
 
-        // Stagger character opacity reveal (0.22 -> 1)
         if (allCardChars[i] && allCardChars[i].length > 0) {
             tl.to(allCardChars[i], {
                 opacity: 1,
@@ -1679,7 +1679,6 @@ function closeCustomSidebar(e) {
     }
 }
 
-// Expose to window immediately
 window.openCustomSidebar = openCustomSidebar;
 window.closeCustomSidebar = closeCustomSidebar;
 
