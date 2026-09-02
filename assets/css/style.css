@@ -9,20 +9,20 @@
     /* === BASE NEUTRALS === */
     --color-white: #ffffff;
     --color-black: #000000;
-    --color-cream: #f4e9e1;
+    --color-cream: #f6eee7;
 
     /* === BRAND COLORS === */
-    --color-orange: #ff5c38;
-    --color-yellow: #ffb200;
-    --color-red: #ea3737;
-    --color-purple: #ab54f7;
-    --color-purple-light: #c79dfc;
-    --color-purple-dark: #6c2fad;
-    --color-blue: #0072e3;
-    --color-blue-dark: #004e9b;
-    --color-blue-light: #16a6ff;
-    --color-green: #00a843;
-    --color-green-bright: #1be349;
+    --color-orange: #ff5028;
+    --color-yellow: #ffbd14;
+    --color-red: #f03636;
+    --color-purple: #9d4edd;
+    --color-purple-light: #cfa8ff;
+    --color-purple-dark: #641eb3;
+    --color-blue: #1677ff;
+    --color-blue-dark: #0a52b8;
+    --color-blue-light: #26b9ff;
+    --color-green: #04b54e;
+    --color-green-bright: #1ee054;
 
     /* === GRAYS === */
     --color-gray-100: #ebebeb;
@@ -465,8 +465,8 @@ var {
 }
 
 .preloader .logo {
-    width: 695px;
-    height: 253px;
+    width: 598px;
+    height: 245px;
     max-width: 90vw;
     height: auto;
     overflow: visible;
@@ -893,7 +893,7 @@ header .header-main-menu .submenu-back-item {
     width: 100%;
     height: calc(100dvh - 50px);
     border-radius: 40px;
-    background-image: url("https://units.gr/wp-content/uploads/2026/05/Lounge-Area.jpg");
+    background-image: url("../images/home-page-banner-section.png");
     background-size: cover;
     background-position: center;
     overflow: hidden;
@@ -4609,4 +4609,5 @@ svg.shape-overlays {
 .faqs-group-section .header-arrow {
     margin: 0 0 8px 0;
 }
+
 /* fsqs page main wrapper end */

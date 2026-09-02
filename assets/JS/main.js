@@ -9,17 +9,19 @@ gsap.set(".letters .char, .unique path", { opacity: 0, y: 15 });
 
 gsap.set(".house-path", {
     transformOrigin: "50% 50%",
-    x: -315,
-    y: -30,
-    scale: 5,
+    x: -276.5,
+    y: -39,
+    scale: 5
+});
+gsap.set(".house-path rect", {
     fill: "#007aff"
 });
 
-tl.to(".house-path", { fill: "#f78da7", duration: 0.35, ease: "power1.inOut" })
-    .to(".house-path", { fill: "#cf2e2e", duration: 0.35, ease: "power1.inOut" })
-    .to(".house-path", { fill: "#fcb900", duration: 0.35, ease: "power1.inOut" })
-    .to(".house-path", { fill: "#525ddc", duration: 0.35, ease: "power1.inOut" })
-    .to(".house-path", { fill: "#000000", duration: 0.35, ease: "power1.inOut" })
+tl.to(".house-path rect", { fill: "#f78da7", duration: 0.35, ease: "power1.inOut" })
+    .to(".house-path rect", { fill: "#cf2e2e", duration: 0.35, ease: "power1.inOut" })
+    .to(".house-path rect", { fill: "#fcb900", duration: 0.35, ease: "power1.inOut" })
+    .to(".house-path rect", { fill: "#525ddc", duration: 0.35, ease: "power1.inOut" })
+    .to(".house-path rect", { fill: "#000000", duration: 0.35, ease: "power1.inOut" })
     .to(".house-path", {
         x: 0,
         y: 0,
