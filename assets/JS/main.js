@@ -1735,3 +1735,57 @@ if (document.readyState === "loading") {
     initSidebarEvents();
 }
 /* <=== Custom Sidebar (Book your Unit) end ===> */
+
+/* <=== FAQs Page Category Navigation & Scroll Tracking start ===> */
+function initFaqCategoryNav() {
+    const faqFilterButtons = document.querySelectorAll('.faqs-items-list .faqs-item');
+    const faqSections = document.querySelectorAll('.faqs-group-section');
+
+    if (faqFilterButtons.length === 0 || faqSections.length === 0) return;
+
+    // Helper to get matching section for a button
+    function getSectionForButton(btn, index) {
+        const targetId = btn.getAttribute('data-target');
+        if (targetId) {
+            const el = document.getElementById(targetId);
+            if (el) return el;
+        }
+
+        const text = (btn.textContent || '').trim().toLowerCase();
+        if (text.includes('about')) return document.getElementById('faq-about') || faqSections[0];
+        if (text.includes('buying')) return document.getElementById('faq-buying') || faqSections[1];
+        if (text.includes('selling')) return document.getElementById('faq-selling') || faqSections[2];
+        if (text.includes('rental')) return document.getElementById('faq-rental') || faqSections[3];
+        if (text.includes('managing')) return document.getElementById('faq-managing') || faqSections[4];
+        if (text.includes('payment') || text.includes('prices')) return document.getElementById('faq-payment') || faqSections[5];
+        if (text.includes('other')) return document.getElementById('faq-other') || faqSections[6];
+        if (text.includes('contact')) return document.getElementById('faq-contact') || faqSections[7];
+
+        return faqSections[index] || null;
+    }
+
+    // Click to smooth scroll to section
+    faqFilterButtons.forEach((btn, idx) => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetEl = getSectionForButton(this, idx);
+
+            if (targetEl) {
+                const topOffset = window.innerWidth <= 1023 ? 90 : 30;
+                const elementTop = targetEl.getBoundingClientRect().top + window.pageYOffset - topOffset;
+
+                window.scrollTo({
+                    top: elementTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFaqCategoryNav);
+} else {
+    initFaqCategoryNav();
+}
+/* <=== FAQs Page Category Navigation & Scroll Tracking end ===> */

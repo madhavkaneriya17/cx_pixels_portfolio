@@ -4,6 +4,45 @@
     --font-alfabet: "Alfabet", "Arial";
 }
 
+:root {
+
+    /* === BASE NEUTRALS === */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-cream: #f4e9e1;
+
+    /* === BRAND COLORS === */
+    --color-orange: #ff5c38;
+    --color-yellow: #ffb200;
+    --color-red: #ea3737;
+    --color-purple: #ab54f7;
+    --color-purple-light: #c79dfc;
+    --color-purple-dark: #6c2fad;
+    --color-blue: #0072e3;
+    --color-blue-dark: #004e9b;
+    --color-blue-light: #16a6ff;
+    --color-green: #00a843;
+    --color-green-bright: #1be349;
+
+    /* === GRAYS === */
+    --color-gray-100: #ebebeb;
+    --color-gray-200: #e0e0e0;
+    --color-gray-500: #666666;
+    --color-gray-700: #444444;
+    --color-gray-800: #333333;
+    --color-gray-900: #222222;
+    --color-gray-950: #111111;
+
+    /* === TRANSPARENT / OVERLAYS === */
+    --color-black-10: rgba(0, 0, 0, 0.1);
+    --color-black-25: rgba(0, 0, 0, 0.25);
+    --color-black-50: rgba(0, 0, 0, 0.5);
+    --color-black-80: rgba(0, 0, 0, 0.8);
+
+    --color-white-20: rgba(255, 255, 255, 0.2);
+    --color-white-80: rgba(255, 255, 255, 0.8);
+}
+
 /* ── Alfabet Font Family ─────────────────────────────────── */
 @font-face {
     font-family: "Alfabet";
@@ -273,8 +312,8 @@
 }
 
 body {
-    background: #f4e9e1;
-    color: #000;
+    background: var(--color-cream);
+    color: var(--color-black);
     font-family: "Aeonik Pro", arial;
     font-style: normal;
     font-weight: 400;
@@ -360,7 +399,7 @@ var {
     font-style: normal;
     font-weight: 850;
     line-height: 100%;
-    color: #000;
+    color: var(--color-black);
 }
 
 .common-f14-heading {
@@ -369,7 +408,7 @@ var {
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
-    color: #000;
+    color: var(--color-black);
 }
 
 .mrt-30 {
@@ -385,23 +424,23 @@ var {
 }
 
 .header-blue {
-    background: #0072e3;
+    background: var(--color-blue);
 }
 
 .header-whight {
-    background: #fff;
+    background: var(--color-white);
 }
 
 .header-orange {
-    background: #ff5c38 !important;
+    background: var(--color-orange) !important;
 }
 
 .header-orange {
-    background: #ffb200;
+    background: var(--color-yellow);
 }
 
 .bg-orange {
-    background-color: #ff5c38;
+    background-color: var(--color-orange);
 }
 
 .mrb-30 {
@@ -418,7 +457,7 @@ var {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: var(--color-white);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -439,8 +478,8 @@ var {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #0072E3;
-    color: #ffffff;
+    background-color: var(--color-blue);
+    color: var(--color-white);
 }
 
 .site-content h1 {
@@ -520,64 +559,64 @@ ul.header-main-menu>li a {
 }
 
 .card-blue {
-    background-color: #0072e3;
-    color: #000;
+    background-color: var(--color-blue);
+    color: var(--color-black);
 }
 
 .card-yellow {
-    background-color: #ffb400;
-    color: #000;
+    background-color: var(--color-yellow);
+    color: var(--color-black);
 }
 
 .card-orange {
-    background-color: #ff5f00;
-    color: #000;
+    background-color: var(--color-orange);
+    color: var(--color-black);
 }
 
 .card-green {
-    background-color: #00a843;
-    color: #000;
+    background-color: var(--color-green);
+    color: var(--color-black);
 }
 
 .card-purple {
-    background-color: #c79dfc;
-    color: #000;
+    background-color: var(--color-purple);
+    color: var(--color-black);
 }
 
 /* Active Navigation Card Styles (Desktop & Mobile) */
-ul.header-main-menu > li a.active,
-ul.header-main-menu > li.active > a {
+ul.header-main-menu>li a.active,
+ul.header-main-menu>li.active>a {
     background-color: transparent !important;
     background: transparent !important;
-    border: 1px solid #000 !important;
+    border: 1px solid var(--color-black) !important;
     border-radius: 12px;
-    color: #000000 !important;
+    color: var(--color-black) !important;
 }
 
-ul.header-main-menu > li a.active .header-num-arrow span,
-ul.header-main-menu > li a.active .header-content,
-ul.header-main-menu > li.active > a .header-num-arrow span,
-ul.header-main-menu > li.active > a .header-content {
-    color: #000000 !important;
+ul.header-main-menu>li a.active .header-num-arrow span,
+ul.header-main-menu>li a.active .header-content,
+ul.header-main-menu>li.active>a .header-num-arrow span,
+ul.header-main-menu>li.active>a .header-content {
+    color: var(--color-black) !important;
 }
 
-ul.header-main-menu > li a.active .header-num-arrow svg,
-ul.header-main-menu > li.active > a .header-num-arrow svg {
-    color: #000000 !important;
-    fill: #000000 !important;
+ul.header-main-menu>li a.active .header-num-arrow svg,
+ul.header-main-menu>li.active>a .header-num-arrow svg {
+    color: var(--color-black) !important;
+    fill: var(--color-black) !important;
 }
 
-ul.header-main-menu > li a.active .header-num-arrow svg path,
-ul.header-main-menu > li.active > a .header-num-arrow svg path {
-    fill: #000000 !important;
+ul.header-main-menu>li a.active .header-num-arrow svg path,
+ul.header-main-menu>li.active>a .header-num-arrow svg path {
+    fill: var(--color-black) !important;
 }
 
 /* Active Submenu Card */
-header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active {
+header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card.active {
     background: transparent !important;
-    border: 1px solid #000 !important;
+    border: 1px solid var(--color-black) !important;
     border-radius: 12px;
-    color: #000000 !important;
+    color: var(--color-black) !important;
 }
 
 .card-book {
@@ -639,8 +678,8 @@ header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active
 
 
 .lang-selector {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-black);
+    color: var(--color-white);
     border-radius: 30px;
     display: flex;
     justify-content: space-between;
@@ -655,8 +694,8 @@ header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active
 
 
 .social-capsule {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-black);
+    color: var(--color-white);
     border-radius: 30px;
     display: flex;
     justify-content: space-between;
@@ -667,7 +706,7 @@ header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active
 }
 
 .social-capsule a {
-    color: #fff;
+    color: var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -686,12 +725,12 @@ header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active
 
 
 ul.header-main-menu>li:hover .header-content {
-    color: #fff;
+    color: var(--color-white);
     transition: color 0.4s cubic-bezier(.19, 1, .22, 1);
 }
 
 ul.header-main-menu>li:hover .header-num-arrow span {
-    color: #fff;
+    color: var(--color-white);
     transition: color 0.4s cubic-bezier(.19, 1, .22, 1);
 }
 
@@ -701,7 +740,7 @@ ul.header-main-menu>li:hover .header-num-arrow svg {
 }
 
 ul.header-main-menu>li:hover .header-num-arrow svg path {
-    fill: #fff;
+    fill: var(--color-white);
     transition: fill 0.4s cubic-bezier(.19, 1, .22, 1);
 }
 
@@ -726,7 +765,7 @@ header .header-main-menu>li ul.sub-menu {
 
 /* Background panel for sub-menu */
 header .header-main-menu>li ul.sub-menu::after {
-    background: #f4e9e1;
+    background: var(--color-cream);
     content: "";
     display: block;
     height: 100vh;
@@ -738,7 +777,7 @@ header .header-main-menu>li ul.sub-menu::after {
     width: clamp(320px, 20.833vw + 10px, 20.833vw + 10px);
     z-index: -10;
     pointer-events: none;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid var(--color-black-10);
 }
 
 /* Open state for submenu */
@@ -753,7 +792,7 @@ header .header-main-menu>li ul.sub-menu.open::after {
 
 /* Blocker / Overlay element to close submenu when clicking outside */
 header .header-main-menu>li .blocker {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--color-black-25);
     display: block;
     height: 100vh;
     left: 0;
@@ -777,9 +816,9 @@ header .header-main-menu>li ul.sub-menu li.submenu-section-header {
 }
 
 header .header-main-menu>li ul.sub-menu li.submenu-section-header .section-label {
-    background: #000;
+    background: var(--color-black);
     border-radius: 50px;
-    color: #fff;
+    color: var(--color-white);
     display: inline-block;
     padding: 6px 16px;
     font-weight: 700;
@@ -791,8 +830,8 @@ header .header-main-menu>li ul.sub-menu li.submenu-section-header .section-label
 
 /* Submenu white unit cards */
 header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card {
-    background: #fff;
-    border: 1px solid #fff;
+    background: var(--color-white);
+    border: 1px solid var(--color-white);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -802,7 +841,7 @@ header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card {
     transition: all 0.5s cubic-bezier(.19, 1, .22, 1);
     width: clamp(140px, 10vw, 180px);
     text-decoration: none;
-    color: #000;
+    color: var(--color-black);
 }
 
 header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card .sub-card-top {
@@ -828,7 +867,7 @@ header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card .sub-car
 
 header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card:hover {
     background: transparent;
-    border-color: #000;
+    border-color: var(--color-black);
 }
 
 header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card:hover .sub-card-top svg {
@@ -864,7 +903,7 @@ header .header-main-menu .submenu-back-item {
     align-items: center;
     text-align: center;
     padding: 40px;
-    color: #fff;
+    color: var(--color-white);
     margin-bottom: clamp(10px, 1.563vw, 30px);
 }
 
@@ -875,7 +914,7 @@ header .header-main-menu .submenu-back-item {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.5) 100%);
+    background: linear-gradient(180deg, var(--color-black-25) 0%, var(--color-black-50) 100%);
     z-index: 1;
 }
 
@@ -928,8 +967,8 @@ header .header-main-menu .submenu-back-item {
     justify-content: center;
     gap: 12px;
     padding: 18px 36px;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-black);
+    color: var(--color-white);
     border: none;
     border-radius: 50px;
     font-family: "Aeonik Pro", sans-serif;
@@ -939,7 +978,7 @@ header .header-main-menu .submenu-back-item {
     overflow: hidden;
     text-decoration: none;
     transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px var(--color-black-10);
 }
 
 .cta-button span,
@@ -967,11 +1006,11 @@ svg.shape-overlays {
 }
 
 .cta-button.cta-button-colour-blue {
-    background-color: #004e9b;
+    background-color: var(--color-blue-dark);
 }
 
 .cta-button.cta-button-colour-black {
-    background-color: #000000;
+    background-color: var(--color-black);
 }
 
 .cta-button-extra-padding {
@@ -988,15 +1027,15 @@ svg.shape-overlays {
 
 .marquee.blue-marquee-bg {
     margin-top: 0;
-    background: #0072e3;
+    background: var(--color-blue);
 }
 
 .marquee.purple-marquee-bg {
-    background: #6c2fad;
+    background: var(--color-purple-dark);
 }
 
 .blue-marquee-bg .marquee-content span {
-    color: #00d084;
+    color: var(--color-green);
 }
 
 .threed-interactive {
@@ -1008,7 +1047,7 @@ svg.shape-overlays {
 }
 
 .threed-interactive-left {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     display: flex;
     flex-direction: column;
@@ -1016,8 +1055,8 @@ svg.shape-overlays {
 }
 
 .side-top-heading {
-    color: #000;
-    border: 1px solid #000;
+    color: var(--color-black);
+    border: 1px solid var(--color-black);
     border-radius: 100px;
     padding: 0.521vw 1.563vw;
 }
@@ -1070,7 +1109,7 @@ svg.shape-overlays {
 }
 
 .threed-interactive-right {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     min-height: 350px;
     overflow: hidden;
@@ -1098,8 +1137,8 @@ svg.shape-overlays {
     left: 0;
     pointer-events: none;
     z-index: 100;
-    background: #000000;
-    color: #ffffff;
+    background: var(--color-black);
+    color: var(--color-white);
     padding: 12px 24px;
     border-radius: 9999px;
     font-size: 14px;
@@ -1116,7 +1155,7 @@ svg.shape-overlays {
 }
 
 .press-btn.active {
-    background: #e73434;
+    background: var(--color-red);
     transform: translate(-50%, -50%) scale(1.1);
 }
 
@@ -1140,13 +1179,13 @@ svg.shape-overlays {
     border-radius: 20px;
     margin: clamp(10px, 1.563vw, 30px) 0;
     padding: clamp(24px, 1.563vw, 1.563vw) clamp(24px, 2.083vw, 2.083vw);
-    color: #ffffff;
+    color: var(--color-white);
     font-family: sans-serif;
     font-size: 20px;
 }
 
 .header-arrow span {
-    color: #000;
+    color: var(--color-black);
     font-size: clamp(28px, 2.292vw, 2.292vw);
     font-style: normal;
     font-weight: 850;
@@ -1177,7 +1216,7 @@ svg.shape-overlays {
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     padding: clamp(20px, 3.646vw, 3.646vw) clamp(20px, 2.083vw, 2.083vw) clamp(20px, 3.125vw, 3.125vw);
     text-align: center;
-    background: #0072e3;
+    background: var(--color-blue);
     width: calc(33.33% - 17px);
 }
 
@@ -1232,7 +1271,7 @@ svg.shape-overlays {
     flex-direction: column;
     min-height: 380px;
     padding: 2.083vw;
-    background: #ea3737;
+    background: var(--color-red);
 }
 
 /* community leaving end */
@@ -1252,11 +1291,11 @@ svg.shape-overlays {
     display: flex;
     flex-direction: column;
     padding: 2.083vw;
-    background: #ffb200;
+    background: var(--color-yellow);
 }
 
 .location-section-right {
-    background: #ffb200;
+    background: var(--color-yellow);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     overflow: hidden;
 }
@@ -1280,13 +1319,13 @@ svg.shape-overlays {
 
 
 .location-left-lable-white {
-    background: #f4e9e1;
-    color: rgba(0, 0, 0, .5);
+    background: var(--color-cream);
+    color: var(--color-black-50);
 }
 
 .location-left-lable-red {
-    background: #ff5c38;
-    color: #000;
+    background: var(--color-orange);
+    color: var(--color-black);
 }
 
 .location-left-lable-white,
@@ -1304,7 +1343,7 @@ svg.shape-overlays {
     height: 100%;
     width: 100%;
     border-radius: inherit;
-    background-color: #ffb200;
+    background-color: var(--color-yellow);
 }
 
 #map,
@@ -1324,15 +1363,15 @@ svg.shape-overlays {
 }
 
 .units-marker {
-    background-color: #ff4d4d;
-    color: #ffffff;
+    background-color: var(--color-red);
+    color: var(--color-white);
     padding: 6px 14px;
     border-radius: 14px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 13px;
     font-weight: 700;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    border: 1px solid #d93838;
+    box-shadow: 0 3px 8px var(--color-black-25);
+    border: 1px solid var(--color-red);
     white-space: nowrap;
     display: inline-block;
     user-select: none;
@@ -1366,7 +1405,7 @@ svg.shape-overlays {
     overflow: hidden;
     padding: 11px 0;
     position: relative;
-    background: #ea3737;
+    background: var(--color-red);
     align-items: center;
     white-space: nowrap;
 }
@@ -1381,13 +1420,13 @@ svg.shape-overlays {
 }
 
 .marquee-content span {
-    color: #ffcc00;
+    color: var(--color-yellow);
     font-family: "Aeonik Pro", Arial, sans-serif;
     font-size: 20px;
 }
 
 .marquee-purple-content span {
-    color: #ea3737;
+    color: var(--color-red);
 }
 
 .marquee-content .icon-diamond {
@@ -1426,7 +1465,7 @@ svg.shape-overlays {
     flex-direction: column;
     padding: 2.083vw;
     width: 29.688vw;
-    background: #ff5c38;
+    background: var(--color-orange);
     box-sizing: border-box;
 }
 
@@ -1478,31 +1517,31 @@ svg.shape-overlays {
     display: flex;
     flex-direction: column;
     padding: clamp(15px, 1.4vw, 1.6vw) clamp(20px, 2.083vw, 2.083vw);
-    color: #000;
+    color: var(--color-black);
 }
 
 .card-purple-bg {
-    background: #c5b4e3;
+    background: var(--color-purple-light);
 }
 
 .card-dark-purple-bg {
-    background: #ab54f7;
+    background: var(--color-purple);
 }
 
 .card-orange-bg {
-    background: #ff8e0a;
+    background: var(--color-orange);
 }
 
 .card-yellow-bg {
-    background: #ffdb08;
+    background: var(--color-yellow);
 }
 
 .card-green-bg {
-    background: #1be349;
+    background: var(--color-green-bright);
 }
 
 .card-light-blue-bg {
-    background: #16A6FF;
+    background: var(--color-blue-light);
 }
 
 /* Height distribution inside columns */
@@ -1547,7 +1586,7 @@ svg.shape-overlays {
     font-weight: 500;
     margin-top: 4px;
     margin-bottom: 0;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--color-black-50);
 }
 
 .card-list {
@@ -1561,7 +1600,7 @@ svg.shape-overlays {
 }
 
 .card-list li {
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 1px solid var(--color-black-10);
     padding: clamp(4px, 0.4vw, 7px) 0;
     font-family: "Aeonik Pro", Arial, sans-serif;
     font-size: clamp(11px, 0.885vw, 0.885vw);
@@ -1624,7 +1663,7 @@ svg.shape-overlays {
     justify-content: space-between;
     padding: 2.083vw;
     width: 18.958vw;
-    background: #ab54f7;
+    background: var(--color-purple);
 }
 
 .socialmedia_section-right-container {
@@ -1656,7 +1695,7 @@ svg.shape-overlays {
     position: absolute;
     top: 20px;
     left: 20px;
-    background-color: #0000005b;
+    background-color: var(--color-black-25);
     padding: 3px;
     border-radius: 5px;
     display: flex;
@@ -1665,7 +1704,7 @@ svg.shape-overlays {
 .icon-pin svg {
     height: 25px;
     width: 25px;
-    fill: #fff;
+    fill: var(--color-white);
 }
 
 /* === socialmedia section end === */
@@ -1687,8 +1726,8 @@ svg.shape-overlays {
     padding: clamp(20px, 1.771vw, 34px) clamp(20px, 5.469vw, 105px);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     cursor: pointer;
-    background: #ea3737;
-    color: #000;
+    background: var(--color-red);
+    color: var(--color-black);
     font-size: clamp(22px, 1.771vw, 1.771vw);
     font-style: normal;
     font-weight: 800;
@@ -1705,7 +1744,7 @@ svg.shape-overlays {
 }
 
 .footer-input-wrapper input {
-    background: #FFB200;
+    background: var(--color-yellow);
     padding: clamp(24px, 1.823vw, 35px) clamp(20px, 5.469vw, 105px);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     cursor: pointer;
@@ -1722,11 +1761,11 @@ svg.shape-overlays {
 
 .footer-input-wrapper input:focus,
 .footer-input-wrapper input:active {
-    background: #ffd902;
+    background: var(--color-yellow);
 }
 
 .footer-input-wrapper input::placeholder {
-    color: #000;
+    color: var(--color-black);
     opacity: 1;
 }
 
@@ -1751,7 +1790,7 @@ svg.shape-overlays {
 }
 
 .footer-bottom-wrapper-top-wrapper .grid {
-    border-top: 1px solid #000;
+    border-top: 1px solid var(--color-black);
     height: 100%;
     left: 0;
     position: absolute;
@@ -1761,8 +1800,8 @@ svg.shape-overlays {
 }
 
 .footer-bottom-wrapper-top-wrapper .grid div {
-    border-left: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-left: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--color-black);
     box-sizing: border-box;
     transition: background-color 0.15s ease-out;
 }
@@ -1797,7 +1836,7 @@ svg.shape-overlays {
 }
 
 .footer-credits {
-    color: #000;
+    color: var(--color-black);
 }
 
 .footer-copyright {
@@ -1807,11 +1846,11 @@ svg.shape-overlays {
 
 .footer-designer {
     font-size: 14px;
-    color: #333;
+    color: var(--color-gray-800);
 }
 
 .footer-designer a {
-    color: #000;
+    color: var(--color-black);
     text-decoration: underline;
     font-weight: 600;
 }
@@ -1827,19 +1866,19 @@ svg.shape-overlays {
 }
 
 .footer_policies-menu a {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: 100px;
     display: block;
     padding: 7px 12px;
-    color: #000;
+    color: var(--color-black);
     text-decoration: none;
     font-size: 14px;
     transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .footer_policies-menu a:hover {
-    background: #000;
-    color: #fff;
+    background: var(--color-black);
+    color: var(--color-white);
 }
 
 @media only screen and (max-width: 1023px) {
@@ -1870,7 +1909,7 @@ svg.shape-overlays {
 
 
 .nea_politeia_banner-left {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     height: 100%;
 }
@@ -1945,11 +1984,11 @@ svg.shape-overlays {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid var(--color-white-20);
+    background: var(--color-white-20);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    color: #fff;
+    color: var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1959,8 +1998,8 @@ svg.shape-overlays {
 
 .nea-btn-prev:hover,
 .nea-btn-next:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.8);
+    background: var(--color-white-20);
+    border-color: var(--color-white-80);
     transform: scale(1.07);
 }
 
@@ -1982,7 +2021,7 @@ svg.shape-overlays {
     font-family: var(--font-alfabet);
     font-weight: 300;
     font-size: clamp(12px, 0.938vw, 0.938vw);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-white-80);
     letter-spacing: 0.05em;
     min-width: 54px;
     justify-content: center;
@@ -1990,7 +2029,7 @@ svg.shape-overlays {
 
 .nea-nav-current {
     font-weight: 600;
-    color: #fff;
+    color: var(--color-white);
     transition: opacity 0.3s ease;
 }
 
@@ -2016,7 +2055,7 @@ svg.shape-overlays {
     flex-direction: column;
     grid-row: 1/-1;
     padding: 2.083vw;
-    background: #ffb200;
+    background: var(--color-yellow);
 }
 
 .nea_politeia_location-left-top {
@@ -2030,7 +2069,7 @@ svg.shape-overlays {
     gap: 0 15px;
     grid-template-columns: auto 1fr;
     margin-left: auto;
-    color: #000;
+    color: var(--color-black);
 }
 
 .nea_politeia_location-left-top-right p:first-child {
@@ -2067,7 +2106,7 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-    color: #000;
+    color: var(--color-black);
 }
 
 .nea-location-list {
@@ -2082,7 +2121,7 @@ svg.shape-overlays {
     border-radius: 10px;
     gap: 10px;
     padding: clamp(10px, .833vw, .833vw) clamp(10px, 1.042vw, 1.042vw);
-    background: #ff5c38;
+    background: var(--color-orange);
     display: flex;
 }
 
@@ -2093,7 +2132,7 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 850;
     line-height: 100%;
-    color: #000;
+    color: var(--color-black);
     display: block;
 }
 
@@ -2103,7 +2142,7 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-    color: #000;
+    color: var(--color-black);
 }
 
 .nea-location-right-map {
@@ -2129,7 +2168,7 @@ svg.shape-overlays {
 /* === nea politeia booking section start === */
 
 .nea_booking {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     padding: clamp(30px, 2.604vw, 2.604vw);
 }
@@ -2151,11 +2190,11 @@ svg.shape-overlays {
 }
 
 .nea_booking-filter-button {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: 5.208vw;
     padding: 15px 2.083vw;
     cursor: pointer;
-    color: #000;
+    color: var(--color-black);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2165,8 +2204,8 @@ svg.shape-overlays {
 
 .nea_booking-filter-button:hover,
 .nea_booking-filter-button.active {
-    background: #000;
-    color: #fff;
+    background: var(--color-black);
+    color: var(--color-white);
 }
 
 .nea_booking-filter-button-right svg {
@@ -2250,9 +2289,9 @@ svg.shape-overlays {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--color-black-25);
     backdrop-filter: blur(8px);
-    color: #ffffff;
+    color: var(--color-white);
     padding: 8px 18px;
     border-radius: 20px;
     font-size: 13px;
@@ -2271,7 +2310,7 @@ svg.shape-overlays {
     z-index: 20;
     padding: 16px 8px;
     border-radius: 30px 0 0 30px;
-    background-color: #0052a5;
+    background-color: var(--color-blue-dark);
     width: 56px;
 }
 
@@ -2280,7 +2319,7 @@ svg.shape-overlays {
     height: 40px;
     border: none;
     background: transparent;
-    color: #ffffff;
+    color: var(--color-white);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2291,7 +2330,7 @@ svg.shape-overlays {
 .nav-divider {
     width: 20px;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--color-white-20);
     margin: 8px 0;
 }
 
@@ -2307,7 +2346,7 @@ svg.shape-overlays {
 .nea_booking-pane-wrap {
     margin-top: 60px;
     width: 100%;
-    color: #000000;
+    color: var(--color-black);
 }
 
 .nea_booking-top-wrap {
@@ -2319,7 +2358,7 @@ svg.shape-overlays {
 
 .nea_booking-pane-wrap .nea_booking-label {
     display: inline-block;
-    border: 1.5px solid #000000;
+    border: 1.5px solid var(--color-black);
     border-radius: 24px;
     padding: 8px 24px;
     font-family: var(--font-aeonik);
@@ -2332,7 +2371,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik);
     font-size: clamp(14px, 1.042vw, 1.042vw);
     font-weight: 500;
-    border: 1.5px solid #000000;
+    border: 1.5px solid var(--color-black);
     border-radius: 30px;
     padding: 8px 28px;
     display: inline-flex;
@@ -2348,7 +2387,7 @@ svg.shape-overlays {
 }
 
 .nea_booking-pane-wrap .nea_booking-info-wrap {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--color-black);
     display: grid;
     gap: 20px 8.333vw;
     grid-template-columns: 1fr clamp(210px, 14.063vw, 14.063vw);
@@ -2381,7 +2420,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik);
     font-size: 14px;
     line-height: 1.2;
-    color: #111111;
+    color: var(--color-gray-950);
     margin-top: 20px;
 }
 
@@ -2406,7 +2445,7 @@ svg.shape-overlays {
 }
 
 .nea_booking-pane-wrap .nea_booking-rent-text {
-    background-color: #ffb200;
+    background-color: var(--color-yellow);
     border-radius: 24px;
     padding: 30px 40px 30px 30px;
     position: relative;
@@ -2437,7 +2476,7 @@ svg.shape-overlays {
     gap: 20px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: 40px;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--color-black);
     padding-bottom: 40px;
 }
 
@@ -2465,7 +2504,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik);
     font-size: 14px;
     line-height: 1.6;
-    color: #444444;
+    color: var(--color-gray-700);
     margin-top: 40px;
 }
 
@@ -2476,7 +2515,7 @@ svg.shape-overlays {
 
 .nea_booking-pane-wrap .info-note {
     font-style: italic;
-    color: #666666;
+    color: var(--color-gray-500);
 }
 
 @media (max-width: 900px) {
@@ -2516,7 +2555,7 @@ svg.shape-overlays {
 }
 
 .faq-dropdown {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: 20px;
     overflow: hidden;
     transition: background-color 0.5s ease, border-color 0.3s ease;
@@ -2541,7 +2580,7 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-    color: #004e9b;
+    color: var(--color-blue-dark);
     display: block;
 }
 
@@ -2566,7 +2605,7 @@ svg.shape-overlays {
 .faq-dropdown svg {
     width: 40px;
     height: 40px;
-    stroke: #000000;
+    stroke: var(--color-black);
     stroke-width: 2.5;
     stroke-linecap: round;
     fill: none;
@@ -2590,7 +2629,7 @@ svg.shape-overlays {
 }
 
 .faq-dropdown:hover {
-    background-color: #ffffff;
+    background-color: var(--color-white);
     border-color: transparent;
 }
 
@@ -2599,7 +2638,7 @@ svg.shape-overlays {
 /* === community spaces section start === */
 .spaces-slider-card {
     width: 100%;
-    background-color: #0052a5;
+    background-color: var(--color-blue-dark);
     border-radius: 32px;
     padding: 40px;
     display: flex;
@@ -2610,7 +2649,7 @@ svg.shape-overlays {
 
 .spaces-info-section {
     flex: 0 0 280px;
-    color: #ffffff;
+    color: var(--color-white);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2630,13 +2669,13 @@ svg.shape-overlays {
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
-    color: #e0e0e0;
+    color: var(--color-gray-200);
 }
 
 .spaces-btn-360 {
     align-self: flex-start;
-    background-color: #c499f8;
-    color: #111111;
+    background-color: var(--color-purple-light);
+    color: var(--color-gray-950);
     border: none;
     padding: 12px 24px;
     border-radius: 24px;
@@ -2679,7 +2718,7 @@ svg.shape-overlays {
     position: absolute;
     width: 64px;
     height: 64px;
-    background-color: #ff5500;
+    background-color: var(--color-orange);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -2688,14 +2727,14 @@ svg.shape-overlays {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.5);
     z-index: 10;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px var(--color-black-25);
 }
 
 .spaces-eye-cursor svg {
     width: 32px;
     height: 32px;
     fill: none;
-    stroke: #ffffff;
+    stroke: var(--color-white);
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -2705,9 +2744,9 @@ svg.shape-overlays {
     position: absolute;
     top: clamp(15px, 1.563vw, 30px);
     right: clamp(15px, 1.563vw, 30px);
-    background: radial-gradient(ellipse at center, hsla(0, 0%, 100%, .01), rgba(0, 0, 0, .5));
+    background: radial-gradient(ellipse at center, var(--color-white-20), var(--color-black-50));
     backdrop-filter: blur(8px);
-    color: #ffffff;
+    color: var(--color-white);
     padding: clamp(12px, .885vw, 17px) clamp(15px, 1.563vw, 30px);
     border-radius: 100px;
     font-size: 13px;
@@ -2726,7 +2765,7 @@ svg.shape-overlays {
     z-index: 20;
     padding: 16px 8px;
     border-radius: 30px 0 0 30px;
-    background-color: #0052a5;
+    background-color: var(--color-blue-dark);
     width: 56px;
 }
 
@@ -2735,7 +2774,7 @@ svg.shape-overlays {
     height: 40px;
     border: none;
     background: transparent;
-    color: #ffffff;
+    color: var(--color-white);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2746,7 +2785,7 @@ svg.shape-overlays {
 .spaces-nav-divider {
     width: 20px;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--color-white-20);
     margin: 8px 0;
 }
 
@@ -2762,7 +2801,7 @@ svg.shape-overlays {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #f3ece1;
+    background-color: var(--color-cream);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2791,7 +2830,7 @@ svg.shape-overlays {
     max-height: 100vh;
     object-fit: contain;
     border-radius: 4px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px var(--color-black-10);
 }
 
 .spaces-lightbox-close {
@@ -2803,7 +2842,7 @@ svg.shape-overlays {
     background: transparent;
     border: none;
     outline: none;
-    color: #333333;
+    color: var(--color-gray-800);
     font-size: 28px;
     display: flex;
     justify-content: center;
@@ -2826,7 +2865,7 @@ svg.shape-overlays {
     background: transparent;
     border: none;
     outline: none;
-    color: #333333;
+    color: var(--color-gray-800);
     font-size: 24px;
     display: flex;
     justify-content: center;
@@ -2883,18 +2922,18 @@ svg.shape-overlays {
 }
 
 .features-card.yellow {
-    background-color: #FFDE00;
-    color: #000;
+    background-color: var(--color-yellow);
+    color: var(--color-black);
 }
 
 .features-card.green {
-    background-color: #10DC4B;
-    color: #000;
+    background-color: var(--color-green-bright);
+    color: var(--color-black);
 }
 
 .features-card.blue {
-    background-color: #1AA1FF;
-    color: #000;
+    background-color: var(--color-blue-light);
+    color: var(--color-black);
 }
 
 .features-card-header {
@@ -2908,8 +2947,8 @@ svg.shape-overlays {
     height: 32px;
     border-radius: 50%;
     background-color: transparent;
-    border: 1px solid #000;
-    color: #000;
+    border: 1px solid var(--color-black);
+    color: var(--color-black);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2920,9 +2959,9 @@ svg.shape-overlays {
 }
 
 .features-col.active .features-badge {
-    background-color: #000;
-    border-color: #000;
-    color: #fff;
+    background-color: var(--color-black);
+    border-color: var(--color-black);
+    color: var(--color-white);
 }
 
 .features-card-header h3 {
@@ -2964,7 +3003,7 @@ svg.shape-overlays {
 
 .features-card-content-inner li {
 
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid var(--color-black-50);
     font-family: var(--font-aeonik);
     font-size: clamp(14px, 1.042vw, 1.042vw);
     font-style: normal;
@@ -3025,7 +3064,7 @@ svg.shape-overlays {
 }
 
 .members-union-right {
-    background: #ea3737;
+    background: var(--color-red);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     height: 100%;
 }
@@ -3050,7 +3089,7 @@ svg.shape-overlays {
     font-weight: 700;
     line-height: 120%;
     margin-top: 10px;
-    color: #000;
+    color: var(--color-black);
 }
 
 .card-text-header.members-leving-column-header {
@@ -3061,19 +3100,19 @@ svg.shape-overlays {
 
 /* === members parellex section start === */
 .bg-orange {
-    background-color: #ff5c38;
+    background-color: var(--color-orange);
 }
 
 .text-color {
-    color: #000;
+    color: var(--color-black);
 }
 
 .spaces-slider-card.bg-orange p {
-    color: #000;
+    color: var(--color-black);
 }
 
 .spaces-slider-card.bg-orange .spaces-nav-btn {
-    color: #000;
+    color: var(--color-black);
 }
 
 /* === members parellex section end === */
@@ -3081,7 +3120,7 @@ svg.shape-overlays {
 /* contact page main start */
 
 .contact-page {
-    background-color: #00aa3c;
+    background-color: var(--color-green);
 }
 
 /* contact page main end*/
@@ -3111,7 +3150,7 @@ svg.shape-overlays {
     overflow: hidden;
     padding: 2.083vw;
     position: relative;
-    background: #1be349;
+    background: var(--color-green-bright);
 }
 
 .contact-info-heading {
@@ -3139,7 +3178,7 @@ svg.shape-overlays {
     position: absolute;
     right: 0;
     top: 0;
-    background: #f4e9e1;
+    background: var(--color-cream);
 }
 
 .contact-email-call {
@@ -3168,11 +3207,11 @@ svg.shape-overlays {
     grid-column: 2/-1;
     grid-row: 1/-1;
     padding: 30px 25px;
-    background: #f4e9e1;
+    background: var(--color-cream);
 }
 
 .contact-page #map {
-    background-color: #ebebeb !important;
+    background-color: var(--color-gray-100) !important;
 }
 
 .responsive-cream-tiles {
@@ -3188,14 +3227,14 @@ svg.shape-overlays {
 }
 
 .contact-units-marker {
-    background-color: #ff5c38;
-    color: #000000;
+    background-color: var(--color-orange);
+    color: var(--color-black);
     padding: 8px 18px;
     border-radius: 20px;
     font-family: var(--font-aeonik), sans-serif;
     font-size: 14px;
     font-weight: 700;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px var(--color-black-10);
     white-space: nowrap;
     display: inline-block;
     user-select: none;
@@ -3254,14 +3293,14 @@ svg.shape-overlays {
 .contact-input-wrapper input,
 .contact-textariya-wrapper textarea {
     border: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid var(--color-black);
     padding: 15px 0 10px;
     -webkit-appearance: none;
     background-color: transparent;
     outline: none;
     font-family: var(--font-aeonik);
     font-size: clamp(14px, .833vw, .833vw);
-    color: #000000;
+    color: var(--color-black);
     width: 100%;
 }
 
@@ -3293,7 +3332,7 @@ svg.shape-overlays {
 
 .contact-textariya-wrapper textarea {
     background-color: transparent;
-    border: 1px solid black;
+    border: 1px solid var(--color-black);
     border-radius: 10px;
     padding: 30px;
     margin-top: 15px;
@@ -3327,7 +3366,7 @@ svg.shape-overlays {
     appearance: none;
     width: clamp(20px, 1.354vw, 1.354vw);
     height: clamp(20px, 1.354vw, 1.354vw);
-    border: 1.5px solid #000000;
+    border: 1.5px solid var(--color-black);
     border-radius: clamp(5px, 0.35vw, 0.35vw);
     outline: none;
     cursor: pointer;
@@ -3345,7 +3384,7 @@ svg.shape-overlays {
     content: "";
     width: clamp(12px, 0.677vw, 0.677vw);
     height: clamp(12px, 0.677vw, 0.677vw);
-    background-color: #000000;
+    background-color: var(--color-black);
     border-radius: clamp(2.5px, 0.17vw, 0.17vw);
     display: block;
 }
@@ -3363,7 +3402,7 @@ svg.shape-overlays {
 
 /* our-way-of-leving page body start */
 .our-way-of-leving {
-    background: #ffb200;
+    background: var(--color-yellow);
 }
 
 .our-way-galary {
@@ -3388,7 +3427,7 @@ svg.shape-overlays {
     height: 100%;
     border-radius: 32px;
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 15px 35px var(--color-black-10);
 }
 
 .our-way-images-wrapper {
@@ -3436,21 +3475,21 @@ svg.shape-overlays {
 }
 
 .our-way-info-box {
-    background: rgba(35, 35, 35, 0.82);
+    background: var(--color-black-80);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-radius: 20px;
     padding: 22px 26px;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    color: var(--color-white);
+    border: 1px solid var(--color-white-20);
+    box-shadow: 0 12px 32px var(--color-black-25);
 }
 
 .our-way-info-box h3 {
     font-family: var(--font-aeonik, sans-serif);
     font-size: 20px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-white);
     margin-bottom: 8px;
     letter-spacing: -0.01em;
 }
@@ -3459,7 +3498,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik, sans-serif);
     font-size: 14px;
     line-height: 1.4;
-    color: rgba(255, 255, 255, 0.88);
+    color: var(--color-white-80);
     font-weight: 400;
     margin: 0;
 }
@@ -3500,8 +3539,8 @@ svg.shape-overlays {
 
 /* our-way-of-leving services page start */
 .our-services.our-way-services .our-services-card {
-    background: #ffb200;
-    border: 1px solid #000;
+    background: var(--color-yellow);
+    border: 1px solid var(--color-black);
     padding: 40px;
 }
 
@@ -3541,7 +3580,7 @@ svg.shape-overlays {
     height: 100%;
     border-radius: 32px;
     overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 15px 40px var(--color-black-10);
 }
 
 .diff-stack-card {
@@ -3561,27 +3600,27 @@ svg.shape-overlays {
     align-items: flex-start;
     overflow: hidden;
     will-change: transform;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -8px 24px var(--color-black-10);
 }
 
 .diff-stack-card.diff-card-green {
-    background-color: #00a843;
-    color: #000000;
+    background-color: var(--color-green);
+    color: var(--color-black);
 }
 
 .diff-stack-card.diff-card-red {
-    background-color: #e6313a;
-    color: #000000;
+    background-color: var(--color-red);
+    color: var(--color-black);
 }
 
 .diff-stack-card.diff-card-blue {
-    background-color: #0072e3;
-    color: #000000;
+    background-color: var(--color-blue);
+    color: var(--color-black);
 }
 
 .diff-stack-card.diff-card-purple {
-    background-color: #ad55ff;
-    color: #000000;
+    background-color: var(--color-purple);
+    color: var(--color-black);
 }
 
 .diff-card-content {
@@ -3596,7 +3635,7 @@ svg.shape-overlays {
     font-weight: 700;
     line-height: 1.08;
     letter-spacing: -0.03em;
-    color: #000000;
+    color: var(--color-black);
     margin: 0;
     word-break: break-word;
 }
@@ -3636,11 +3675,11 @@ svg.shape-overlays {
 }
 
 .diff-progress-bg {
-    stroke: rgba(0, 0, 0, 0.15);
+    stroke: var(--color-black-10);
 }
 
 .diff-progress-bar {
-    stroke: #000000;
+    stroke: var(--color-black);
     stroke-dasharray: 119.38;
     stroke-dashoffset: 119.38;
 }
@@ -3649,7 +3688,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik), sans-serif;
     font-size: 14px;
     font-weight: 700;
-    color: #000000;
+    color: var(--color-black);
     position: relative;
     z-index: 2;
     line-height: 1;
@@ -3707,8 +3746,8 @@ svg.shape-overlays {
         height: 70px;
         padding: 0;
         box-sizing: border-box;
-        background-color: #f4e9e1;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        background-color: var(--color-cream);
+        border-bottom: 1px solid var(--color-black-10);
         z-index: 2500;
     }
 
@@ -3722,7 +3761,7 @@ svg.shape-overlays {
         box-sizing: border-box;
         position: relative;
         z-index: 2600;
-        background-color: #f4e9e1;
+        background-color: var(--color-cream);
     }
 
     /* Units Logo on Top Left */
@@ -3749,8 +3788,8 @@ svg.shape-overlays {
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        background-color: #ad55ff;
-        color: #000000;
+        background-color: var(--color-purple);
+        color: var(--color-black);
         font-family: var(--font-aeonik, sans-serif);
         font-weight: 700;
         font-size: 13px;
@@ -3770,7 +3809,7 @@ svg.shape-overlays {
         gap: 4px;
         width: 42px;
         height: 42px;
-        background-color: #000000;
+        background-color: var(--color-black);
         border-radius: 12px;
         border: none;
         cursor: pointer;
@@ -3783,7 +3822,7 @@ svg.shape-overlays {
         display: block;
         width: 18px;
         height: 2px;
-        background-color: #ffffff;
+        background-color: var(--color-white);
         border-radius: 2px;
         transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease;
     }
@@ -3813,7 +3852,7 @@ svg.shape-overlays {
         left: 0;
         width: 100vw;
         height: calc(100vh - 70px);
-        background-color: #f4e9e1;
+        background-color: var(--color-cream);
         padding: 16px 16px 20px 16px;
         box-sizing: border-box;
         overflow-y: auto;
@@ -3862,46 +3901,46 @@ svg.shape-overlays {
 
     /* Card 01 - Blue */
     .card-blue {
-        background-color: #0072e3 !important;
-        color: #000000 !important;
+        background-color: var(--color-blue) !important;
+        color: var(--color-black) !important;
     }
 
     /* Card 02 - Yellow / Amber */
     .card-yellow {
-        background-color: #ffb400 !important;
-        color: #000000 !important;
+        background-color: var(--color-yellow) !important;
+        color: var(--color-black) !important;
     }
 
     /* Card 03 - Orange */
     .card-orange {
-        background-color: #ff5f00 !important;
-        color: #000000 !important;
+        background-color: var(--color-orange) !important;
+        color: var(--color-black) !important;
     }
 
     /* Card 04 - Green */
     .card-green {
-        background-color: #00a843 !important;
-        color: #000000 !important;
+        background-color: var(--color-green) !important;
+        color: var(--color-black) !important;
     }
 
     /* Active state on mobile */
-    ul.header-main-menu > li a.active,
-    ul.header-main-menu > li.active > a {
+    ul.header-main-menu>li a.active,
+    ul.header-main-menu>li.active>a {
         background-color: transparent !important;
         background: transparent !important;
-        border: 1px solid #000 !important;
+        border: 1px solid var(--color-black) !important;
         border-radius: 16px;
-        color: #000000 !important;
+        color: var(--color-black) !important;
     }
 
     /* Mobile Submenu Drawer */
-    header .header-main-menu > li ul.sub-menu {
+    header .header-main-menu>li ul.sub-menu {
         position: fixed;
         top: 70px;
         left: 0;
         width: 100vw;
         height: calc(100vh - 70px);
-        background-color: #f4e9e1;
+        background-color: var(--color-cream);
         padding: 20px 16px;
         box-sizing: border-box;
         overflow-y: auto;
@@ -3916,14 +3955,14 @@ svg.shape-overlays {
         transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.3s ease;
     }
 
-    header .header-main-menu > li ul.sub-menu.open {
+    header .header-main-menu>li ul.sub-menu.open {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
         transform: translateX(0);
     }
 
-    header .header-main-menu > li ul.sub-menu::after {
+    header .header-main-menu>li ul.sub-menu::after {
         display: none !important;
     }
 
@@ -3944,28 +3983,28 @@ svg.shape-overlays {
         font-weight: 700;
         cursor: pointer;
         padding: 6px 0;
-        color: #000000;
+        color: var(--color-black);
     }
 
-    header .header-main-menu > li ul.sub-menu li.submenu-card-item {
+    header .header-main-menu>li ul.sub-menu li.submenu-card-item {
         width: 100%;
     }
 
-    header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card {
+    header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card {
         width: 100%;
         min-height: 80px;
         border-radius: 16px;
         padding: 14px 18px;
         box-sizing: border-box;
-        background: #ffffff;
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: var(--color-white);
+        border: 1px solid var(--color-black-10);
     }
 
-    header .header-main-menu > li ul.sub-menu li.submenu-card-item a.sub-card.active {
+    header .header-main-menu>li ul.sub-menu li.submenu-card-item a.sub-card.active {
         background: transparent !important;
-        border: 1px solid #FF0000 !important;
+        border: 1px solid var(--color-red) !important;
         border-radius: 16px;
-        color: #000000 !important;
+        color: var(--color-black) !important;
     }
 
     /* Top Row of Card (01, 02, 03, 04 on left & arrow on right) */
@@ -4010,7 +4049,7 @@ svg.shape-overlays {
         height: 56px;
         min-height: 56px;
         border-radius: 14px;
-        background-color: #ad55ff !important;
+        background-color: var(--color-purple) !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -4023,7 +4062,7 @@ svg.shape-overlays {
         font-family: var(--font-aeonik, sans-serif);
         font-size: 16px;
         font-weight: 700;
-        color: #000000 !important;
+        color: var(--color-black) !important;
     }
 
     /* Black Language Capsule */
@@ -4032,8 +4071,8 @@ svg.shape-overlays {
         height: 50px;
         min-height: 50px;
         border-radius: 30px;
-        background-color: #000000 !important;
-        color: #ffffff !important;
+        background-color: var(--color-black) !important;
+        color: var(--color-white) !important;
         padding: 0 24px;
         box-sizing: border-box;
         display: flex;
@@ -4051,8 +4090,8 @@ svg.shape-overlays {
         height: 50px;
         min-height: 50px;
         border-radius: 30px;
-        background-color: #000000 !important;
-        color: #ffffff !important;
+        background-color: var(--color-black) !important;
+        color: var(--color-white) !important;
         padding: 0 20px;
         box-sizing: border-box;
         display: flex;
@@ -4060,7 +4099,7 @@ svg.shape-overlays {
     }
 
     .social-capsule a {
-        color: #ffffff;
+        color: var(--color-white);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -4106,7 +4145,7 @@ svg.shape-overlays {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, .8);
+    background: var(--color-black-80);
     backdrop-filter: blur(1px);
     opacity: 0;
     cursor: pointer;
@@ -4125,12 +4164,12 @@ svg.shape-overlays {
     max-width: calc(100vw - 80px);
     height: 100%;
     height: 100dvh;
-    background: #ab54f7;
+    background: var(--color-purple);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    box-shadow: -30px 0 70px rgba(0, 0, 0, 0.6);
+    box-shadow: -30px 0 70px var(--color-black-50);
     overflow: visible !important;
     z-index: 2;
     padding: 16px 16px 0 16px;
@@ -4147,7 +4186,7 @@ svg.shape-overlays {
     left: -70px;
     width: 70px;
     height: 70px;
-    background: #ab54f7;
+    background: var(--color-purple);
     border: none;
     border-radius: 5px 0px 0px 5px;
     display: flex;
@@ -4168,7 +4207,7 @@ svg.shape-overlays {
 }
 
 .custom-sidebar-white-card {
-    background: #ffffff;
+    background: var(--color-white);
     border-radius: 36px 36px 0 0;
     padding: clamp(25px, 4.688vw, 90px) clamp(25px, 3.906vw, 75px) clamp(35px, 2.344vw, 45px);
     flex: 1;
@@ -4206,7 +4245,7 @@ svg.shape-overlays {
     font-family: var(--font-alfabet);
     font-size: 26px;
     font-weight: 800;
-    color: #000000;
+    color: var(--color-black);
     margin: 0 0 6px 0;
     letter-spacing: -0.01em;
 }
@@ -4221,19 +4260,19 @@ svg.shape-overlays {
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1.5px solid #111111;
+    border-bottom: 1.5px solid var(--color-gray-950);
     padding: 12px 0;
     font-family: var(--font-aeonik);
     font-size: 16px;
     font-weight: 500;
-    color: #000000;
+    color: var(--color-black);
     outline: none;
     box-sizing: border-box;
     border-radius: 0;
 }
 
 .sidebar-underline-input::placeholder {
-    color: #000000;
+    color: var(--color-black);
     font-weight: 500;
     opacity: 0.9;
 }
@@ -4241,7 +4280,7 @@ svg.shape-overlays {
 .sidebar-underline-input:focus,
 .sidebar-underline-select:focus {
     outline: none;
-    border-bottom: 1.5px solid #111111;
+    border-bottom: 1.5px solid var(--color-gray-950);
 }
 
 .sidebar-underline-select {
@@ -4265,7 +4304,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik);
     font-size: 16px;
     font-weight: 700;
-    color: #000000;
+    color: var(--color-black);
     margin: 0 0 4px 0;
 }
 
@@ -4292,7 +4331,7 @@ svg.shape-overlays {
 .custom-radio-circle {
     width: 22px;
     height: 22px;
-    border: 1.5px solid #222222;
+    border: 1.5px solid var(--color-gray-900);
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
@@ -4305,7 +4344,7 @@ svg.shape-overlays {
     content: "";
     width: 12px;
     height: 12px;
-    background: #000000;
+    background: var(--color-black);
     border-radius: 50%;
     opacity: 0;
     transform: scale(0);
@@ -4313,7 +4352,7 @@ svg.shape-overlays {
 }
 
 .sidebar-radio-input:checked+.custom-radio-circle {
-    border-color: #000000;
+    border-color: var(--color-black);
 }
 
 .sidebar-radio-input:checked+.custom-radio-circle::after {
@@ -4325,7 +4364,7 @@ svg.shape-overlays {
     font-family: var(--font-aeonik);
     font-size: 15.5px;
     font-weight: 500;
-    color: #000000;
+    color: var(--color-black);
 }
 
 .sidebar-checkbox-group {
@@ -4351,7 +4390,7 @@ svg.shape-overlays {
 .custom-checkbox-box {
     width: 22px;
     height: 22px;
-    border: 1.5px solid #222222;
+    border: 1.5px solid var(--color-gray-900);
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
@@ -4366,7 +4405,7 @@ svg.shape-overlays {
     content: "";
     width: 12px;
     height: 12px;
-    background: #000000;
+    background: var(--color-black);
     border-radius: 3.5px;
     transform: scale(0);
     opacity: 0;
@@ -4374,7 +4413,7 @@ svg.shape-overlays {
 }
 
 .sidebar-checkbox-input:checked+.custom-checkbox-box {
-    border-color: #000000;
+    border-color: var(--color-black);
 }
 
 .sidebar-checkbox-input:checked+.custom-checkbox-box::after {
@@ -4387,7 +4426,7 @@ svg.shape-overlays {
     font-size: 14.5px;
     font-weight: 500;
     line-height: 1.45;
-    color: #000000;
+    color: var(--color-black);
 }
 
 .sidebar-btn-container {
@@ -4398,8 +4437,8 @@ svg.shape-overlays {
 }
 
 .sidebar-pill-submit-btn {
-    background: #000000;
-    color: #ffffff;
+    background: var(--color-black);
+    color: var(--color-white);
     border: none;
     border-radius: 999px;
     padding: 16px 36px;
@@ -4414,7 +4453,7 @@ svg.shape-overlays {
 }
 
 .sidebar-pill-submit-btn:hover {
-    background: #222222;
+    background: var(--color-gray-900);
     transform: scale(1.03);
 }
 
@@ -4444,7 +4483,7 @@ svg.shape-overlays {
 
 /* privacypolicy start */
 .privacypolicy-main {
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
     margin: 0 0 30px;
     padding: 2.083vw;
@@ -4481,7 +4520,7 @@ svg.shape-overlays {
     margin: 10px 0;
 }
 
-.privacypolicy-dot > li {
+.privacypolicy-dot>li {
     list-style-type: disc;
     padding: 6px 0;
     margin-left: 20px;
@@ -4491,7 +4530,7 @@ svg.shape-overlays {
     margin: 6px 0 4px;
 }
 
-.privacypolicy-dot ul > li {
+.privacypolicy-dot ul>li {
     list-style-type: circle;
     padding: 4px 0;
     margin-left: 24px;
@@ -4508,3 +4547,66 @@ svg.shape-overlays {
 }
 
 /* privacypolicy end */
+
+/* fsqs page main wrapper start */
+.faqs-main-wrapper {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 35.938vw 1fr;
+    margin-bottom: 30px;
+}
+
+.faqs-main-left {
+    height: calc(100vh - 50px);
+    background-color: var(--color-white);
+    border-color: transparent;
+    position: sticky;
+    top: 30px;
+}
+
+.faqs-items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.faqs-item {
+    background: var(--color-white);
+    border: 1px solid #000;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: background .4s cubic-bezier(.19, 1, .22, 1) 0s;
+}
+
+.faqs-item span {
+    font-family: var(--font-aeonik);
+    font-size: clamp(14px, .729vw, .729vw);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.faqs-item:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+.faqs-main-right {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.faqs-group-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-margin-top: 20px;
+}
+
+.faqs-group-section .header-arrow {
+    margin: 0 0 8px 0;
+}
+/* fsqs page main wrapper end */
