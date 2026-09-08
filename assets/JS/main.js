@@ -1805,3 +1805,78 @@ if (document.readyState === "loading") {
     initFaqCategoryNav();
 }
 /* <=== FAQs Page Category Navigation & Scroll Tracking end ===> */
+
+/* ==========================================================================
+   <=== GSAP Smooth Scroller ===>
+   ========================================================================== */
+/**
+ * GSAP Smooth Scroller Function
+ * Smoothness badhane ya ghatane ke liye neeche diye gaye 'config' object ke values ko change karein.
+ */
+function initGsapSmoothScroll() {
+    if (typeof gsap === "undefined") return;
+
+    // -------------------------------------------------------------------------
+    // ⚙️ SMOOTHNESS CONFIGURATION (Yaha se smoothness control karein):
+    // -------------------------------------------------------------------------
+    const config = {
+        duration: 1.0,
+        distance: 120,
+        ease: "power3.out"
+    };
+
+    let scrollObj = { y: window.pageYOffset || document.documentElement.scrollTop };
+    let targetY = scrollObj.y;
+    let isAnimating = false;
+
+    function syncScroll() {
+        if (!isAnimating) {
+            scrollObj.y = window.pageYOffset || document.documentElement.scrollTop;
+            targetY = scrollObj.y;
+        }
+    }
+    window.addEventListener("scroll", syncScroll, { passive: true });
+    window.addEventListener("resize", syncScroll, { passive: true });
+
+    window.addEventListener("wheel", function(e) {
+        if (e.target.closest("textarea, input, select, .no-smooth-scroll")) return;
+
+        e.preventDefault();
+
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const delta = e.deltaY;
+        const step = (delta > 0 ? 1 : -1) * config.distance;
+
+        if (!isAnimating) {
+            targetY = window.pageYOffset || document.documentElement.scrollTop;
+            scrollObj.y = targetY;
+        }
+
+        targetY = Math.max(0, Math.min(targetY + step, maxScroll));
+        isAnimating = true;
+
+        gsap.to(scrollObj, {
+            y: targetY,
+            duration: config.duration,
+            ease: config.ease,
+            overwrite: true,
+            onUpdate: function() {
+                window.scrollTo(0, scrollObj.y);
+                if (typeof ScrollTrigger !== "undefined") {
+                    ScrollTrigger.update();
+                }
+            },
+            onComplete: function() {
+                isAnimating = false;
+                scrollObj.y = window.pageYOffset || document.documentElement.scrollTop;
+            }
+        });
+    }, { passive: false });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGsapSmoothScroll);
+} else {
+    initGsapSmoothScroll();
+}
+/* <=== GSAP Smooth Scroller end ===> */
