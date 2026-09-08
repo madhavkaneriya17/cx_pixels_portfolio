@@ -397,6 +397,8 @@
         border-radius: 30px;
         margin-top: 10px;
         padding: 20px 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .nea_booking-wrapper {
@@ -404,14 +406,18 @@
         flex-direction: column;
         width: 100%;
         gap: 0;
+        box-sizing: border-box;
     }
 
     .nea_booking-wrapper-button {
         position: static;
         width: 100%;
+        min-width: 0;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         gap: 12px;
+        box-sizing: border-box;
     }
 
     .nea_booking-filter-button {
@@ -440,18 +446,90 @@
 
     .nea_booking-tab-content {
         width: 100%;
+        min-width: 0;
+        max-width: 100%;
         margin: 10px 0 15px 0;
         padding: 0;
         list-style: none;
+        box-sizing: border-box;
     }
 
     .nea_booking_filter-main {
         margin: 0;
         padding: 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .slider-card {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        flex-direction: column;
+        gap: 15px;
+        border-radius: 20px;
+        box-sizing: border-box;
+    }
+
+    .js-slides-container,
+    .slides-container {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .slide {
+        height: clamp(240px, 50vw, 380px);
+        border-radius: 20px;
+        width: 100%;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slide-badge {
+        top: 14px;
+        right: 14px;
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+
+    .nav-controls {
+        position: static;
+        transform: none;
+        flex-direction: row-reverse;
+        width: auto;
+        align-self: center;
+        border-radius: 30px;
+        padding: 6px 14px;
+        gap: 12px;
+        margin-top: 10px;
+        background-color: var(--color-blue-dark);
+    }
+
+    .nav-divider {
+        width: 1px;
+        height: 16px;
+        margin: 0;
+        background-color: var(--color-white-20);
+    }
+
+    .nav-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .nea_booking-pane-wrap {
+        margin-top: 30px;
+        width: 100%;
     }
 
     .nea_booking-pane-wrap .nea_booking-info-wrap {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .nea_booking-pane-wrap .nea_booking-check-icon svg {
@@ -462,6 +540,13 @@
     .nea_booking-pane-wrap .nea_booking-check-icon {
         right: -5px;
         top: -10px;
+    }
+
+    .nea_booking-pane-wrap .nea_booking-amenities {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 25px;
+        padding-bottom: 25px;
     }
 
     /* nea booking end */
@@ -985,43 +1070,7 @@
 
 /* community spaces section end */
 
-/* booking slider section start */
 
-@media (max-width: 1023px) {
-    .slider-card {
-        flex-direction: column;
-    }
-
-    .js-slides-container,
-    .slides-container {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .nav-controls {
-        position: static;
-        transform: none;
-        flex-direction: row-reverse;
-        width: auto;
-        align-self: center;
-        border-radius: 30px;
-        padding: 6px 14px;
-        gap: 12px;
-    }
-
-    .nav-divider {
-        width: 1px;
-        height: 16px;
-        margin: 0;
-    }
-
-    .nav-btn {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-/* booking slider section end */
 
 /* faqs responsive start */
 @media (max-width: 1023px) {

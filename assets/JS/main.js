@@ -876,6 +876,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     spaceBetween: 20,
                     observer: true,
                     observeParents: true,
+                    resizeObserver: true,
                     navigation: {
                         nextEl: nextBtn,
                         prevEl: prevBtn,
@@ -885,7 +886,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             slidesPerView: 1,
                             spaceBetween: 10,
                         },
-                        901: {
+                        768: {
+                            slidesPerView: 1.2,
+                            spaceBetween: 15,
+                        },
+                        1024: {
                             slidesPerView: 1.5,
                             spaceBetween: 20,
                         }
@@ -897,7 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        function switchTab(index, allowToggle = true) {
+        function switchTab(index, allowToggle = false) {
             const isCurrentlyActive = buttons[index] && buttons[index].classList.contains("active");
 
             if (allowToggle && isCurrentlyActive) {
@@ -920,7 +925,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     tab.classList.add("active");
                     tab.style.display = "block";
                     if (swipers[idx]) {
-                        swipers[idx].update();
+                        setTimeout(() => {
+                            swipers[idx].update();
+                        }, 50);
                     }
                 } else {
                     tab.classList.remove("active");
@@ -931,7 +938,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         buttons.forEach((btn, index) => {
             btn.addEventListener("click", () => {
-                switchTab(index, true);
+                switchTab(index, false);
             });
         });
 
@@ -956,8 +963,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             tabContents.forEach((tab, idx) => {
-                if (tab.classList.contains("active") && swipers[idx]) {
-                    swipers[idx].update();
+                if (tab.classList.contains("active")) {
+                    tab.style.display = "block";
+                    if (swipers[idx]) {
+                        setTimeout(() => {
+                            swipers[idx].update();
+                        }, 50);
+                    }
+                } else {
+                    tab.style.display = "none";
                 }
             });
         }

@@ -2240,7 +2240,15 @@ svg.shape-overlays {
     margin: 0;
     padding: 0;
     min-width: 0;
+}
 
+.nea_booking-tab-content {
+    display: none;
+    width: 100%;
+}
+
+.nea_booking-tab-content.active {
+    display: block;
 }
 
 .nea_booking_filter-first {
@@ -2486,10 +2494,24 @@ svg.shape-overlays {
     gap: 15px;
 }
 
-.nea_booking-pane-wrap .nea_booking-amenities img {
+.nea_booking-pane-wrap .nea_booking-amenities img,
+.nea_booking-pane-wrap .nea_booking-amenities svg,
+.nea_booking-pane-wrap .nea_booking-amenities i {
     width: 45px;
     height: 45px;
+    min-width: 45px;
+    font-size: 32px;
+    color: var(--color-purple);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     object-fit: contain;
+    line-height: 1;
+}
+
+.nea_booking-pane-wrap .nea_booking-amenities svg {
+    fill: currentColor;
 }
 
 .nea_booking-pane-wrap .nea_booking-amenities .nea_booking-amenities-title {
