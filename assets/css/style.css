@@ -447,6 +447,10 @@ var {
     margin-bottom: 30px;
 }
 
+::selection {
+    background: #000;
+    color: #fff;
+}
 /* <=== common css end ===> */
 
 
@@ -1108,6 +1112,12 @@ svg.shape-overlays {
     line-height: 120%;
 }
 
+.threed-interactive-left-bottom-list-items i{
+    height: 30px;
+    width: 30px;
+    font-size: 26px;
+}
+
 .threed-interactive-right {
     border: 1px solid var(--color-black);
     border-radius: clamp(30px, 2.604vw, 2.604vw);
@@ -1228,7 +1238,7 @@ svg.shape-overlays {
 }
 
 .our-services-card-title h2 {
-    font-family: "Aeonik Pro", arial;
+    font-family: var(--font-alfabet);
     font-size: clamp(22px, 1.771vw, 1.771vw);
     font-style: normal;
     font-weight: 850;
@@ -1237,7 +1247,7 @@ svg.shape-overlays {
 }
 
 .our-services-card-contain p {
-    font-family: Aeonik Pro, arial;
+    font-family: var(--font-aeonik);
     font-size: clamp(14px, 1.042vw, 1.042vw);
     font-style: normal;
     font-weight: 400;
@@ -3404,8 +3414,8 @@ svg.shape-overlays {
 
 .contact-checkbox-row input[type="checkbox"]:checked::before {
     content: "";
-    width: clamp(12px, 0.677vw, 0.677vw);
-    height: clamp(12px, 0.677vw, 0.677vw);
+    width: 70%;
+    height: 70%;
     background-color: var(--color-black);
     border-radius: clamp(2.5px, 0.17vw, 0.17vw);
     display: block;

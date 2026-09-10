@@ -439,7 +439,7 @@ if (mapElement) {
 
     if (isContactPage) {
         markerHtml = `<div class='custom-contact-marker-container'>
-            <div class='contact-units-marker'>Units Parkside</div>
+            <div class='contact-units-marker'>Pixals Parkside</div>
             <div class='contact-marker-house-icon'>
                 <svg width='30' height='30' viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'>
                     <path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/>
@@ -1806,19 +1806,10 @@ if (document.readyState === "loading") {
 }
 /* <=== FAQs Page Category Navigation & Scroll Tracking end ===> */
 
-/* ==========================================================================
-   <=== GSAP Smooth Scroller ===>
-   ========================================================================== */
-/**
- * GSAP Smooth Scroller Function
- * Smoothness badhane ya ghatane ke liye neeche diye gaye 'config' object ke values ko change karein.
- */
+/* <=== GSAP Smooth Scroller ===> */
 function initGsapSmoothScroll() {
     if (typeof gsap === "undefined") return;
 
-    // -------------------------------------------------------------------------
-    // ⚙️ SMOOTHNESS CONFIGURATION (Yaha se smoothness control karein):
-    // -------------------------------------------------------------------------
     const config = {
         duration: 1.0,
         distance: 120,
