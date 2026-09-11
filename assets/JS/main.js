@@ -64,18 +64,28 @@ const customCursor = document.getElementById('customCursor');
 
 if (container && canvas) {
     const scene = new THREE.Scene();
-    const bgColor = 0xf1e9e0;
+    const bgColor = 0xf6eee7;
     scene.background = new THREE.Color(bgColor);
 
-    scene.fog = new THREE.Fog(bgColor, 14, 34);
+    scene.fog = new THREE.Fog(bgColor, 35, 52);
 
     const rect = container.getBoundingClientRect();
-    const camera = new THREE.PerspectiveCamera(65, rect.width / rect.height, 0.1, 1000);
+    const width = rect.width || container.clientWidth || 800;
+    const height = rect.height || container.clientHeight || 600;
+
+    const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
     camera.position.z = 0;
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-    renderer.setSize(rect.width, rect.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        powerPreference: "high-performance"
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = THREE.LinearEncoding;
+
+    const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
 
     const tunnelWidth = 8;
     const gridCols = 4;
@@ -84,12 +94,15 @@ if (container && canvas) {
     const numRings = 25;
 
     const colors = [
-        0xFFC857,
-        0xFF6F61,
-        0x2DD4BF,
-        0x5B8CFF,
-        0xA855F7,
-        0x84CC16
+        0xff5028,
+        0xffbd14,
+        0xf03636,
+        0x9d4edd,
+        0x641eb3,
+        0x0a52b8,
+        0x26b9ff,
+        0x04b54e,
+        0x1ee054
     ];
 
     const textureLoader = new THREE.TextureLoader();
@@ -99,7 +112,20 @@ if (container && canvas) {
         'assets/images/threejs-image-3.png',
         'assets/images/threejs-image-4.png'
     ];
-    const textures = sampleImages.map(url => textureLoader.load(url));
+    const textures = sampleImages.map(url => {
+        const tex = textureLoader.load(url, (loadedTex) => {
+            loadedTex.generateMipmaps = true;
+            loadedTex.minFilter = THREE.LinearMipmapLinearFilter;
+            loadedTex.magFilter = THREE.LinearFilter;
+            loadedTex.anisotropy = maxAnisotropy;
+            loadedTex.needsUpdate = true;
+        });
+        tex.generateMipmaps = true;
+        tex.minFilter = THREE.LinearMipmapLinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        tex.anisotropy = maxAnisotropy;
+        return tex;
+    });
 
     const gridGroup = new THREE.Group();
     scene.add(gridGroup);
@@ -148,11 +174,10 @@ if (container && canvas) {
                         });
                     } else {
                         const tex = textures[Math.floor(Math.random() * textures.length)];
+                        // Full opacity and crisp rendering without foggy transparency
                         tileMat = new THREE.MeshBasicMaterial({
                             map: tex,
-                            side: THREE.DoubleSide,
-                            transparent: true,
-                            opacity: 0.9
+                            side: THREE.DoubleSide
                         });
                     }
 
@@ -215,6 +240,7 @@ if (container && canvas) {
             camera.aspect = r.width / r.height;
             camera.updateProjectionMatrix();
             renderer.setSize(r.width, r.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         }
     };
 
@@ -228,9 +254,6 @@ if (container && canvas) {
 
         currentSpeed += (targetSpeed - currentSpeed) * 0.08;
         camera.position.z -= currentSpeed;
-
-        scene.fog.near = Math.abs(camera.position.z) + 12;
-        scene.fog.far = Math.abs(camera.position.z) + 32;
 
         rings.forEach(ring => {
             if (ring.position.z > camera.position.z) {
@@ -423,6 +446,7 @@ if (mapElement) {
         zoomControl: false,
         attributionControl: false
     }).setView(centerPos, initialZoom);
+    window.leafletMapInstance = map;
 
     const tileClass = document.body.classList.contains('contact-page') ? 'responsive-cream-tiles' : 'responsive-yellow-tiles';
 
@@ -1472,7 +1496,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const bookBtn = document.createElement("a");
         bookBtn.href = "javascript:void(0)";
         bookBtn.className = "mobile-top-book-btn";
-        bookBtn.textContent = "Book your Unit";
+        bookBtn.textContent = "pixal";
         bookBtn.addEventListener("click", function (e) {
             if (window.openCustomSidebar) {
                 window.openCustomSidebar(e);
@@ -1699,7 +1723,7 @@ window.openCustomSidebar = openCustomSidebar;
 window.closeCustomSidebar = closeCustomSidebar;
 
 function initSidebarEvents() {
-    const directTriggers = document.querySelectorAll(".card-book, #headerBookBtn, .card-purple.card-book, [data-open-sidebar]");
+    const directTriggers = document.querySelectorAll(".card-book, #headerBookBtn, .card-purple.card-book, [data-open-sidebar], .mobile-top-book-btn");
     directTriggers.forEach(btn => {
         btn.addEventListener("click", (e) => {
             openCustomSidebar(e);
@@ -1710,18 +1734,33 @@ function initSidebarEvents() {
         const trigger = e.target.closest("a, button, .card-book");
         if (trigger) {
             if (trigger.closest("#customSidebarPanel")) return;
+            // Never intercept navigation menu items
+            if (trigger.closest(".header-main-menu") || trigger.closest(".sub-menu")) return;
+
             const text = (trigger.textContent || "").trim().toLowerCase();
-            if (
-                text.includes("book your unit") ||
-                text.includes("book your pixal") ||
+            const isBookTrigger = 
                 trigger.classList.contains("card-book") ||
                 trigger.id === "headerBookBtn" ||
-                trigger.hasAttribute("data-open-sidebar")
-            ) {
+                trigger.classList.contains("mobile-top-book-btn") ||
+                trigger.hasAttribute("data-open-sidebar") ||
+                text === "pixal" ||
+                text === "book your unit" ||
+                text === "book your pixal" ||
+                text.includes("book your unit") ||
+                text.includes("book your pixal");
+
+            if (isBookTrigger) {
                 openCustomSidebar(e);
             }
         }
-    }, true);
+    });
+
+    const sidebarPanel = document.getElementById("customSidebarPanel");
+    if (sidebarPanel) {
+        sidebarPanel.addEventListener("wheel", (e) => {
+            e.stopPropagation();
+        }, { passive: true });
+    }
 
     const closeBtn = document.getElementById("customSidebarClose");
     if (closeBtn) {
@@ -1782,7 +1821,7 @@ function initFaqCategoryNav() {
 
     // Click to smooth scroll to section
     faqFilterButtons.forEach((btn, idx) => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.preventDefault();
             const targetEl = getSectionForButton(this, idx);
 
@@ -1829,7 +1868,16 @@ function initGsapSmoothScroll() {
     window.addEventListener("scroll", syncScroll, { passive: true });
     window.addEventListener("resize", syncScroll, { passive: true });
 
-    window.addEventListener("wheel", function(e) {
+    window.addEventListener("wheel", function (e) {
+        const sidebar = document.getElementById("customSidebar");
+        if (sidebar && sidebar.classList.contains("open")) {
+            if (e.target.closest("#customSidebarPanel, .custom-sidebar-white-card")) {
+                return;
+            }
+            e.preventDefault();
+            return;
+        }
+
         if (e.target.closest("textarea, input, select, .no-smooth-scroll")) return;
 
         e.preventDefault();
@@ -1851,13 +1899,13 @@ function initGsapSmoothScroll() {
             duration: config.duration,
             ease: config.ease,
             overwrite: true,
-            onUpdate: function() {
+            onUpdate: function () {
                 window.scrollTo(0, scrollObj.y);
                 if (typeof ScrollTrigger !== "undefined") {
                     ScrollTrigger.update();
                 }
             },
-            onComplete: function() {
+            onComplete: function () {
                 isAnimating = false;
                 scrollObj.y = window.pageYOffset || document.documentElement.scrollTop;
             }
@@ -1871,3 +1919,118 @@ if (document.readyState === "loading") {
     initGsapSmoothScroll();
 }
 /* <=== GSAP Smooth Scroller end ===> */
+
+/* <=== Header & Banner Entrance Animation start ===> */
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
+let isEntranceAnimationTriggered = false;
+
+window.playHeaderBannerEntrance = function () {
+    if (isEntranceAnimationTriggered) return;
+    isEntranceAnimationTriggered = true;
+    window.scrollTo(0, 0);
+
+    const banner = document.querySelector(".hero-banner, .members-union, .contact-map-section, .nea_politeia_banner");
+    if (!banner) return;
+
+    const header = document.querySelector("header");
+    const isMobile = window.innerWidth <= 1023;
+
+    if (header) {
+        if (!isMobile) {
+            gsap.fromTo(header,
+                { x: -70, opacity: 0 },
+                { x: 0, opacity: 1, duration: 0.9, ease: "power3.out", clearProps: "all" }
+            );
+        } else {
+            const mobileTopBar = document.querySelector(".mobile-header-top-bar");
+            if (mobileTopBar) {
+                gsap.fromTo(mobileTopBar,
+                    { y: -50, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", clearProps: "all" }
+                );
+            }
+        }
+    }
+
+    if (banner) {
+        const innerContent = banner.querySelectorAll(".hero-content, .members-union-left, .members-union-right, .nea_politeia_banner-left, .nea_politeia_banner-right");
+
+        gsap.fromTo(banner,
+            { y: 40, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1.0,
+                ease: "power3.out",
+                clearProps: "all",
+                onComplete: () => {
+                    if (window.leafletMapInstance) {
+                        window.leafletMapInstance.invalidateSize();
+                    }
+                }
+            }
+        );
+
+        if (innerContent.length > 0) {
+            gsap.fromTo(innerContent,
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1.0, delay: 0.1, ease: "power3.out", clearProps: "all" }
+            );
+        }
+    }
+};
+
+(function () {
+    const banner = document.querySelector(".hero-banner, .members-union, .contact-map-section, .nea_politeia_banner");
+    if (!banner) return;
+
+    const preloader = document.querySelector(".preloader");
+    const isPreloaderActive = preloader && getComputedStyle(preloader).display !== "none";
+
+    if (isPreloaderActive) {
+        document.body.style.overflow = "hidden";
+        window.scrollTo(0, 0);
+
+        const header = document.querySelector("header");
+        const isMobile = window.innerWidth <= 1023;
+
+        if (header) {
+            if (!isMobile) {
+                gsap.set(header, { x: -70, opacity: 0 });
+            } else {
+                const mobileTopBar = document.querySelector(".mobile-header-top-bar");
+                if (mobileTopBar) gsap.set(mobileTopBar, { y: -50, opacity: 0 });
+            }
+        }
+        if (banner) {
+            const innerContent = banner.querySelectorAll(".hero-content, .members-union-left, .members-union-right, .nea_politeia_banner-left, .nea_politeia_banner-right");
+            gsap.set(banner, { y: 40, opacity: 0 });
+            if (innerContent.length > 0) gsap.set(innerContent, { y: 50, opacity: 0 });
+        }
+
+        if (typeof tl !== "undefined") {
+            tl.add(() => {
+                document.body.style.overflow = "auto";
+                window.scrollTo(0, 0);
+                window.playHeaderBannerEntrance();
+            }, "-=0.8");
+            tl.eventCallback("onComplete", () => {
+                document.body.style.overflow = "auto";
+                window.scrollTo(0, 0);
+                window.playHeaderBannerEntrance();
+            });
+        }
+    } else {
+        if (typeof tl !== "undefined" && tl.progress) {
+            tl.progress(1);
+        }
+        document.body.style.overflow = "auto";
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => window.playHeaderBannerEntrance());
+    }
+})();
+/* <=== Header & Banner Entrance Animation end ===> */

@@ -451,6 +451,9 @@ var {
     background: #000;
     color: #fff;
 }
+html, body {
+    overflow-anchor: none;
+}
 /* <=== common css end ===> */
 
 
@@ -3172,6 +3175,8 @@ svg.shape-overlays {
     border-radius: clamp(30px, 2.604vw, 2.604vw) !important;
     min-height: 310px;
     padding: 2.083vw;
+    overflow: hidden !important;
+    position: relative;
 }
 
 .contact-info {
@@ -3566,6 +3571,9 @@ svg.shape-overlays {
     }
 }
 
+body.our-way-of-leving .footer-input-wrapper input {
+    border: 1px solid var(--color-black) !important;
+}
 /* our-way-of-leving page body end */
 
 
@@ -3573,7 +3581,7 @@ svg.shape-overlays {
 .our-services.our-way-services .our-services-card {
     background: var(--color-yellow);
     border: 1px solid var(--color-black);
-    padding: 40px;
+    padding: clamp(20px, 3.646vw, 3.646vw) clamp(20px, 2.083vw, 2.083vw) clamp(20px, 3.125vw, 3.125vw);
 }
 
 /* our-way-of-leving services page end */
@@ -4236,6 +4244,16 @@ svg.shape-overlays {
     font-weight: 850;
     line-height: 100%;
     text-align: center;
+}
+
+.custom-sidebar,
+.custom-sidebar-panel,
+.custom-sidebar-white-card {
+    overscroll-behavior: contain;
+}
+
+body:has(#customSidebar.open) {
+    overflow: hidden !important;
 }
 
 .custom-sidebar-white-card {
