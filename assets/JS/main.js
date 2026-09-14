@@ -901,6 +901,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     observer: true,
                     observeParents: true,
                     resizeObserver: true,
+                    touchStartPreventDefault: false,
+                    touchReleaseOnEdges: true,
+                    passiveListeners: true,
                     navigation: {
                         nextEl: nextBtn,
                         prevEl: prevBtn,
@@ -1080,11 +1083,11 @@ dropdownButtons.forEach(button => {
 
 /* <=== Community Spaces section start ===> */
 try {
-    const container = document.getElementById('spacesSlidesContainer');
-    if (container && typeof gsap !== 'undefined') {
-        const slides = document.querySelectorAll('.spaces-slide');
-        const eyeCursor = document.getElementById('spacesEyeCursor');
+    const initCommunitySpaces = () => {
+        const container = document.getElementById('spacesSlidesContainer');
+        if (!container) return;
 
+        const eyeCursor = document.getElementById('spacesEyeCursor');
         const lightbox = document.getElementById('spacesLightbox');
         const lightboxImg = document.getElementById('spacesLightboxImg');
         const lightboxClose = document.getElementById('spacesLightboxClose');
@@ -1093,14 +1096,12 @@ try {
 
         let lightboxIndex = 0;
 
-        if (eyeCursor) {
+        if (eyeCursor && typeof gsap !== 'undefined') {
             gsap.set(eyeCursor, { xPercent: -50, yPercent: -50 });
-        }
 
-        const xTo = eyeCursor ? gsap.quickTo(eyeCursor, "x", { duration: 0.4, ease: "power2.out" }) : null;
-        const yTo = eyeCursor ? gsap.quickTo(eyeCursor, "y", { duration: 0.4, ease: "power2.out" }) : null;
+            const xTo = gsap.quickTo(eyeCursor, "x", { duration: 0.4, ease: "power2.out" });
+            const yTo = gsap.quickTo(eyeCursor, "y", { duration: 0.4, ease: "power2.out" });
 
-        if (eyeCursor) {
             container.addEventListener('mouseenter', () => {
                 gsap.to(eyeCursor, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
             });
@@ -1111,17 +1112,21 @@ try {
 
             container.addEventListener('mousemove', (e) => {
                 const rect = container.getBoundingClientRect();
-                if (xTo && yTo) {
-                    xTo(e.clientX - rect.left);
-                    yTo(e.clientY - rect.top);
-                }
+                xTo(e.clientX - rect.left);
+                yTo(e.clientY - rect.top);
             });
         }
 
+        let spacesSwiper = null;
         if (typeof Swiper !== 'undefined') {
-            new Swiper('#spacesSlidesContainer', {
+            spacesSwiper = new Swiper('#spacesSlidesContainer', {
                 slidesPerView: 2,
                 spaceBetween: 20,
+                grabCursor: true,
+                simulateTouch: true,
+                resistanceRatio: 0.85,
+                preventClicks: true,
+                preventClicksPropagation: true,
                 navigation: {
                     nextEl: '#spacesNextBtn',
                     prevEl: '#spacesPrevBtn',
@@ -1137,23 +1142,28 @@ try {
                     }
                 }
             });
-        }
 
-        if (slides.length > 0 && lightbox) {
-            slides.forEach((slide) => {
-                slide.addEventListener('click', () => {
-                    const index = parseInt(slide.getAttribute('data-index'));
-                    openLightbox(index);
-                });
+            // Open lightbox only on deliberate click/tap, never on drag/slide
+            spacesSwiper.on('click', (swiper, event) => {
+                const slide = event.target.closest('.spaces-slide');
+                if (slide && lightbox) {
+                    const index = parseInt(slide.getAttribute('data-index'), 10);
+                    if (!isNaN(index)) {
+                        openLightbox(index);
+                    }
+                }
             });
         }
 
         function openLightbox(index) {
             if (!lightbox || !lightboxImg) return;
             lightboxIndex = index;
-            const imgEl = slides[lightboxIndex].querySelector('img');
-            if (imgEl) {
-                lightboxImg.src = imgEl.src;
+            const targetSlide = container.querySelector(`.spaces-slide[data-index="${lightboxIndex}"]`);
+            if (targetSlide) {
+                const imgEl = targetSlide.querySelector('img');
+                if (imgEl) {
+                    lightboxImg.src = imgEl.src;
+                }
             }
             lightbox.classList.add('active');
             updateLightboxButtons();
@@ -1167,13 +1177,14 @@ try {
 
         function updateLightboxButtons() {
             if (!lightboxPrev || !lightboxNext) return;
+            const totalSlides = container.querySelectorAll('.spaces-slide').length;
             if (lightboxIndex <= 0) {
                 lightboxPrev.classList.add('disabled');
             } else {
                 lightboxPrev.classList.remove('disabled');
             }
 
-            if (lightboxIndex >= slides.length - 1) {
+            if (lightboxIndex >= totalSlides - 1) {
                 lightboxNext.classList.add('disabled');
             } else {
                 lightboxNext.classList.remove('disabled');
@@ -1182,11 +1193,14 @@ try {
 
         if (lightboxPrev) {
             lightboxPrev.addEventListener('click', () => {
-                if (lightboxIndex > 0 && slides[lightboxIndex - 1]) {
+                if (lightboxIndex > 0) {
                     lightboxIndex--;
-                    const imgEl = slides[lightboxIndex].querySelector('img');
-                    if (imgEl && lightboxImg) {
-                        lightboxImg.src = imgEl.src;
+                    const targetSlide = container.querySelector(`.spaces-slide[data-index="${lightboxIndex}"]`);
+                    if (targetSlide) {
+                        const imgEl = targetSlide.querySelector('img');
+                        if (imgEl && lightboxImg) {
+                            lightboxImg.src = imgEl.src;
+                        }
                     }
                     updateLightboxButtons();
                 }
@@ -1195,11 +1209,15 @@ try {
 
         if (lightboxNext) {
             lightboxNext.addEventListener('click', () => {
-                if (lightboxIndex < slides.length - 1 && slides[lightboxIndex + 1]) {
+                const totalSlides = container.querySelectorAll('.spaces-slide').length;
+                if (lightboxIndex < totalSlides - 1) {
                     lightboxIndex++;
-                    const imgEl = slides[lightboxIndex].querySelector('img');
-                    if (imgEl && lightboxImg) {
-                        lightboxImg.src = imgEl.src;
+                    const targetSlide = container.querySelector(`.spaces-slide[data-index="${lightboxIndex}"]`);
+                    if (targetSlide) {
+                        const imgEl = targetSlide.querySelector('img');
+                        if (imgEl && lightboxImg) {
+                            lightboxImg.src = imgEl.src;
+                        }
                     }
                     updateLightboxButtons();
                 }
@@ -1217,6 +1235,12 @@ try {
                 }
             });
         }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCommunitySpaces);
+    } else {
+        initCommunitySpaces();
     }
 } catch (e) {
     console.error("Community spaces slider error:", e);

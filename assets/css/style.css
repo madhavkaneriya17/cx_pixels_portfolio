@@ -2729,10 +2729,12 @@ svg.shape-overlays {
     overflow: hidden;
     position: relative;
     cursor: pointer;
+    touch-action: pan-y !important;
 }
 
 .spaces-slides-track {
     will-change: transform;
+    touch-action: pan-y !important;
 }
 
 .spaces-slide {
@@ -2740,6 +2742,9 @@ svg.shape-overlays {
     border-radius: 28px;
     overflow: hidden;
     position: relative;
+    touch-action: pan-y !important;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .spaces-slide img {
@@ -2747,6 +2752,10 @@ svg.shape-overlays {
     height: 100%;
     object-fit: cover;
     display: block;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
 }
 
 .spaces-eye-cursor {
