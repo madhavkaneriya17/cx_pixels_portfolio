@@ -481,7 +481,6 @@
     .slide {
         height: clamp(240px, 50vw, 380px);
         border-radius: 20px;
-        width: 100%;
     }
 
     .slide img {

@@ -450,10 +450,10 @@ if (mapElement) {
 
     const tileClass = document.body.classList.contains('contact-page') ? 'responsive-cream-tiles' : 'responsive-yellow-tiles';
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         className: tileClass,
-        subdomains: 'abcd'
+        subdomains: 'abc'
     }).addTo(map);
 
     const isContactPage = document.body.classList.contains('contact-page');
@@ -889,21 +889,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const swipers = [];
 
+        const refreshSwiper = (sw) => {
+            if (!sw) return;
+            try {
+                sw.updateSize();
+                sw.updateSlides();
+                sw.updateProgress();
+                sw.updateSlidesClasses();
+                sw.update();
+                if (sw.navigation && typeof sw.navigation.update === 'function') {
+                    sw.navigation.update();
+                }
+            } catch (e) {
+                // ignore
+            }
+        };
+
         tabContents.forEach((tab) => {
             const swiperContainer = tab.querySelector('.js-slides-container');
             const nextBtn = tab.querySelector('.js-nextBtn');
             const prevBtn = tab.querySelector('.js-prevBtn');
 
-            if (swiperContainer) {
+            if (swiperContainer && typeof Swiper !== 'undefined') {
                 const swiperInstance = new Swiper(swiperContainer, {
                     slidesPerView: 1.5,
                     spaceBetween: 20,
+                    grabCursor: true,
+                    simulateTouch: true,
+                    resistanceRatio: 0.85,
+                    preventClicks: true,
+                    preventClicksPropagation: true,
                     observer: true,
                     observeParents: true,
+                    observeSlideChildren: true,
                     resizeObserver: true,
-                    touchStartPreventDefault: false,
-                    touchReleaseOnEdges: true,
-                    passiveListeners: true,
                     navigation: {
                         nextEl: nextBtn,
                         prevEl: prevBtn,
@@ -929,6 +948,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // Ensure active tab swiper is initially measured
+        if (swipers[0]) {
+            setTimeout(() => {
+                refreshSwiper(swipers[0]);
+            }, 100);
+        }
+
         function switchTab(index, allowToggle = false) {
             const isCurrentlyActive = buttons[index] && buttons[index].classList.contains("active");
 
@@ -952,9 +978,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     tab.classList.add("active");
                     tab.style.display = "block";
                     if (swipers[idx]) {
-                        setTimeout(() => {
-                            swipers[idx].update();
-                        }, 50);
+                        refreshSwiper(swipers[idx]);
+                        setTimeout(() => refreshSwiper(swipers[idx]), 50);
+                        setTimeout(() => refreshSwiper(swipers[idx]), 200);
                     }
                 } else {
                     tab.classList.remove("active");
@@ -993,9 +1019,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (tab.classList.contains("active")) {
                     tab.style.display = "block";
                     if (swipers[idx]) {
-                        setTimeout(() => {
-                            swipers[idx].update();
-                        }, 50);
+                        refreshSwiper(swipers[idx]);
+                        setTimeout(() => refreshSwiper(swipers[idx]), 50);
                     }
                 } else {
                     tab.style.display = "none";
