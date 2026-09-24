@@ -4713,3 +4713,147 @@ body:has(#customSidebar.open) {
 }
 
 /* fsqs page main wrapper end */
+
+/* ==========================================
+   Contact Page Welcome Offer Modal
+   ========================================== */
+body.promo-modal-open {
+    overflow: hidden !important;
+}
+
+.contact-promo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.contact-promo-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 26, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    opacity: 0;
+}
+
+.contact-promo-dialog {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 520px;
+    max-height: 94vh;
+    max-height: 94dvh;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+}
+
+.contact-promo-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+
+.contact-promo-close:hover {
+    background: #000000;
+    border-color: #ffffff;
+    transform: scale(1.08) rotate(90deg);
+}
+
+.contact-promo-close:active {
+    transform: scale(0.95);
+}
+
+.contact-promo-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-promo-img-wrap {
+    width: 100%;
+    background: #111538;
+    line-height: 0;
+    overflow: hidden;
+}
+
+.contact-promo-img {
+    width: 100%;
+    height: auto;
+    max-height: 66vh;
+    max-height: 66dvh;
+    object-fit: contain;
+    display: block;
+}
+
+.contact-promo-action {
+    padding: 16px 20px 20px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-modal-book-btn {
+    width: 100%;
+    padding: 16px 28px;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 480px) {
+    .contact-promo-dialog {
+        max-width: 92vw;
+    }
+    .contact-promo-img {
+        max-height: 58vh;
+    }
+    .contact-promo-action {
+        padding: 12px 16px 16px;
+    }
+    .contact-modal-book-btn {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+    .contact-promo-close {
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+    }
+}

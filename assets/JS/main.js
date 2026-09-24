@@ -2083,3 +2083,139 @@ window.playHeaderBannerEntrance = function () {
     }
 })();
 /* <=== Header & Banner Entrance Animation end ===> */
+
+
+// ====== Contact Promo Modal (GSAP Animation) ======
+(function () {
+    // Detect if this page was loaded via manual reload (F5 / browser refresh)
+    let isReload = false;
+    try {
+        const navEntries = performance.getEntriesByType('navigation');
+        if (navEntries && navEntries.length > 0) {
+            isReload = navEntries[0].type === 'reload';
+        } else if (window.performance && window.performance.navigation) {
+            isReload = window.performance.navigation.type === 1;
+        }
+    } catch (e) {
+        isReload = false;
+    }
+
+    // Always record navigation when leaving any page
+    window.addEventListener('beforeunload', function () {
+        sessionStorage.setItem('siteNavigated', 'true');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const rawPath = window.location.pathname.split("/").pop().toLowerCase();
+        const isIndexPage = !rawPath || rawPath === "" || rawPath === "index.html" || window.location.pathname === "/";
+
+        // If on index page: modal is not shown, and mark site as loaded/navigated
+        if (isIndexPage) {
+            sessionStorage.setItem('siteNavigated', 'true');
+            return;
+        }
+
+        const promoModal = document.getElementById('contactPromoModal');
+        if (!promoModal) return;
+
+        // Check if user arrived via internal page navigation
+        const hasNavigated = sessionStorage.getItem('siteNavigated') === 'true';
+
+        // If user changed pages (and it was not a direct reload), do NOT show modal
+        if (hasNavigated && !isReload) {
+            return;
+        }
+
+        const dialog = promoModal.querySelector('.contact-promo-dialog');
+        const backdrop = promoModal.querySelector('.contact-promo-backdrop');
+        const closeBtn = document.getElementById('contactPromoClose');
+        const bookBtn = document.getElementById('contactPromoBookBtn');
+
+        // Initial setup with GSAP
+        gsap.set(promoModal, { display: 'none', opacity: 0, pointerEvents: 'none' });
+        if (backdrop) gsap.set(backdrop, { opacity: 0 });
+        if (dialog) gsap.set(dialog, { scale: 0.8, opacity: 0, y: 30 });
+
+        let isModalOpen = false;
+
+        function openModal() {
+            if (isModalOpen) return;
+            isModalOpen = true;
+
+            // Mark site as navigated so moving to next pages won't trigger modal again
+            sessionStorage.setItem('siteNavigated', 'true');
+
+            document.body.classList.add('promo-modal-open');
+            promoModal.setAttribute('aria-hidden', 'false');
+
+            gsap.set(promoModal, { display: 'flex', opacity: 1, pointerEvents: 'auto' });
+
+            const tl = gsap.timeline();
+            if (backdrop) {
+                tl.to(backdrop, { opacity: 1, duration: 0.35, ease: 'power2.out' }, 0);
+            }
+            if (dialog) {
+                tl.to(dialog, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' }, 0.05);
+            }
+        }
+
+        function closeModal() {
+            if (!isModalOpen) return;
+            isModalOpen = false;
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    gsap.set(promoModal, { display: 'none', opacity: 0, pointerEvents: 'none' });
+                    promoModal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('promo-modal-open');
+                }
+            });
+
+            if (dialog) {
+                tl.to(dialog, { scale: 0.8, opacity: 0, y: 20, duration: 0.25, ease: 'power2.in' }, 0);
+            }
+            if (backdrop) {
+                tl.to(backdrop, { opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.05);
+            }
+        }
+
+        // Automatically open modal shortly after page load
+        setTimeout(openModal, 600);
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            });
+        }
+
+        if (backdrop) {
+            backdrop.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            });
+        }
+
+        if (bookBtn) {
+            bookBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+                if (typeof window.openCustomSidebar === 'function') {
+                    window.openCustomSidebar(e);
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isModalOpen) {
+                closeModal();
+            }
+        });
+    });
+})();
+
+
+
